@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprendux — Ingresá a tu camino</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --green-mid: #5DCAA5;
+    --green-dark: #085041;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --red: #E24B4A;
+    --red-light: #FCEBEB;
+    --text: #1a1a18;
+    --muted: #666660;
+    --border: rgba(0,0,0,0.1);
+    --surface: #f8f8f6;
+    --card: #ffffff;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --pill: 100px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* SCREENS */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* SHARED LAYOUT */
+  .auth-shell {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  /* LEFT PANEL */
+  .auth-left {
+    background: var(--green-dark);
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-left::before {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(29,158,117,0.25);
+    top: -80px; right: -80px;
+  }
+  .auth-left::after {
+    content: '';
+    position: absolute;
+    width: 250px; height: 250px;
+    border-radius: 50%;
+    background: rgba(29,158,117,0.15);
+    bottom: 60px; left: -60px;
+  }
+  .left-logo {
+    font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600;
+    color: #fff; position: relative; z-index: 1;
+  }
+  .left-logo span { color: var(--green-mid); }
+  .left-body { position: relative; z-index: 1; }
+  .left-body h2 {
+    font-family: 'Fraunces', serif; font-size: 36px; font-weight: 600;
+    color: #fff; line-height: 1.15; letter-spacing: -1px; margin-bottom: 1rem;
+  }
+  .left-body h2 em { font-style: italic; color: var(--green-mid); }
+  .left-body p { font-size: 15px; color: #9FE1CB; line-height: 1.6; margin-bottom: 2rem; }
+  .left-stats { display: flex; flex-direction: column; gap: 12px; }
+  .left-stat {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.08); border-radius: var(--radius-sm);
+    padding: 12px 16px; border: 1px solid rgba(255,255,255,0.1);
+  }
+  .left-stat-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(29,158,117,0.3); display: flex; align-items: center;
+    justify-content: center; color: var(--green-mid); font-size: 18px; flex-shrink: 0;
+  }
+  .left-stat-text { font-size: 13px; color: #9FE1CB; }
+  .left-stat-num { font-size: 16px; font-weight: 500; color: #fff; }
+  .left-footer { font-size: 12px; color: rgba(255,255,255,0.4); position: relative; z-index: 1; }
+
+  /* RIGHT PANEL */
+  .auth-right {
+    background: #fff; padding: 3rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .auth-form-wrap { width: 100%; max-width: 400px; }
+  .form-title {
+    font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600;
+    letter-spacing: -0.5px; margin-bottom: 6px;
+  }
+  .form-sub { font-size: 14px; color: var(--muted); margin-bottom: 2rem; }
+  .form-sub a { color: var(--green); text-decoration: none; font-weight: 500; cursor: pointer; }
+
+  /* FORM */
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .input-wrap { position: relative; }
+  .input-wrap i {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 17px; color: var(--muted); pointer-events: none;
+  }
+  input[type=text], input[type=email], input[type=password], select {
+    width: 100%; padding: 11px 14px 11px 40px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text);
+    background: #fff; outline: none; transition: border-color 0.2s;
+    appearance: none;
+  }
+  input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, select:focus {
+    border-color: var(--green);
+  }
+  input.error { border-color: var(--red); }
+  .field-error { font-size: 12px; color: var(--red); margin-top: 4px; display: none; }
+  .field-error.show { display: block; }
+
+  .eye-btn {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; color: var(--muted); font-size: 17px; padding: 2px;
+  }
+
+  /* CHECKBOX */
+  .check-label {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px; color: var(--muted); cursor: pointer; margin-bottom: 20px;
+  }
+  .check-label input { margin-top: 2px; accent-color: var(--green); flex-shrink: 0; }
+  .check-label a { color: var(--green); text-decoration: none; }
+
+  /* BUTTONS */
+  .btn-main {
+    width: 100%; padding: 13px;
+    background: var(--green); color: #fff;
+    border: none; border-radius: var(--pill);
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+  }
+  .btn-main:hover { background: var(--green-dark); }
+  .btn-main:active { transform: scale(0.99); }
+  .btn-main:disabled { background: #ccc; cursor: not-allowed; }
+
+  .btn-ghost {
+    width: 100%; padding: 12px;
+    background: transparent; color: var(--text);
+    border: 1.5px solid var(--border); border-radius: var(--pill);
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .btn-ghost:hover { border-color: var(--green); background: var(--green-light); }
+
+  .divider {
+    display: flex; align-items: center; gap: 12px; margin: 20px 0;
+    font-size: 12px; color: var(--muted);
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* PROGRESS BAR (onboarding) */
+  .progress-bar-wrap { margin-bottom: 2rem; }
+  .progress-steps { display: flex; gap: 8px; margin-bottom: 8px; }
+  .progress-step {
+    flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.3s;
+  }
+  .progress-step.done { background: var(--green); }
+  .progress-step.active { background: var(--green-mid); }
+  .progress-label { font-size: 12px; color: var(--muted); }
+  .progress-label strong { color: var(--text); }
+
+  /* ONBOARDING FULL SCREEN */
+  .onboard-shell {
+    min-height: 100vh; background: var(--surface);
+    display: flex; flex-direction: column;
+  }
+  .onboard-header {
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 14px 2rem; display: flex; align-items: center; justify-content: space-between;
+  }
+  .onboard-logo { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; color: var(--green-dark); }
+  .onboard-logo span { color: var(--green); }
+  .onboard-body {
+    flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;
+  }
+  .onboard-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 2.5rem; width: 100%; max-width: 520px;
+  }
+  .step-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-light); color: var(--green-dark);
+    font-size: 12px; font-weight: 500; padding: 4px 12px;
+    border-radius: var(--pill); margin-bottom: 1.25rem; border: 1px solid var(--green-mid);
+  }
+  .onboard-card h2 {
+    font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600;
+    letter-spacing: -0.5px; margin-bottom: 8px;
+  }
+  .onboard-card .card-sub { font-size: 14px; color: var(--muted); margin-bottom: 1.75rem; line-height: 1.6; }
+
+  /* OPTIONS GRID */
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.75rem; }
+  .option-btn {
+    padding: 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    text-align: left; cursor: pointer; background: #fff; transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .option-btn:hover { border-color: var(--green-mid); background: var(--green-light); }
+  .option-btn.selected { border-color: var(--green); background: var(--green-light); }
+  .option-btn.selected .option-label { color: var(--green-dark); }
+  .option-emoji { font-size: 24px; margin-bottom: 8px; display: block; }
+  .option-label { font-size: 14px; font-weight: 500; display: block; margin-bottom: 4px; }
+  .option-desc { font-size: 12px; color: var(--muted); display: block; }
+
+  /* SCALE BUTTONS */
+  .scale-row { display: flex; gap: 8px; margin-bottom: 0.75rem; }
+  .scale-btn {
+    flex: 1; padding: 10px 6px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    background: #fff; font-size: 13px; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; text-align: center; transition: all 0.15s;
+  }
+  .scale-btn:hover { border-color: var(--green-mid); background: var(--green-light); }
+  .scale-btn.sel { border-color: var(--green); background: var(--green-light); color: var(--green-dark); }
+  .scale-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 1.5rem; }
+
+  .question-block { margin-bottom: 1.5rem; }
+  .question-text { font-size: 15px; font-weight: 500; margin-bottom: 10px; }
+
+  /* SUCCESS SCREEN */
+  .success-shell {
+    min-height: 100vh; background: var(--green-dark);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 2rem; position: relative; overflow: hidden;
+  }
+  .success-shell::before {
+    content: ''; position: absolute; width: 600px; height: 600px;
+    border-radius: 50%; background: rgba(29,158,117,0.2);
+    top: -200px; right: -200px;
+  }
+  .success-shell::after {
+    content: ''; position: absolute; width: 400px; height: 400px;
+    border-radius: 50%; background: rgba(29,158,117,0.15);
+    bottom: -100px; left: -100px;
+  }
+  .success-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--green-mid); display: flex; align-items: center;
+    justify-content: center; font-size: 36px; color: #fff;
+    margin: 0 auto 1.5rem; position: relative; z-index: 1;
+  }
+  .success-shell h2 {
+    font-family: 'Fraunces', serif; font-size: 36px; font-weight: 600;
+    color: #fff; letter-spacing: -1px; margin-bottom: 1rem; position: relative; z-index: 1;
+  }
+  .success-shell h2 em { font-style: italic; color: var(--green-mid); }
+  .success-shell p { font-size: 15px; color: #9FE1CB; max-width: 420px; line-height: 1.6; margin-bottom: 2rem; position: relative; z-index: 1; }
+  .profile-result {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius); padding: 1.5rem 2rem; margin-bottom: 2rem;
+    position: relative; z-index: 1; max-width: 380px;
+  }
+  .profile-result-label { font-size: 12px; color: #9FE1CB; margin-bottom: 6px; }
+  .profile-result-val { font-size: 22px; font-weight: 500; color: #fff; }
+  .btn-success {
+    background: #fff; color: var(--green-dark); border: none;
+    padding: 14px 36px; border-radius: var(--pill); font-size: 15px; font-weight: 500;
+    font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s;
+    position: relative; z-index: 1;
+  }
+  .btn-success:hover { background: var(--green-light); }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--muted); cursor: pointer;
+    background: none; border: none; font-family: 'DM Sans', sans-serif; margin-bottom: 1.5rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--green); }
+
+  /* FORGOT */
+  .forgot-link {
+    display: block; text-align: right; font-size: 13px;
+    color: var(--green); text-decoration: none; cursor: pointer; margin-top: -8px; margin-bottom: 20px;
+  }
+  .forgot-link:hover { text-decoration: underline; }
+
+  /* ALERT */
+  .alert {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+    border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 16px;
+  }
+  .alert-success { background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green-mid); }
+  .alert-error { background: var(--red-light); color: #a32d2d; border: 1px solid #f09595; }
+
+  /* NAV DOTS */
+  .nav-dots { display: flex; gap: 6px; margin-top: 1rem; justify-content: center; }
+  .nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); transition: background 0.2s; }
+  .nav-dot.active { background: var(--green); width: 20px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ SCREEN 1: LOGIN ════════════════════ -->
+<div id="s-login" class="screen active">
+  <div class="auth-shell">
+    <div class="auth-left">
+      <div class="left-logo">Aprend<span>ux</span></div>
+      <div class="left-body">
+        <h2>Tu propio<br><em>camino</em> de<br>aprendizaje</h2>
+        <p>Potenciamos el rendimiento de cada estudiante a través del autoconocimiento y la inteligencia artificial.</p>
+        <div class="left-stats">
+          <div class="left-stat">
+            <div class="left-stat-icon"><i class="ti ti-trending-up"></i></div>
+            <div>
+              <div class="left-stat-num">75%</div>
+              <div class="left-stat-text">de los estudiantes mejoró sus notas</div>
+            </div>
+          </div>
+          <div class="left-stat">
+            <div class="left-stat-icon"><i class="ti ti-users"></i></div>
+            <div>
+              <div class="left-stat-num">160+</div>
+              <div class="left-stat-text">estudiantes validaron la plataforma</div>
+            </div>
+          </div>
+          <div class="left-stat">
+            <div class="left-stat-icon"><i class="ti ti-star"></i></div>
+            <div>
+              <div class="left-stat-num">85%</div>
+              <div class="left-stat-text">la recomienda a sus compañeros</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="left-footer">aprendux.ar · aprendux.educacion@gmail.com</div>
+    </div>
+
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <div class="form-title">Bienvenida/o 👋</div>
+        <div class="form-sub">¿Primera vez? <a onclick="go('s-register')">Creá tu cuenta gratis</a></div>
+
+        <button class="btn-ghost"><i class="ti ti-brand-google" style="font-size:18px;color:#EA4335"></i> Continuar con Google</button>
+
+        <div class="divider">o ingresá con tu email</div>
+
+        <div class="field">
+          <label>Email</label>
+          <div class="input-wrap">
+            <i class="ti ti-mail"></i>
+            <input type="email" id="login-email" placeholder="tu@email.com">
+          </div>
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <div class="input-wrap">
+            <i class="ti ti-lock"></i>
+            <input type="password" id="login-pass" placeholder="••••••••">
+            <button class="eye-btn" onclick="togglePwd('login-pass',this)"><i class="ti ti-eye"></i></button>
+          </div>
+        </div>
+        <a class="forgot-link" onclick="go('s-forgot')">¿Olvidaste tu contraseña?</a>
+
+        <div id="login-alert" class="alert alert-error" style="display:none">
+          <i class="ti ti-alert-circle"></i> Email o contraseña incorrectos.
+        </div>
+
+        <button class="btn-main" onclick="handleLogin()">Ingresar</button>
+
+        <div style="margin-top: 1.5rem; text-align: center; font-size: 13px; color: var(--muted);">
+          ¿Sos docente o directivo? <a style="color:var(--green); cursor:pointer; font-weight:500;">Accedé acá</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SCREEN 2: REGISTER ════════════════════ -->
+<div id="s-register" class="screen">
+  <div class="auth-shell">
+    <div class="auth-left">
+      <div class="left-logo">Aprend<span>ux</span></div>
+      <div class="left-body">
+        <h2>Empezá tu<br><em>camino</em><br>hoy</h2>
+        <p>En menos de 5 minutos vas a tener tu perfil de aprendizaje personalizado y listo para usar.</p>
+        <div class="left-stats">
+          <div class="left-stat">
+            <div class="left-stat-icon"><i class="ti ti-clipboard-check"></i></div>
+            <div>
+              <div class="left-stat-text" style="color:#fff; font-weight:500;">Paso 1</div>
+              <div class="left-stat-text">Creás tu cuenta</div>
+            </div>
+          </div>
+          <div class="left-stat">
+            <div class="left-stat-icon"><i class="ti ti-brain"></i></div>
+            <div>
+              <div class="left-stat-text" style="color:#fff; font-weight:500;">Paso 2</div>
+              <div class="left-stat-text">Completás el test de perfil</div>
+            </div>
+          </div>
+          <div class="left-stat">
+            <div class="left-stat-icon"><i class="ti ti-route"></i></div>
+            <div>
+              <div class="left-stat-text" style="color:#fff; font-weight:500;">Paso 3</div>
+              <div class="left-stat-text">Recibís tu learning path</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="left-footer">aprendux.ar · aprendux.educacion@gmail.com</div>
+    </div>
+
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <button class="back-link" onclick="go('s-login')"><i class="ti ti-arrow-left"></i> Volver al login</button>
+        <div class="form-title">Creá tu cuenta</div>
+        <div class="form-sub">¿Ya tenés cuenta? <a onclick="go('s-login')">Iniciá sesión</a></div>
+
+        <button class="btn-ghost"><i class="ti ti-brand-google" style="font-size:18px;color:#EA4335"></i> Registrarse con Google</button>
+        <div class="divider">o registrate con tu email</div>
+
+        <div class="field">
+          <div class="field-row">
+            <div>
+              <label>Nombre</label>
+              <div class="input-wrap">
+                <i class="ti ti-user"></i>
+                <input type="text" id="reg-nombre" placeholder="Camila">
+              </div>
+            </div>
+            <div>
+              <label>Apellido</label>
+              <div class="input-wrap">
+                <i class="ti ti-user"></i>
+                <input type="text" id="reg-apellido" placeholder="Perez">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <div class="input-wrap">
+            <i class="ti ti-mail"></i>
+            <input type="email" id="reg-email" placeholder="tu@email.com">
+          </div>
+          <div class="field-error" id="reg-email-err">Ingresá un email válido</div>
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <div class="input-wrap">
+            <i class="ti ti-lock"></i>
+            <input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres">
+            <button class="eye-btn" onclick="togglePwd('reg-pass',this)"><i class="ti ti-eye"></i></button>
+          </div>
+          <div class="field-error" id="reg-pass-err">La contraseña debe tener al menos 8 caracteres</div>
+        </div>
+        <div class="field">
+          <label>Año escolar</label>
+          <div class="input-wrap">
+            <i class="ti ti-school"></i>
+            <select id="reg-anio">
+              <option value="">Seleccioná tu año</option>
+              <option>1° año (secundaria)</option>
+              <option>2° año (secundaria)</option>
+              <option>3° año (secundaria)</option>
+              <option>4° año (secundaria)</option>
+              <option>5° año (secundaria)</option>
+              <option>6° año (secundaria)</option>
+              <option>Universitario / terciario</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="check-label">
+          <input type="checkbox" id="reg-terms">
+          Acepto los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad</a>
+        </label>
+
+        <button class="btn-main" onclick="handleRegister()">Crear cuenta y continuar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SCREEN 3: OLVIDÉ CONTRASEÑA ════════════════════ -->
+<div id="s-forgot" class="screen">
+  <div class="auth-shell">
+    <div class="auth-left">
+      <div class="left-logo">Aprend<span>ux</span></div>
+      <div class="left-body">
+        <h2>No te<br><em>preocupes,</em><br>te ayudamos</h2>
+        <p>Te enviamos un enlace a tu email para que puedas restablecer tu contraseña en segundos.</p>
+      </div>
+      <div class="left-footer">aprendux.ar</div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <button class="back-link" onclick="go('s-login')"><i class="ti ti-arrow-left"></i> Volver al login</button>
+        <div class="form-title">Recuperar contraseña</div>
+        <div class="form-sub">Ingresá tu email y te mandamos el link de recuperación.</div>
+
+        <div id="forgot-success" class="alert alert-success" style="display:none">
+          <i class="ti ti-circle-check"></i> ¡Revisá tu bandeja! Te enviamos el link.
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <div class="input-wrap">
+            <i class="ti ti-mail"></i>
+            <input type="email" id="forgot-email" placeholder="tu@email.com">
+          </div>
+        </div>
+        <button class="btn-main" onclick="handleForgot()">Enviar link de recuperación</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SCREEN 4: ONBOARDING - PASO 1 ════════════════════ -->
+<div id="s-onboard1" class="screen">
+  <div class="onboard-shell">
+    <div class="onboard-header">
+      <div class="onboard-logo">Aprend<span>ux</span></div>
+      <div style="font-size:13px; color:var(--muted);">Podés saltearlo y hacerlo después</div>
+    </div>
+    <div class="onboard-body">
+      <div class="onboard-card">
+        <div class="progress-bar-wrap">
+          <div class="progress-steps">
+            <div class="progress-step done"></div>
+            <div class="progress-step active"></div>
+            <div class="progress-step"></div>
+            <div class="progress-step"></div>
+          </div>
+          <div class="progress-label">Paso <strong>1 de 4</strong> · Perfil básico</div>
+        </div>
+
+        <div class="step-badge"><i class="ti ti-sparkles" style="font-size:13px"></i> Test de perfil</div>
+        <h2>¿Cómo estudiás mejor?</h2>
+        <p class="card-sub">Elegí la opción que más te identifica. No hay respuestas correctas ni incorrectas.</p>
+
+        <div class="options-grid" id="op1-grid">
+          <button class="option-btn" onclick="selectOption('op1-grid',this)">
+            <span class="option-emoji">👁️</span>
+            <span class="option-label">Visual</span>
+            <span class="option-desc">Prefiero diagramas, esquemas y colores</span>
+          </button>
+          <button class="option-btn" onclick="selectOption('op1-grid',this)">
+            <span class="option-emoji">👂</span>
+            <span class="option-label">Auditivo</span>
+            <span class="option-desc">Me ayuda escuchar, debatir y explicar</span>
+          </button>
+          <button class="option-btn" onclick="selectOption('op1-grid',this)">
+            <span class="option-emoji">✋</span>
+            <span class="option-label">Kinestésico</span>
+            <span class="option-desc">Aprendo haciendo y practicando</span>
+          </button>
+          <button class="option-btn" onclick="selectOption('op1-grid',this)">
+            <span class="option-emoji">📖</span>
+            <span class="option-label">Lecto-escritor</span>
+            <span class="option-desc">Me va bien leyendo y tomando notas</span>
+          </button>
+        </div>
+
+        <button class="btn-main" onclick="go('s-onboard2')">Continuar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SCREEN 5: ONBOARDING - PASO 2 ════════════════════ -->
+<div id="s-onboard2" class="screen">
+  <div class="onboard-shell">
+    <div class="onboard-header">
+      <div class="onboard-logo">Aprend<span>ux</span></div>
+    </div>
+    <div class="onboard-body">
+      <div class="onboard-card">
+        <div class="progress-bar-wrap">
+          <div class="progress-steps">
+            <div class="progress-step done"></div>
+            <div class="progress-step done"></div>
+            <div class="progress-step active"></div>
+            <div class="progress-step"></div>
+          </div>
+          <div class="progress-label">Paso <strong>2 de 4</strong> · Hábitos de estudio</div>
+        </div>
+
+        <div class="step-badge"><i class="ti ti-clock" style="font-size:13px"></i> Hábitos</div>
+        <h2>¿Cuándo y cuánto estudiás?</h2>
+        <p class="card-sub">Esto nos ayuda a organizar mejor tu calendario y recomendaciones.</p>
+
+        <div class="question-block">
+          <div class="question-text">¿Cuántas horas por día dedicás al estudio?</div>
+          <div class="scale-row" id="horas-grid">
+            <button class="scale-btn" onclick="selectScale('horas-grid',this)">Menos de 1h</button>
+            <button class="scale-btn" onclick="selectScale('horas-grid',this)">1–2 hs</button>
+            <button class="scale-btn" onclick="selectScale('horas-grid',this)">2–3 hs</button>
+            <button class="scale-btn" onclick="selectScale('horas-grid',this)">Más de 3hs</button>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <div class="question-text">¿Cuándo preferís estudiar?</div>
+          <div class="options-grid" id="cuando-grid" style="grid-template-columns: repeat(3,1fr);">
+            <button class="option-btn" onclick="selectOption('cuando-grid',this)" style="text-align:center; padding:12px 8px;">
+              <span class="option-emoji">🌅</span>
+              <span class="option-label">Mañana</span>
+            </button>
+            <button class="option-btn" onclick="selectOption('cuando-grid',this)" style="text-align:center; padding:12px 8px;">
+              <span class="option-emoji">☀️</span>
+              <span class="option-label">Tarde</span>
+            </button>
+            <button class="option-btn" onclick="selectOption('cuando-grid',this)" style="text-align:center; padding:12px 8px;">
+              <span class="option-emoji">🌙</span>
+              <span class="option-label">Noche</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <button class="btn-main" style="background:transparent; color:var(--text); border:1.5px solid var(--border); flex:0 0 auto; padding:13px 20px;" onclick="go('s-onboard1')">
+            <i class="ti ti-arrow-left"></i>
+          </button>
+          <button class="btn-main" onclick="go('s-onboard3')" style="flex:1">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SCREEN 6: ONBOARDING - PASO 3 ════════════════════ -->
+<div id="s-onboard3" class="screen">
+  <div class="onboard-shell">
+    <div class="onboard-header">
+      <div class="onboard-logo">Aprend<span>ux</span></div>
+    </div>
+    <div class="onboard-body">
+      <div class="onboard-card">
+        <div class="progress-bar-wrap">
+          <div class="progress-steps">
+            <div class="progress-step done"></div>
+            <div class="progress-step done"></div>
+            <div class="progress-step done"></div>
+            <div class="progress-step active"></div>
+          </div>
+          <div class="progress-label">Paso <strong>3 de 4</strong> · Emociones y motivación</div>
+        </div>
+
+        <div class="step-badge"><i class="ti ti-mood-smile" style="font-size:13px"></i> Emociones</div>
+        <h2>¿Cómo te sentís con el estudio?</h2>
+        <p class="card-sub">Nos ayuda a entender tu relación emocional con el aprendizaje para darte mejores herramientas.</p>
+
+        <div class="question-block">
+          <div class="question-text">¿Qué tan motivado/a te sentís al estudiar? (1 = poco, 5 = mucho)</div>
+          <div class="scale-row" id="motiv-grid">
+            <button class="scale-btn" onclick="selectScale('motiv-grid',this)">1</button>
+            <button class="scale-btn" onclick="selectScale('motiv-grid',this)">2</button>
+            <button class="scale-btn" onclick="selectScale('motiv-grid',this)">3</button>
+            <button class="scale-btn" onclick="selectScale('motiv-grid',this)">4</button>
+            <button class="scale-btn" onclick="selectScale('motiv-grid',this)">5</button>
+          </div>
+          <div class="scale-labels"><span>Poco motivado/a</span><span>Muy motivado/a</span></div>
+        </div>
+
+        <div class="question-block">
+          <div class="question-text">¿Qué dificultad sentís al aprender temas nuevos?</div>
+          <div class="options-grid" id="dificultad-grid">
+            <button class="option-btn" onclick="selectOption('dificultad-grid',this)">
+              <span class="option-emoji">😌</span>
+              <span class="option-label">Poca</span>
+              <span class="option-desc">Suelo entender rápido</span>
+            </button>
+            <button class="option-btn" onclick="selectOption('dificultad-grid',this)">
+              <span class="option-emoji">🤔</span>
+              <span class="option-label">Media</span>
+              <span class="option-desc">Necesito repasar varias veces</span>
+            </button>
+            <button class="option-btn" onclick="selectOption('dificultad-grid',this)">
+              <span class="option-emoji">😓</span>
+              <span class="option-label">Alta</span>
+              <span class="option-desc">Me cuesta bastante</span>
+            </button>
+            <button class="option-btn" onclick="selectOption('dificultad-grid',this)">
+              <span class="option-emoji">🔀</span>
+              <span class="option-label">Depende</span>
+              <span class="option-desc">Varía según la materia</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <button class="btn-main" style="background:transparent; color:var(--text); border:1.5px solid var(--border); flex:0 0 auto; padding:13px 20px;" onclick="go('s-onboard2')">
+            <i class="ti ti-arrow-left"></i>
+          </button>
+          <button class="btn-main" onclick="handleFinishTest()" style="flex:1">Ver mi perfil de aprendizaje ✨</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SCREEN 7: RESULTADO ════════════════════ -->
+<div id="s-result" class="screen">
+  <div class="success-shell">
+    <div class="success-icon"><i class="ti ti-sparkles"></i></div>
+    <h2>¡Tu perfil está <em>listo</em>!</h2>
+    <p>Analizamos tus respuestas y creamos tu camino de aprendizaje personalizado. A partir de ahora todo se adapta a vos.</p>
+
+    <div class="profile-result">
+      <div class="profile-result-label">Tu perfil de aprendizaje</div>
+      <div class="profile-result-val" id="result-perfil">Visual + Auditivo</div>
+      <div style="height: 1px; background: rgba(255,255,255,0.15); margin: 12px 0;"></div>
+      <div style="font-size: 13px; color: #9FE1CB; line-height: 1.6;">
+        Procesás mejor la información cuando la podés ver <em>y</em> escuchar. Te recomendamos videos, diagramas y estudio grupal.
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; position:relative; z-index:1; flex-wrap:wrap; justify-content:center;">
+      <button class="btn-success" onclick="go('s-dashboard-preview')">
+        Ir a mi panel de aprendizaje →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ SCREEN 8: DASHBOARD PREVIEW ════════════════════ -->
+<div id="s-dashboard-preview" class="screen">
+  <div style="background:var(--surface); min-height:100vh; display:flex; flex-direction:column;">
+    <div style="background:#fff; border-bottom:1px solid var(--border); padding:12px 24px; display:flex; align-items:center; justify-content:space-between;">
+      <div style="font-family:'Fraunces',serif; font-size:20px; font-weight:600; color:var(--green-dark);">Aprend<span style="color:var(--green)">ux</span></div>
+      <div style="display:flex; gap:6px;">
+        <button style="font-size:12px; padding:5px 14px; border-radius:var(--pill); background:var(--green-light); color:var(--green-dark); border:1px solid var(--green-mid); font-family:'DM Sans',sans-serif; cursor:pointer;">Mi panel</button>
+        <button style="font-size:12px; padding:5px 14px; border-radius:var(--pill); background:none; color:var(--muted); border:1px solid transparent; font-family:'DM Sans',sans-serif; cursor:pointer;">Mi perfil</button>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:32px; height:32px; border-radius:50%; background:var(--green-light); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; color:var(--green-dark);">CP</div>
+        <span style="font-size:13px; font-weight:500;">Camila Perez</span>
+      </div>
+    </div>
+
+    <div style="max-width:900px; margin:2rem auto; padding:0 1.5rem; width:100%;">
+      <div style="background:var(--green-dark); border-radius:var(--radius); padding:1.75rem 2rem; margin-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:600; color:#fff; margin-bottom:4px;">¡Bienvenida, Camila! 🎉</div>
+          <div style="font-size:14px; color:#9FE1CB;">Tu learning path ya está listo. Perfil: <strong style="color:#fff;">Visual + Auditivo</strong></div>
+        </div>
+        <button class="btn-success" style="padding:10px 22px; font-size:14px;">Empezar ahora →</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:1.5rem;">
+        <div style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-sm); padding:1.25rem;">
+          <div style="font-size:11px; color:var(--muted); margin-bottom:6px;">Recomendaciones</div>
+          <div style="font-size:28px; font-weight:500; color:var(--green);">4 nuevas</div>
+        </div>
+        <div style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-sm); padding:1.25rem;">
+          <div style="font-size:11px; color:var(--muted); margin-bottom:6px;">Tu learning path</div>
+          <div style="font-size:28px; font-weight:500; color:var(--text);">5 pasos</div>
+        </div>
+        <div style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-sm); padding:1.25rem;">
+          <div style="font-size:11px; color:var(--muted); margin-bottom:6px;">Próximo examen</div>
+          <div style="font-size:28px; font-weight:500; color:var(--amber);">3 días</div>
+        </div>
+      </div>
+
+      <div style="background:#fff; border:1px solid var(--border); border-radius:var(--radius-sm); padding:1.5rem; margin-bottom:1.5rem;">
+        <div style="font-size:14px; font-weight:500; margin-bottom:1rem;">Tus primeras recomendaciones</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--green-light); border-radius:var(--radius-sm); border:1px solid var(--green-mid);">
+            <i class="ti ti-video" style="font-size:20px; color:var(--green-dark);"></i>
+            <div><div style="font-size:13px; font-weight:500; color:var(--green-dark);">Mirá el tema en video antes de leer el libro</div><div style="font-size:12px; color:var(--green);">Recomendado para tu perfil visual</div></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <i class="ti ti-brain" style="font-size:20px; color:var(--muted);"></i>
+            <div><div style="font-size:13px; font-weight:500;">Hacé mapas conceptuales con colores</div><div style="font-size:12px; color:var(--muted);">Técnica visual para fijar conceptos</div></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <i class="ti ti-headphones" style="font-size:20px; color:var(--muted);"></i>
+            <div><div style="font-size:13px; font-weight:500;">Grabá y escuchá tus resúmenes en audio</div><div style="font-size:12px; color:var(--muted);">Técnica para tu perfil auditivo</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; padding-bottom:2rem;">
+        <button class="btn-ghost" style="width:auto; padding:10px 24px;" onclick="go('s-login')">
+          <i class="ti ti-refresh"></i> Reiniciar demo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function go(screen) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screen).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function togglePwd(id, btn) {
+    const inp = document.getElementById(id);
+    const icon = btn.querySelector('i');
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      icon.className = 'ti ti-eye-off';
+    } else {
+      inp.type = 'password';
+      icon.className = 'ti ti-eye';
+    }
+  }
+
+  function selectOption(gridId, btn) {
+    document.querySelectorAll('#' + gridId + ' .option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  function selectScale(gridId, btn) {
+    document.querySelectorAll('#' + gridId + ' .scale-btn').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+  }
+
+  function handleLogin() {
+    const email = document.getElementById('login-email').value;
+    const pass = document.getElementById('login-pass').value;
+    const alert = document.getElementById('login-alert');
+    if (!email || !pass) { alert.style.display = 'flex'; return; }
+    alert.style.display = 'none';
+    go('s-dashboard-preview');
+  }
+
+  function handleRegister() {
+    const email = document.getElementById('reg-email').value;
+    const pass = document.getElementById('reg-pass').value;
+    const terms = document.getElementById('reg-terms').checked;
+    let valid = true;
+
+    const emailErr = document.getElementById('reg-email-err');
+    const passErr = document.getElementById('reg-pass-err');
+
+    if (!email.includes('@')) {
+      emailErr.classList.add('show');
+      document.getElementById('reg-email').classList.add('error');
+      valid = false;
+    } else {
+      emailErr.classList.remove('show');
+      document.getElementById('reg-email').classList.remove('error');
+    }
+
+    if (pass.length < 8) {
+      passErr.classList.add('show');
+      document.getElementById('reg-pass').classList.add('error');
+      valid = false;
+    } else {
+      passErr.classList.remove('show');
+      document.getElementById('reg-pass').classList.remove('error');
+    }
+
+    if (!terms) {
+      alert('Por favor aceptá los términos y condiciones.');
+      valid = false;
+    }
+
+    if (valid) go('s-onboard1');
+  }
+
+  function handleForgot() {
+    const email = document.getElementById('forgot-email').value;
+    if (!email) return;
+    document.getElementById('forgot-success').style.display = 'flex';
+    setTimeout(() => go('s-login'), 2500);
+  }
+
+  // ── CONFIGURACIÓN WEBHOOK N8N ──────────────────────────────
+  // Reemplazá esta URL con la de tu webhook en n8n
+  const N8N_WEBHOOK_URL = 'https://TU-N8N.com/webhook/aprendux-registro';
+  // ───────────────────────────────────────────────────────────
+
+  // Guardamos datos del registro para usarlos al final del test
+  let userData = {};
+
+  function handleRegister() {
+    const nombre = document.getElementById('reg-nombre').value;
+    const apellido = document.getElementById('reg-apellido').value;
+    const email = document.getElementById('reg-email').value;
+    const pass = document.getElementById('reg-pass').value;
+    const anio = document.getElementById('reg-anio').value;
+    const terms = document.getElementById('reg-terms').checked;
+    let valid = true;
+
+    const emailErr = document.getElementById('reg-email-err');
+    const passErr = document.getElementById('reg-pass-err');
+
+    if (!email.includes('@')) {
+      emailErr.classList.add('show');
+      document.getElementById('reg-email').classList.add('error');
+      valid = false;
+    } else {
+      emailErr.classList.remove('show');
+      document.getElementById('reg-email').classList.remove('error');
+    }
+
+    if (pass.length < 8) {
+      passErr.classList.add('show');
+      document.getElementById('reg-pass').classList.add('error');
+      valid = false;
+    } else {
+      passErr.classList.remove('show');
+      document.getElementById('reg-pass').classList.remove('error');
+    }
+
+    if (!terms) {
+      alert('Por favor aceptá los términos y condiciones.');
+      valid = false;
+    }
+
+    if (valid) {
+      // Guardamos los datos del usuario para el webhook final
+      userData = { nombre, apellido, email, anio };
+      go('s-onboard1');
+    }
+  }
+
+  async function handleFinishTest() {
+    // Recolectamos todas las respuestas del test
+    const estilo = document.querySelector('#op1-grid .option-btn.selected')?.querySelector('.option-label')?.textContent || '';
+    const horas = document.querySelector('#horas-grid .scale-btn.sel')?.textContent || '';
+    const cuando = document.querySelector('#cuando-grid .option-btn.selected')?.querySelector('.option-label')?.textContent || '';
+    const motivacion = document.querySelector('#motiv-grid .scale-btn.sel')?.textContent || '';
+    const dificultad = document.querySelector('#dificultad-grid .option-btn.selected')?.querySelector('.option-label')?.textContent || '';
+
+    const perfil = estilo || 'Visual + Auditivo';
+    document.getElementById('result-perfil').textContent = perfil;
+
+    // Payload que va a n8n — estos son los campos que llegan al webhook
+    const payload = {
+      // Datos del estudiante
+      nombre: userData.nombre || '',
+      apellido: userData.apellido || '',
+      email: userData.email || '',
+      anio_escolar: userData.anio || '',
+      fecha_registro: new Date().toISOString(),
+
+      // Resultados del test
+      perfil_aprendizaje: perfil,
+      estilo_aprendizaje: estilo,
+      horas_estudio: horas,
+      momento_estudio: cuando,
+      nivel_motivacion: motivacion,
+      nivel_dificultad: dificultad,
+
+      // Estado para el flujo de n8n
+      estado: 'nuevo_registro',
+      fuente: 'web_aprendux'
+    };
+
+    // Enviamos al webhook de n8n
+    try {
+      await fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      // Si falla el webhook, igual mostramos el resultado al usuario
+      console.warn('Webhook no disponible:', e);
+    }
+
+    go('s-result');
+  }
+</script>
+</body>
+</html>

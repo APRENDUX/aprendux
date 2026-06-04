@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprendux — Tu propio camino de aprendizaje</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --green-mid: #5DCAA5;
+    --green-dark: #085041;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --text: #1a1a18;
+    --text-muted: #666660;
+    --border: rgba(0,0,0,0.1);
+    --surface: #f8f8f6;
+    --card: #ffffff;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-pill: 100px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.6;
+  }
+
+  /* ── VIEWS ── */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── TOP SWITCHER ── */
+  .switcher {
+    display: flex; gap: 0; border-bottom: 1px solid var(--border);
+    background: #fff; position: sticky; top: 0; z-index: 100;
+  }
+  .sw-btn {
+    flex: 1; padding: 14px; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500; background: none; border: none;
+    color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .sw-btn.active { color: var(--green); border-bottom-color: var(--green); }
+
+  /* ── NAV ── */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2.5rem; border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+    position: sticky; top: 49px; z-index: 99;
+  }
+  .logo {
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600;
+    color: var(--green-dark); text-decoration: none;
+  }
+  .logo span { color: var(--green); }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a { font-size: 14px; color: var(--text-muted); text-decoration: none; cursor: pointer; }
+  .nav-links a:hover { color: var(--text); }
+  .btn {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+    padding: 9px 20px; border-radius: var(--radius-pill); cursor: pointer;
+    border: 1.5px solid var(--green); transition: all 0.2s; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); border-color: var(--green-dark); }
+  .btn-outline { background: transparent; color: var(--green); }
+  .btn-outline:hover { background: var(--green-light); }
+  .btn-lg { padding: 13px 30px; font-size: 15px; }
+  .btn-white { background: #fff; color: var(--green-dark); border-color: #fff; }
+  .btn-white:hover { background: var(--green-light); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 7rem 2.5rem 5rem;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--green-light) 0%, #fff 70%);
+    text-align: center; overflow: hidden;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-light); color: var(--green-dark);
+    font-size: 12px; font-weight: 500; padding: 5px 14px;
+    border-radius: var(--radius-pill); margin-bottom: 2rem;
+    border: 1px solid var(--green-mid);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-size: clamp(42px, 7vw, 64px);
+    font-weight: 600; line-height: 1.05; letter-spacing: -2px; margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--green); }
+  .hero p {
+    font-size: 17px; color: var(--text-muted); max-width: 500px;
+    margin: 0 auto 2.5rem; line-height: 1.7;
+  }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ── STATS ── */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; margin: 3rem 2.5rem;
+  }
+  .stat {
+    padding: 2rem 1.5rem; text-align: center; background: #fff;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Fraunces', serif; font-size: 48px; font-weight: 600;
+    color: var(--green); line-height: 1;
+  }
+  .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+  /* ── FEATURES ── */
+  section { padding: 4rem 2.5rem; }
+  .section-label { font-size: 12px; font-weight: 500; color: var(--green); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 600; letter-spacing: -1px; margin-bottom: 0.5rem; }
+  .section-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 2.5rem; }
+
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .feature-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1.5rem; transition: border-color 0.2s, transform 0.2s;
+  }
+  .feature-card:hover { border-color: var(--green-mid); transform: translateY(-2px); }
+  .feature-icon {
+    width: 44px; height: 44px; border-radius: var(--radius-sm);
+    background: var(--green-light); display: flex; align-items: center;
+    justify-content: center; margin-bottom: 1rem; color: var(--green-dark); font-size: 22px;
+  }
+  .feature-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+  .feature-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── HOW IT WORKS ── */
+  .how-section { background: var(--surface); }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; }
+  .step { text-align: center; }
+  .step-num {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--green); color: #fff;
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;
+  }
+  .step h3 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .step p { font-size: 13px; color: var(--text-muted); }
+
+  /* ── CTA ── */
+  .cta-section { padding: 3rem 2.5rem; }
+  .cta-box {
+    background: var(--green-dark); border-radius: var(--radius);
+    padding: 4rem 2rem; text-align: center;
+  }
+  .cta-box h2 {
+    font-family: 'Fraunces', serif; font-size: 36px; font-weight: 600;
+    color: #fff; margin-bottom: 1rem; letter-spacing: -1px;
+  }
+  .cta-box p { font-size: 15px; color: #9FE1CB; margin-bottom: 2rem; }
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 2rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--green); }
+  footer p { font-size: 13px; color: var(--text-muted); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+
+  /* ── DASHBOARD ── */
+  .dash-wrap { background: var(--surface); min-height: 100vh; padding: 1.5rem 2rem; }
+  .dash-frame {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; max-width: 960px; margin: 0 auto;
+  }
+  .dash-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
+  }
+  .dash-logo { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; color: var(--green); }
+  .dash-tabs { display: flex; gap: 4px; }
+  .dash-tab {
+    font-size: 12px; padding: 5px 12px; border-radius: var(--radius-pill);
+    color: var(--text-muted); cursor: pointer; border: 1px solid transparent;
+    background: none; font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+  }
+  .dash-tab.active, .dash-tab:hover {
+    background: var(--green-light); color: var(--green-dark); border-color: var(--green-mid);
+  }
+  .dash-user { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--green-light); display: flex; align-items: center;
+    justify-content: center; font-size: 12px; font-weight: 500; color: var(--green-dark);
+    flex-shrink: 0;
+  }
+  .avatar-name { font-size: 13px; font-weight: 500; }
+
+  .dash-body { display: grid; grid-template-columns: 220px 1fr; }
+  .dash-sidebar { border-right: 1px solid var(--border); padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: var(--radius-sm);
+    font-size: 13px; color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+  }
+  .nav-item i { font-size: 17px; }
+  .nav-item:hover { background: var(--surface); color: var(--text); }
+  .nav-item.active { background: var(--green-light); color: var(--green-dark); font-weight: 500; }
+  .sidebar-bottom {
+    margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .perf-card {
+    background: var(--green-light); border-radius: var(--radius-sm);
+    padding: 14px; text-align: center; border: 1px solid var(--green-mid);
+  }
+  .perf-num { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 600; color: var(--green); line-height: 1; }
+  .perf-label { font-size: 11px; color: var(--green-dark); margin-top: 4px; }
+
+  .dash-main { padding: 24px; }
+  .dash-greeting { font-size: 13px; color: var(--text-muted); }
+  .dash-name { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; margin-bottom: 20px; letter-spacing: -0.5px; }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .metric {
+    background: var(--surface); border-radius: var(--radius-sm); padding: 14px 16px;
+  }
+  .metric-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .metric-val { font-size: 26px; font-weight: 500; }
+  .metric-val.green { color: var(--green); }
+  .metric-val.amber { color: var(--amber); }
+
+  .cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .mini-card {
+    background: var(--surface); border-radius: var(--radius-sm);
+    padding: 14px; border: 1px solid var(--border);
+  }
+  .mini-card-title {
+    font-size: 12px; font-weight: 500; color: var(--text);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .mini-card-title i { font-size: 15px; color: var(--green); }
+  .tip-item {
+    font-size: 12px; color: var(--text-muted); padding: 7px 0;
+    border-bottom: 1px solid var(--border); line-height: 1.5;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .path-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+  .path-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .path-dot.done { background: var(--green); }
+  .path-dot.active-dot { background: var(--amber); }
+  .path-dot.next { background: var(--border); border: 1px solid #ccc; }
+  .path-text { font-size: 12px; color: var(--text-muted); }
+  .path-text.active-text { color: var(--text); font-weight: 500; }
+
+  .dash-actions { display: flex; gap: 10px; justify-content: flex-end; padding-top: 8px; }
+
+  /* ── PROFILE TYPES ── */
+  .profiles-section { }
+  .profiles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .profile-card {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.2s;
+  }
+  .profile-card:hover { border-color: var(--green-mid); background: var(--green-light); }
+  .profile-emoji { font-size: 36px; margin-bottom: 10px; }
+  .profile-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .profile-card p { font-size: 12px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- VIEW SWITCHER -->
+<div class="switcher">
+  <button class="sw-btn active" onclick="showView('landing', this)">🌐 Landing page</button>
+  <button class="sw-btn" onclick="showView('dashboard', this)">📊 Panel del estudiante</button>
+</div>
+
+<!-- ═══════════════════════════════ LANDING ═══════════════════════════════ -->
+<div id="view-landing" class="view active">
+
+  <nav>
+    <a class="logo" href="#">Aprend<span>ux</span></a>
+    <div class="nav-links">
+      <a>Inicio</a>
+      <a>Plataforma</a>
+      <a>Instituciones</a>
+      <a>Nosotras</a>
+      <a class="btn btn-outline">Iniciar sesión</a>
+      <a class="btn btn-primary">Comenzar gratis</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">
+      <i class="ti ti-sparkles"></i>
+      Aprendizaje personalizado con IA
+    </div>
+    <h1>Tu propio<br><em>camino</em> de<br>aprendizaje</h1>
+    <p>Potenciamos el rendimiento de cada estudiante al máximo a través del autoconocimiento y la inteligencia artificial.</p>
+    <div class="hero-btns">
+      <a class="btn btn-primary btn-lg">Comenzar ahora</a>
+      <a class="btn btn-outline btn-lg">Para instituciones</a>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-num">75%</div>
+      <div class="stat-label">mejoró sus notas y desempeño</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">160+</div>
+      <div class="stat-label">estudiantes validaron la plataforma</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">85%</div>
+      <div class="stat-label">la recomienda a sus compañeros</div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section>
+    <div class="section-label">Cómo funciona</div>
+    <div class="section-title">Conocemos a cada persona</div>
+    <div class="section-sub">A través de evaluaciones dinámicas no calificatorias y algoritmos de IA</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-clipboard-list"></i></div>
+        <h3>Tests dinámicos</h3>
+        <p>Evaluaciones no calificatorias que identifican tu estilo de aprendizaje y perfil cognitivo único.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-user-circle"></i></div>
+        <h3>Perfil personalizado</h3>
+        <p>Tu perfil de aprendizaje con tips, herramientas y recomendaciones individualizadas.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-route"></i></div>
+        <h3>Learning path</h3>
+        <p>Un camino de aprendizaje diseñado específicamente para vos, tus materias y tu ritmo.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-chart-line"></i></div>
+        <h3>Seguimiento continuo</h3>
+        <p>Monitoreo de tu rendimiento para detectar avances y oportunidades de mejora.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="section-label">El proceso</div>
+    <div class="section-title">Cuatro pasos simples</div>
+    <div class="section-sub">Desde que te registrás hasta que aprendés mejor</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Completás los tests</h3>
+        <p>Tests no evaluativos para entender cómo aprendés y qué te motiva.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Creás tu perfil</h3>
+        <p>La IA categoriza tu estilo cognitivo y diseña tu perfil de aprendizaje.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Recibís tu camino</h3>
+        <p>Un learning path con herramientas, metodologías y recursos a medida.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Mejorás tu rendimiento</h3>
+        <p>Seguimiento continuo y ajustes según tu progreso real.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILES -->
+  <section class="profiles-section">
+    <div class="section-label">Perfiles de aprendizaje</div>
+    <div class="section-title">¿Cómo aprendés vos?</div>
+    <div class="section-sub">Aprendux identifica tu perfil y adapta todo a tu forma de aprender</div>
+    <div class="profiles-grid">
+      <div class="profile-card">
+        <div class="profile-emoji">👁️</div>
+        <h3>Visual</h3>
+        <p>Aprendés mejor con diagramas, mapas y colores</p>
+      </div>
+      <div class="profile-card">
+        <div class="profile-emoji">👂</div>
+        <h3>Auditivo</h3>
+        <p>Procesás mejor escuchando, debatiendo y explicando</p>
+      </div>
+      <div class="profile-card">
+        <div class="profile-emoji">✋</div>
+        <h3>Kinestésico</h3>
+        <p>Aprendés haciendo, practicando y moviendo el cuerpo</p>
+      </div>
+      <div class="profile-card">
+        <div class="profile-emoji">📖</div>
+        <h3>Lecto-escritor</h3>
+        <p>Te va mejor leyendo, tomando notas y resumiendo</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-box">
+      <h2>¿Sos docente o directivo?</h2>
+      <p>Accedé al panel institucional y seguí el rendimiento de cada alumno. Generá informes automáticos y mejorá la comunicación con las familias.</p>
+      <div class="cta-btns">
+        <a class="btn btn-white btn-lg">Ver panel institucional</a>
+        <a class="btn btn-lg" style="background: transparent; color: #9FE1CB; border-color: #5DCAA5;">Hablar con el equipo</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Aprendux</div>
+    <div class="footer-links">
+      <a href="#">Plataforma</a>
+      <a href="#">Instituciones</a>
+      <a href="#">Contacto</a>
+    </div>
+    <p>aprendux.ar · aprendux.educacion@gmail.com</p>
+  </footer>
+
+</div>
+
+<!-- ═══════════════════════════════ DASHBOARD ═══════════════════════════════ -->
+<div id="view-dashboard" class="view">
+  <div class="dash-wrap">
+
+    <div style="margin-bottom: 16px;">
+      <div style="font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; margin-bottom: 4px;">Panel del estudiante</div>
+      <div style="font-size: 13px; color: var(--text-muted);">Vista previa de la experiencia del alumno en Aprendux</div>
+    </div>
+
+    <div class="dash-frame">
+      <!-- TOPBAR -->
+      <div class="dash-topbar">
+        <div class="dash-logo">Aprendux</div>
+        <div class="dash-tabs">
+          <button class="dash-tab active">Mi panel</button>
+          <button class="dash-tab">Mi perfil</button>
+          <button class="dash-tab">Configuración</button>
+        </div>
+        <div class="dash-user">
+          <div class="avatar">CP</div>
+          <div>
+            <div class="avatar-name">Camila Perez</div>
+            <div style="font-size: 11px; color: var(--text-muted);">5to año · Colegio San Martín</div>
+          </div>
+          <a class="btn btn-outline" style="padding: 6px 14px; font-size: 12px;" href="#">Cerrar sesión</a>
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="dash-body">
+        <!-- SIDEBAR -->
+        <div class="dash-sidebar">
+          <div class="nav-item active"><i class="ti ti-layout-dashboard"></i> Tips y herramientas</div>
+          <div class="nav-item"><i class="ti ti-calendar"></i> Calendario</div>
+          <div class="nav-item"><i class="ti ti-clipboard-check"></i> Tests y autoevaluaciones</div>
+          <div class="nav-item"><i class="ti ti-chart-bar"></i> Rendimiento</div>
+
+          <div class="sidebar-bottom">
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Trimestre actual</div>
+            <div class="perf-card">
+              <div class="perf-num">80%</div>
+              <div class="perf-label">Rendimiento general</div>
+            </div>
+            <div style="margin-top: 12px; font-size: 11px; color: var(--text-muted); text-align: center;">
+              <i class="ti ti-trending-up" style="color: var(--green); font-size: 13px;"></i>
+              +20% vs trimestre anterior
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="dash-main">
+          <div class="dash-greeting">Buen día, 👋</div>
+          <div class="dash-name">Hola, Camila</div>
+
+          <!-- METRICS -->
+          <div class="metrics-row">
+            <div class="metric">
+              <div class="metric-label">Autoevaluaciones completas</div>
+              <div class="metric-val green">94%</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Actividades recomendadas</div>
+              <div class="metric-val amber">58%</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Mejora académica</div>
+              <div class="metric-val green">↑ 20%</div>
+            </div>
+          </div>
+
+          <!-- CARDS -->
+          <div class="cards-row">
+            <div class="mini-card">
+              <div class="mini-card-title">
+                <i class="ti ti-bulb"></i>
+                Recomendaciones de hoy
+              </div>
+              <div class="tip-item">Usá mapas conceptuales para estudiar Matemáticas</div>
+              <div class="tip-item">Tomá descansos activos de 10 min cada 45 min</div>
+              <div class="tip-item">Repasá Historia con audio mientras caminás</div>
+              <div class="tip-item">Explicale el tema a alguien para fijar conceptos</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-card-title">
+                <i class="ti ti-route"></i>
+                Tu learning path
+              </div>
+              <div class="path-item"><div class="path-dot done"></div><div class="path-text">Test de perfil cognitivo ✓</div></div>
+              <div class="path-item"><div class="path-dot done"></div><div class="path-text">Herramientas personalizadas ✓</div></div>
+              <div class="path-item"><div class="path-dot active-dot"></div><div class="path-text active-text">Módulo de Matemáticas → en curso</div></div>
+              <div class="path-item"><div class="path-dot next"></div><div class="path-text">Evaluación de progreso</div></div>
+              <div class="path-item"><div class="path-dot next"></div><div class="path-text">Ajuste del camino de aprendizaje</div></div>
+            </div>
+          </div>
+
+          <!-- PRÓXIMAS MATERIAS -->
+          <div class="mini-card" style="margin-bottom: 0;">
+            <div class="mini-card-title">
+              <i class="ti ti-calendar"></i>
+              Próximas actividades
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px;">
+              <div style="background: var(--green-light); border-radius: 8px; padding: 10px; border-left: 3px solid var(--green);">
+                <div style="font-size: 11px; color: var(--green-dark); font-weight: 500;">Matemáticas</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Viernes 30/5</div>
+                <div style="font-size: 11px; color: var(--green-dark); margin-top: 4px;">Práctica de funciones</div>
+              </div>
+              <div style="background: var(--amber-light); border-radius: 8px; padding: 10px; border-left: 3px solid var(--amber);">
+                <div style="font-size: 11px; color: #633806; font-weight: 500;">Historia</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Lunes 2/6</div>
+                <div style="font-size: 11px; color: #633806; margin-top: 4px;">Repaso Segunda Guerra</div>
+              </div>
+              <div style="background: var(--surface); border-radius: 8px; padding: 10px; border-left: 3px solid var(--border);">
+                <div style="font-size: 11px; color: var(--text); font-weight: 500;">Biología</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Miércoles 4/6</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Trabajo práctico células</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-actions" style="max-width: 960px; margin: 16px auto 0;">
+      <button class="btn btn-outline" onclick="alert('Próximamente: panel de docentes y directivos')">
+        <i class="ti ti-building-school"></i>
+        Ver panel de docentes
+      </button>
+      <button class="btn btn-primary" onclick="showView('landing', document.querySelector(\'.sw-btn\'))">
+        <i class="ti ti-world"></i>
+        Ver landing page
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function showView(view, btn) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.sw-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('view-' + view).classList.add('active');
+    if (btn) btn.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
