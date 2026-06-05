@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprendux — Tu propio camino de aprendizaje</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1e3a5f;
+  --navy-mid:#2d5882;
+  --navy-light:#4a7ab5;
+  --blue-bg:#eef2f7;
+  --blue-card:#dde8f5;
+  --orange:#f5a623;
+  --white:#ffffff;
+  --gray:#6b7a8d;
+  --gray-light:#f8f9fb;
+  --border:#d8e3ef;
+  --text:#1e3a5f;
+  --radius:8px;
+  --radius-lg:12px;
+  --shadow:0 1px 8px rgba(30,58,95,0.08);
+  --shadow-md:0 2px 16px rgba(30,58,95,0.12);
+}
+body{font-family:'Open Sans',sans-serif;color:var(--text);background:var(--blue-bg);line-height:1.6;font-size:14px}
+
+/* ── SCREENS ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── SHARED NAV ── */
+.navbar{background:#fff;border-bottom:1px solid var(--border);padding:0 2.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-logo-icon{font-size:22px}
+.nav-logo-text{font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;color:var(--navy);line-height:1.1}
+.nav-logo-sub{font-size:9px;font-weight:400;color:var(--gray);display:block}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:13px;font-weight:500;color:var(--navy);text-decoration:none;cursor:pointer;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--navy-mid);font-weight:700}
+.btn-iniciar{background:var(--navy);color:#fff;padding:9px 22px;border-radius:6px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif;transition:background .2s}
+.btn-iniciar:hover{background:var(--navy-mid)}
+.btn-comenzar{background:var(--navy);color:#fff;padding:10px 24px;border-radius:6px;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif;display:inline-block;transition:background .2s}
+.btn-comenzar:hover{background:var(--navy-mid)}
+.btn-outline-navy{background:transparent;color:var(--navy);padding:9px 22px;border-radius:6px;font-size:13px;font-weight:600;border:2px solid var(--navy);cursor:pointer;font-family:'Open Sans',sans-serif;transition:all .2s}
+.btn-outline-navy:hover{background:var(--navy);color:#fff}
+
+/* ── FOOTER ── */
+.site-footer{background:var(--navy);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-logo{display:flex;align-items:center;gap:8px}
+.footer-logo-text{font-family:'Montserrat',sans-serif;font-weight:700;font-size:14px;color:#fff;line-height:1.1}
+.footer-logo-sub{font-size:9px;color:rgba(255,255,255,0.5);display:block}
+.footer-links{display:flex;align-items:center;gap:1.5rem}
+.footer-link{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);text-decoration:none}
+.footer-copy{font-size:11px;color:rgba(255,255,255,0.4)}
+
+/* ════════════════════════════════
+   LANDING — INICIO
+════════════════════════════════ */
+/* HERO */
+.hero{padding:5rem 2.5rem 4rem;background:#fff}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.hero-eyebrow{font-size:16px;color:var(--navy);margin-bottom:8px}
+.hero-title{font-family:'Montserrat',sans-serif;font-size:clamp(28px,4vw,46px);font-weight:800;color:var(--navy);line-height:1.1;margin-bottom:12px}
+.hero-sub{font-size:14px;color:var(--gray);margin-bottom:2rem;line-height:1.7}
+.hero-brain{width:100%;max-width:380px;opacity:0.15;margin-left:auto}
+
+/* INFO BOX */
+.info-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem 3rem;margin:0 2.5rem;text-align:center;box-shadow:var(--shadow)}
+.info-box p{font-size:14px;color:var(--navy);line-height:1.8;max-width:700px;margin:0 auto}
+.info-box strong{font-weight:700}
+
+/* STEPS ROW */
+.steps-row{background:#fff;padding:2rem 2.5rem;margin:0}
+.steps-row-inner{max-width:1100px;margin:0 auto}
+.steps-row-label{font-size:14px;color:var(--navy);text-align:center;margin-bottom:1.5rem;font-weight:500}
+.steps-chips{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.step-chip{display:flex;flex-direction:column;align-items:center;gap:8px;padding:1.25rem 1.5rem;background:var(--blue-bg);border:1px solid var(--border);flex:1;min-width:140px}
+.step-chip-icon{font-size:28px;color:var(--navy)}
+.step-chip-label{font-size:12px;font-weight:600;color:var(--navy);text-align:center}
+.step-arrow{font-size:20px;color:var(--navy-light);flex-shrink:0}
+
+/* ASISTENCIA */
+.asistencia{padding:4rem 2.5rem;background:var(--blue-bg)}
+.asistencia-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.asistencia-imgs{position:relative}
+.asistencia-img-main{width:100%;border-radius:var(--radius-lg);object-fit:cover;display:block;background:var(--blue-card);height:280px}
+.asistencia-popup{position:absolute;bottom:20px;left:-20px;background:#fff;border-radius:var(--radius);padding:10px 14px;box-shadow:var(--shadow-md);font-size:12px}
+.asistencia-popup strong{display:block;color:var(--navy);font-weight:700}
+.asistencia-popup span{color:var(--gray)}
+.asistencia-right h2{font-family:'Montserrat',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--navy);margin-bottom:1rem;line-height:1.2}
+.asistencia-right p{font-size:13px;color:var(--gray);margin-bottom:1.5rem;line-height:1.7}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+.check-list li{display:flex;gap:10px;font-size:13px;color:var(--navy);line-height:1.5}
+.check-icon{color:#2ecc71;font-size:16px;flex-shrink:0;margin-top:1px}
+
+/* BENEFICIOS ALUMNOS */
+.beneficios{padding:4rem 2.5rem;background:#fff}
+.beneficios-inner{max-width:1100px;margin:0 auto}
+.beneficios-top{display:grid;grid-template-columns:1fr 2fr;gap:3rem;margin-bottom:3rem}
+.beneficios-label{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.beneficios-title{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:700;color:var(--navy);margin-bottom:1rem;line-height:1.2}
+.beneficios-desc{font-size:13px;color:var(--gray);line-height:1.7}
+.beneficios-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.benefit-card{text-align:center;padding:1.5rem 1rem}
+.benefit-card-icon{font-size:36px;color:var(--navy);margin-bottom:12px;display:block}
+.benefit-card h3{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3}
+.benefit-card p{font-size:12px;color:var(--gray);line-height:1.5}
+
+/* BENEFICIOS DOCENTES */
+.beneficios-docentes{padding:3rem 2.5rem;background:var(--blue-bg)}
+.beneficios-docentes-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr;gap:4rem;align-items:start}
+.ben-doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ben-doc-card{background:#fff;border-radius:var(--radius-lg);padding:1.25rem;box-shadow:var(--shadow)}
+.ben-doc-card p{font-size:13px;color:var(--navy);line-height:1.5}
+.ben-doc-card strong{font-weight:700}
+.ben-doc-right h2{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.ben-doc-right p{font-size:13px;color:var(--gray);line-height:1.7}
+
+/* ════════════════════════════════
+   LANDING — OBJETIVO
+════════════════════════════════ */
+.objetivo-hero{padding:4rem 2.5rem;background:#fff;text-align:center}
+.objetivo-eyebrow{font-size:15px;color:var(--navy);margin-bottom:8px}
+.objetivo-title{font-family:'Montserrat',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:var(--navy);margin-bottom:1rem;line-height:1.1}
+.objetivo-sub{font-size:14px;color:var(--gray);max-width:600px;margin:0 auto}
+.objetivo-section{padding:4rem 2.5rem;background:var(--blue-bg)}
+.objetivo-section-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.objetivo-img{width:100%;border-radius:var(--radius-lg);background:var(--blue-card);height:320px;position:relative;overflow:hidden}
+.objetivo-img-inner{width:100%;height:100%;background:linear-gradient(135deg,#c5d8ee,#a8c4e0);display:flex;align-items:center;justify-content:center;font-size:80px}
+.objetivo-popup{position:absolute;bottom:20px;left:20px;background:#fff;border-radius:var(--radius);padding:10px 14px;box-shadow:var(--shadow-md);font-size:12px}
+.objetivo-popup strong{display:block;font-weight:700;color:var(--navy)}
+.objetivo-popup span{color:var(--gray)}
+.objetivo-content h2{font-family:'Montserrat',sans-serif;font-size:clamp(22px,3vw,34px);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:8px}
+.objetivo-content h3{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:600;color:var(--navy);margin-bottom:1rem}
+.objetivo-content p{font-size:13px;color:var(--gray);line-height:1.7;margin-bottom:1.5rem}
+.equipo-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem 2rem;margin:2rem 2.5rem;text-align:center;box-shadow:var(--shadow)}
+.equipo-box p{font-size:14px;color:var(--navy);line-height:1.7}
+
+/* ════════════════════════════════
+   LANDING — TECNOLOGÍA
+════════════════════════════════ */
+.tec-hero{padding:4rem 2.5rem;background:#fff}
+.tec-hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.tec-hero h1{font-family:'Montserrat',sans-serif;font-size:clamp(24px,3.5vw,40px);font-weight:700;color:var(--navy);line-height:1.15;margin-bottom:8px}
+.tec-hero p{font-size:13px;color:var(--gray);line-height:1.7;margin-bottom:1.5rem}
+.tec-mockup{background:var(--blue-bg);border-radius:var(--radius-lg);padding:1rem;border:1px solid var(--border);box-shadow:var(--shadow-md);font-size:11px;color:var(--navy)}
+.tec-mockup-top{background:var(--navy);border-radius:6px 6px 0 0;padding:6px 10px;display:flex;align-items:center;gap:8px;margin:-1rem -1rem 8px;color:#fff;font-size:11px;font-weight:600}
+.tec-recursos{padding:4rem 2.5rem;background:var(--blue-bg)}
+.tec-recursos-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.tec-list{display:flex;flex-direction:column;gap:10px;margin-top:1.5rem}
+.tec-list-item{background:#fff;border-radius:var(--radius);padding:12px 16px;font-size:13px;color:var(--navy);border:1px solid var(--border)}
+
+/* ════════════════════════════════
+   REGISTRO
+════════════════════════════════ */
+.registro-hero{background:var(--navy);padding:2rem 2.5rem;text-align:center}
+.registro-hero h1{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:800;color:#fff;letter-spacing:0.5px}
+.registro-hero p{font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px}
+.registro-body{max-width:800px;margin:2rem auto;padding:0 2rem 3rem}
+.reg-section-title{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:1.25rem;margin-top:2rem}
+.reg-field{display:flex;align-items:center;gap:1.5rem;padding:10px 0;border-bottom:1px solid var(--border)}
+.reg-field:last-of-type{border-bottom:none}
+.reg-field label{font-size:13px;color:var(--navy);font-weight:500;min-width:140px;flex-shrink:0}
+.reg-input{flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:6px;font-family:'Open Sans',sans-serif;font-size:13px;color:var(--text);background:#fff;outline:none;transition:border-color .2s}
+.reg-input:focus{border-color:var(--navy)}
+.radio-group{display:flex;gap:1.5rem;flex-wrap:wrap}
+.radio-opt{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--navy);cursor:pointer}
+.radio-opt input{accent-color:var(--navy)}
+.reg-goal{display:flex;align-items:center;gap:2rem}
+.reg-goal-icon{font-size:80px;opacity:0.3;flex-shrink:0}
+.reg-actions{display:flex;justify-content:flex-end;margin-top:2rem}
+.btn-continuar{background:var(--navy);color:#fff;padding:13px 36px;border-radius:8px;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s}
+.btn-continuar:hover{background:var(--navy-mid)}
+
+/* ════════════════════════════════
+   DASHBOARD SHELL
+════════════════════════════════ */
+.dash-shell{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 0px)}
+.dash-sidebar{background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column}
+.dash-sidebar-logo{padding:16px 20px;border-bottom:1px solid var(--border)}
+.dash-sidebar-logo-text{font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:var(--navy);line-height:1.1}
+.dash-sidebar-logo-sub{font-size:9px;color:var(--gray);display:block}
+.dash-nav{padding:12px 12px;flex:1;display:flex;flex-direction:column;gap:2px}
+.dash-nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;font-size:13px;color:var(--navy);cursor:pointer;transition:all .15s;text-decoration:none}
+.dash-nav-item-icon{font-size:18px;flex-shrink:0;opacity:0.7}
+.dash-nav-item:hover{background:var(--blue-bg)}
+.dash-nav-item.active{background:var(--navy);color:#fff}
+.dash-nav-item.active .dash-nav-item-icon{opacity:1}
+.dash-recordatorios{background:var(--navy);margin:12px;border-radius:var(--radius);padding:12px}
+.dash-rec-title{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:10px}
+.dash-rec-day{font-size:11px;font-weight:600;color:#fff;margin-bottom:4px}
+.dash-rec-task{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:3px;padding-left:4px}
+.dash-rec-task::before{content:'○';font-size:9px;flex-shrink:0}
+.dash-topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between}
+.dash-topbar-nav{display:flex;align-items:center;gap:2rem}
+.dash-topbar-nav a{font-size:13px;color:var(--navy);text-decoration:none;cursor:pointer;font-weight:400}
+.dash-topbar-nav a.active{font-weight:700;text-decoration:underline}
+.dash-topbar-btn{background:var(--navy);color:#fff;padding:7px 18px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif}
+.dash-main{background:var(--blue-bg);display:flex;flex-direction:column}
+.dash-content{padding:2rem;flex:1}
+.dash-title-bar{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 20px;margin-bottom:1.5rem;display:inline-block}
+.dash-title-bar h1{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy)}
+.content-tab{display:none}
+.content-tab.active{display:block}
+
+/* ── TIPS ── */
+.tips-header-link{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);text-decoration:underline;margin-bottom:1rem;display:block}
+.tips-bullet-list{list-style:disc;padding-left:1.25rem;display:flex;flex-direction:column;gap:6px;margin-bottom:1.5rem}
+.tips-bullet-list li{font-size:13px;color:var(--navy);line-height:1.6}
+.tips-act-title{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);text-decoration:underline;margin-bottom:1rem}
+.tips-icons-row{display:flex;gap:1rem;margin-bottom:1.5rem}
+.tip-icon-box{width:60px;height:60px;border-radius:8px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--navy)}
+.activity-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.activity-num{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--navy);text-decoration:underline;margin-bottom:10px}
+.activity-line{display:flex;gap:6px;font-size:12px;margin-bottom:5px;line-height:1.5}
+.activity-line strong{min-width:90px;flex-shrink:0;color:var(--navy)}
+.activity-line span{color:var(--navy)}
+.activity-delivery{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:var(--navy)}
+.activity-delivery-icon{font-size:20px;flex-shrink:0}
+.btn-cargar{background:var(--navy);color:#fff;padding:8px 20px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif;float:right}
+.btn-cargar-mas{background:var(--navy);color:#fff;padding:12px;border-radius:var(--radius);font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif;width:100%;text-align:center;margin-top:1rem;display:block}
+
+/* ── CALENDARIO ── */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.cal-month{background:var(--navy);color:#fff;padding:8px 20px;border-radius:6px;font-size:14px;font-weight:600;display:inline-block}
+.cal-view-tabs{display:flex;gap:4px}
+.cal-view-tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--navy)}
+.cal-view-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.cal-grid-header{display:grid;grid-template-columns:repeat(7,1fr);background:#fff;border:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0}
+.cal-day-name{text-align:center;padding:8px;font-size:12px;font-weight:600;color:var(--navy);border-right:1px solid var(--border)}
+.cal-day-name:last-child{border-right:none}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);background:var(--border);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);gap:1px}
+.cal-cell{background:#fff;padding:6px 8px;min-height:80px}
+.cal-cell-num{font-size:12px;color:var(--gray);font-weight:500;text-align:right;margin-bottom:4px}
+.cal-cell-num.today{background:var(--navy);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;margin-left:auto}
+.cal-event{background:#a8d4f5;color:var(--navy);font-size:10px;padding:2px 6px;border-radius:4px;margin-bottom:2px;font-weight:600}
+.cal-event.orange{background:#fde5b8}
+.cal-popup{position:absolute;background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem;box-shadow:var(--shadow-md);z-index:10;min-width:200px;font-size:12px}
+.cal-popup-title{font-weight:700;color:var(--navy);margin-bottom:4px}
+.cal-popup-sub{color:var(--gray);margin-bottom:10px}
+.cal-popup-btn{display:block;width:100%;padding:7px;text-align:center;font-size:11px;font-weight:700;letter-spacing:0.5px;border:none;cursor:pointer;border-radius:4px;margin-bottom:4px}
+.cal-popup-btn.primary{background:var(--navy);color:#fff}
+.cal-popup-btn.secondary{background:var(--blue-bg);color:var(--navy)}
+
+/* ── TESTS ── */
+.tests-section-title{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);text-decoration:underline;margin-bottom:12px}
+.test-list{list-style:disc;padding-left:1.25rem;display:flex;flex-direction:column;gap:6px;margin-bottom:1rem}
+.test-list li{font-size:13px;color:var(--navy)}
+.btn-ver-mas{background:var(--navy);color:#fff;padding:8px 20px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif}
+
+/* ── RENDIMIENTO ── */
+.rend-chart-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;position:relative;overflow:hidden}
+.rend-chart-title{font-size:12px;font-weight:700;letter-spacing:0.5px;color:var(--navy);margin-bottom:12px}
+.rend-dias-btn{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--navy);cursor:pointer;border:1px solid var(--border);padding:4px 10px;border-radius:4px;background:#fff}
+.rend-chart-area{display:flex;align-items:flex-end;gap:6px;height:120px}
+.rend-bar{border-radius:3px 3px 0 0;flex:1;background:var(--orange);opacity:0.5;transition:opacity .2s}
+.rend-bar:hover{opacity:1}
+.rend-bar.full{opacity:1}
+.rend-day-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--gray);margin-top:4px}
+.rend-stats-col{display:flex;flex-direction:column;gap:12px}
+.rend-stat-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem;text-align:left}
+.rend-stat-label{font-size:11px;color:var(--gray);margin-bottom:4px}
+.rend-stat-num{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:700;color:var(--navy)}
+.rend-stat-wave{height:30px;position:relative;overflow:hidden}
+.trimestre-label{font-family:'Montserrat',sans-serif;font-size:14px;color:var(--navy);margin-bottom:1rem}
+.trimestre-label span{font-weight:700}
+.trimestre-label .estado{color:var(--navy-light);font-weight:700}
+.trimestre-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;display:flex;gap:2rem;align-items:center;margin-bottom:1.5rem;position:relative}
+.donut-svg-wrap{position:relative;width:100px;height:100px;flex-shrink:0}
+.donut-svg-wrap svg{width:100px;height:100px}
+.donut-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:var(--navy)}
+.trimestre-stats{flex:1}
+.trimestre-stat-row{font-size:13px;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.trimestre-stat-row strong{font-weight:700}
+.trimestre-empty{background:#fdefd0;border:1px solid #f5c67a;border-radius:var(--radius-lg);padding:1.5rem;display:flex;align-items:center;justify-content:center;min-height:100px}
+.trimestre-empty .donut-empty{width:70px;height:70px;border-radius:50%;border:8px solid #e8cfa0}
+.rend-popup{position:absolute;right:1.5rem;top:1.5rem;background:#fff;border-radius:8px;padding:10px 14px;box-shadow:var(--shadow-md);font-size:12px;border:1px solid var(--border)}
+.rend-popup strong{display:block;font-weight:700;color:var(--navy)}
+.rend-popup span{color:var(--gray)}
+
+/* ── PERFIL ── */
+.perfil-layout{display:grid;grid-template-columns:220px 1fr;gap:1.5rem}
+.perfil-card-left{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:left}
+.perfil-name-big{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:1.5rem;line-height:1.2}
+.perfil-icon-wrap{width:80px;height:80px;border-radius:50%;background:var(--blue-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--navy)}
+.perfil-section-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1rem}
+.perfil-section-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--navy);text-decoration:underline;margin-bottom:1rem}
+.perfil-row{display:flex;gap:8px;font-size:13px;color:var(--navy);margin-bottom:6px}
+.perfil-row strong{font-weight:600;min-width:160px;flex-shrink:0}
+.perfil-actions{display:flex;justify-content:flex-end;margin-top:1rem}
+.btn-modificar{background:var(--navy);color:#fff;padding:8px 22px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif}
+
+/* ── CONFIG ── */
+.config-layout{display:grid;grid-template-columns:220px 1fr;gap:1.5rem}
+.config-section-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem}
+.config-title{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:1.5rem}
+.config-link{display:block;font-size:14px;color:var(--navy);text-decoration:underline;margin-bottom:14px;cursor:pointer;font-weight:500}
+.config-link:hover{color:var(--navy-mid)}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ LANDING INICIO ══════════════════ -->
+<div id="page-inicio" class="page active">
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="nav-logo-icon">🧠</span>
+      <div><div class="nav-logo-text">APRENDUX</div><span class="nav-logo-sub">tu propio camino de aprendizaje</span></div>
+    </div>
+    <div class="nav-links">
+      <a class="active" onclick="showPage('page-inicio','inicio')">Inicio</a>
+      <a onclick="showPage('page-objetivo','objetivo')">Objetivo</a>
+      <a onclick="showPage('page-tecnologia','tecnologia')">Plataforma</a>
+      <button class="btn-iniciar" onclick="showPage('page-dashboard','')">Iniciar sesión</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Personalización del aprendizaje con</div>
+        <h1 class="hero-title">Inteligencia Artificial</h1>
+        <p class="hero-sub">Acompañamos a los estudiantes de manera dinámica y especializada.</p>
+        <button class="btn-comenzar" onclick="showPage('page-registro','')">Comenzar ahora</button>
+      </div>
+      <div style="text-align:center;font-size:160px;opacity:0.07;line-height:1">🧠</div>
+    </div>
+  </div>
+
+  <div style="padding:2rem 2.5rem">
+    <div class="info-box">
+      <p>Herramienta integral de <strong>acompañamiento y personalización</strong> del aprendizaje. Proporcionamos <strong>metodologías y recursos</strong> que se ajustan a las necesidades de cada persona, además de brindar un <strong>seguimiento continuo e individualizado.</strong></p>
+    </div>
+  </div>
+
+  <div class="steps-row">
+    <div class="steps-row-inner">
+      <div class="steps-row-label">Conocemos a cada persona a través de</div>
+      <div class="steps-chips">
+        <div class="step-chip"><span class="step-chip-icon">📋</span><span class="step-chip-label">Test Dinámicos</span></div>
+        <div class="step-arrow">→</div>
+        <div class="step-chip"><span class="step-chip-icon">🎓</span><span class="step-chip-label">Perfil de Aprendizaje</span></div>
+        <div class="step-arrow">→</div>
+        <div class="step-chip"><span class="step-chip-icon">💡</span><span class="step-chip-label">Learning Path</span></div>
+        <div class="step-arrow">→</div>
+        <div class="step-chip"><span class="step-chip-icon">🏆</span><span class="step-chip-label">Herramientas Personalizadas</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="asistencia">
+    <div class="asistencia-inner">
+      <div class="asistencia-imgs">
+        <div class="asistencia-img-main" style="background:linear-gradient(135deg,#c5d8ee,#8fb3d8);display:flex;align-items:center;justify-content:center;font-size:80px">📚</div>
+        <div class="asistencia-popup">
+          <strong>⏰ Examen de matemática</strong>
+          <span>Queda 1 semana. ¡Es hora de estudiar!</span>
+        </div>
+      </div>
+      <div>
+        <h2 style="font-family:'Montserrat',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.2">Asistencia personalizada <span style="font-weight:400">para optimizar el rendimiento académico</span></h2>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:1.5rem;line-height:1.7">Con Aprendux, el estudiante dispone de una variedad de recursos personalizados que lo ayudan a alcanzar sus objetivos de manera más efectiva.</p>
+        <ul class="check-list">
+          <li><span class="check-icon">✅</span><span><strong>Tests</strong> que son la fuente principal a partir de la cual el algoritmo proporciona contenido personalizado.</span></li>
+          <li><span class="check-icon">✅</span><span><strong>Tips, recomendaciones y herramientas personalizadas</strong> según la personalidad y metodología de aprendizaje.</span></li>
+          <li><span class="check-icon">✅</span><span><strong>Calendario académico</strong> en el que el estudiante puede registrar entregas, exámenes, trabajos y recordatorios.</span></li>
+          <li><span class="check-icon">✅</span><span><strong>Visualización del rendimiento</strong> y la trayectoria académica para fomentar la autonomía.</span></li>
+        </ul>
+        <button class="btn-comenzar" onclick="showPage('page-tecnologia','tecnologia')">Tecnología</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="beneficios">
+    <div class="beneficios-inner">
+      <div class="beneficios-top">
+        <div>
+          <div class="beneficios-label">PARA LOS ALUMNOS</div>
+          <h2 class="beneficios-title">Beneficios</h2>
+          <p class="beneficios-desc">Acompañamos a los estudiantes de manera dinámica y especializada. Cada alumno/a tiene su perfil personalizado de aprendizaje.</p>
+        </div>
+        <div class="beneficios-grid">
+          <div class="benefit-card"><span class="benefit-card-icon">🏆</span><h3>Promueve la autonomía y la autogestión</h3><p>del aprendizaje a través de un perfil personalizado.</p></div>
+          <div class="benefit-card"><span class="benefit-card-icon">📅</span><h3>Organiza el calendario académico</h3><p>y permite un seguimiento del rendimiento.</p></div>
+          <div class="benefit-card"><span class="benefit-card-icon">📈</span><h3>Mejora del rendimiento académico</h3><p>a través de tips, tests y herramientas específicas.</p></div>
+          <div class="benefit-card"><span class="benefit-card-icon">📋</span><h3>Genera planes de estudio personalizados</h3><p>según el ritmo y estilo de aprendizaje del alumno/a.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="beneficios-docentes">
+    <div class="beneficios-docentes-inner">
+      <div class="ben-doc-grid">
+        <div class="ben-doc-card"><p>Permite que el docente comprenda mejor a cada estudiante, fomentando empatía y <strong>estrategias de enseñanza personalizadas.</strong></p></div>
+        <div class="ben-doc-card"><p>Ofrece métricas detalladas de los cursos para poder adaptar las metodologías y los recursos educativos.</p></div>
+        <div class="ben-doc-card"><p>Acceso a un <strong>panel de visualización</strong> del rendimiento y características del alumno.</p></div>
+        <div class="ben-doc-card"><p>Información automática que reduce el tiempo de análisis de <strong>la evolución de los estudiantes</strong> y permite su seguimiento individual.</p></div>
+      </div>
+      <div class="ben-doc-right">
+        <div class="beneficios-label">PARA LOS DOCENTES Y DIRECTIVOS</div>
+        <h2>Beneficios</h2>
+        <p style="margin-top:8px">Esta interfaz proporciona un seguimiento en tiempo real del progreso académico de los estudiantes, junto con métricas detalladas sobre su rendimiento en diferentes áreas.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-logo"><span style="font-size:20px">🧠</span><div><div class="footer-logo-text">APRENDUX</div><span class="footer-logo-sub">tu propio camino de aprendizaje</span></div></div>
+    <div class="footer-links">
+      <a class="footer-link" href="#">✉️ aprendux.educacion@gmail.com</a>
+      <a class="footer-link" href="#">📷 @aprendux.educacion</a>
+      <a class="footer-link" href="#">in Aprendux</a>
+    </div>
+    <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
+  </footer>
+</div>
+
+<!-- ══════════════════ LANDING OBJETIVO ══════════════════ -->
+<div id="page-objetivo" class="page">
+  <nav class="navbar">
+    <div class="nav-logo"><span class="nav-logo-icon">🧠</span><div><div class="nav-logo-text">APRENDUX</div><span class="nav-logo-sub">tu propio camino de aprendizaje</span></div></div>
+    <div class="nav-links">
+      <a onclick="showPage('page-inicio','inicio')">Inicio</a>
+      <a class="active">Objetivo</a>
+      <a onclick="showPage('page-tecnologia','tecnologia')">Plataforma</a>
+      <button class="btn-iniciar" onclick="showPage('page-dashboard','')">Iniciar sesión</button>
+    </div>
+  </nav>
+
+  <div class="objetivo-hero">
+    <div class="objetivo-eyebrow">Potenciamos el aprendizaje y lo impulsamos al maximo ofreciendo un</div>
+    <h1 class="objetivo-title">Camino de Aprendizaje Personalizado</h1>
+    <p class="objetivo-sub">Nuestro objetivo es proporcionar y agilizar el rendimiento de cada persona al máximo a través del autoconocimiento.</p>
+  </div>
+
+  <div class="objetivo-section">
+    <div class="objetivo-section-inner">
+      <div class="objetivo-img">
+        <div class="objetivo-img-inner">🎓</div>
+        <div class="objetivo-popup">
+          <strong>¡Estás logrando tus metas!</strong>
+          <span>Tu rendimiento ha mejorado.</span>
+        </div>
+      </div>
+      <div class="objetivo-content">
+        <h2>El sistema educativo enfrenta diversos desafíos</h2>
+        <h3>Estos afectan el proceso de aprendizaje y el rendimiento académico de los estudiantes.</h3>
+        <p>Muchos alumnos experimentan <strong>altos niveles de estrés y desmotivación,</strong> lo que impacta negativamente en su interés por aprender y su capacidad para absorber nuevos conocimientos. Esta <strong>problemática</strong> evidencia la necesidad de abordar las diferencias individuales en el aprendizaje.</p>
+        <button class="btn-comenzar">Iniciar prueba</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:2rem 2.5rem">
+    <div class="info-box">
+      <p>Somos un equipo multidisciplinario que cuenta con el apoyo de profesionales en las áreas de educación, diseño, psicología y neurociencia.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-logo"><span style="font-size:20px">🧠</span><div><div class="footer-logo-text">APRENDUX</div><span class="footer-logo-sub">tu propio camino de aprendizaje</span></div></div>
+    <div class="footer-links"><a class="footer-link" href="#">✉️ aprendux.educacion@gmail.com</a><a class="footer-link" href="#">📷 @aprendux.educacion</a><a class="footer-link" href="#">in Aprendux</a></div>
+    <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
+  </footer>
+</div>
+
+<!-- ══════════════════ LANDING TECNOLOGÍA ══════════════════ -->
+<div id="page-tecnologia" class="page">
+  <nav class="navbar">
+    <div class="nav-logo"><span class="nav-logo-icon">🧠</span><div><div class="nav-logo-text">APRENDUX</div><span class="nav-logo-sub">tu propio camino de aprendizaje</span></div></div>
+    <div class="nav-links">
+      <a onclick="showPage('page-inicio','inicio')">Inicio</a>
+      <a onclick="showPage('page-objetivo','objetivo')">Objetivo</a>
+      <a class="active">Plataforma</a>
+      <button class="btn-iniciar" onclick="showPage('page-dashboard','')">Iniciar sesión</button>
+    </div>
+  </nav>
+
+  <div class="tec-hero">
+    <div class="tec-hero-inner">
+      <div>
+        <p style="font-size:15px;color:var(--navy);margin-bottom:8px">Cada estudiante tiene su</p>
+        <h1 class="tec-hero h1" style="font-family:'Montserrat',sans-serif;font-size:clamp(24px,3.5vw,38px);font-weight:700;color:var(--navy);line-height:1.15;margin-bottom:1.5rem">Perfil Personalizado de Aprendizaje.</h1>
+        <button class="btn-comenzar" onclick="showPage('page-registro','')">Comenzar ahora</button>
+      </div>
+      <div class="tec-mockup">
+        <div class="tec-mockup-top">🧠 APRENDUX — Personalización del aprendizaje con Inteligencia Artificial</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.6;padding:4px">Aprendux es una <strong>plataforma educativa</strong> que se focaliza en comprender las heurísticas individuales de cada persona y estudiante con una tecnología que categoriza a los estudiantes según sus cualidades a través de una serie de <strong>test</strong> no evaluativos y utilizando <strong>algoritmos de inteligencia artificial.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tec-recursos">
+    <div class="tec-recursos-inner">
+      <div>
+        <h2 style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:700;color:var(--navy);margin-bottom:1rem">Recursos Personalizados</h2>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:0;line-height:1.7">Con Aprendux, el estudiante dispone de una variedad de recursos que lo ayudan a alcanzar sus objetivos de aprendizaje de manera más efectiva.</p>
+        <div class="tec-list">
+          <div class="tec-list-item">📅 Calendario Académico</div>
+          <div class="tec-list-item">💡 Tips, Herramientas y Recomendaciones</div>
+          <div class="tec-list-item">📋 Tests Dinámicos</div>
+          <div class="tec-list-item">📊 Panel de Rendimiento</div>
+        </div>
+      </div>
+      <div class="tec-mockup" style="max-width:100%">
+        <div class="tec-mockup-top">🧠 APRENDUX · Mi panel · Mi perfil · Configuración · <span style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:4px">Tomás Perez Garcia</span></div>
+        <div style="display:grid;grid-template-columns:140px 1fr;gap:8px;padding:4px">
+          <div style="font-size:10px;color:var(--navy)">
+            <div style="font-weight:700;margin-bottom:6px">TIPS Y HERRAMIENTAS</div>
+            <div style="margin-bottom:4px">CALENDARIO</div>
+            <div style="margin-bottom:4px">TEST Y AUTOVELUACIONES</div>
+            <div style="margin-bottom:4px">RENDIMIENTO</div>
+            <div style="background:var(--navy);color:#fff;padding:4px 6px;border-radius:4px;margin-top:8px;font-size:9px">RECORDATORIOS<br><br>HOY - Lunes 01 de Marzo<br>○ Completar actividad<br>○ Leer texto historia</div>
+          </div>
+          <div style="font-size:10px;color:var(--navy)">
+            <div style="font-weight:700;margin-bottom:6px">TIPS Y HERRAMIENTAS</div>
+            <div style="font-weight:600;margin-bottom:4px;font-size:11px">Recomendación de Rutinas de Estudio</div>
+            <div style="color:var(--gray);font-size:9px;line-height:1.5">• Establece un horario de estudio regular en un entorno tranquilo.<br>• Utiliza diagramas, mapas conceptuales y gráficos.<br>• Divide el material en segmentos pequeños.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-logo"><span style="font-size:20px">🧠</span><div><div class="footer-logo-text">APRENDUX</div><span class="footer-logo-sub">tu propio camino de aprendizaje</span></div></div>
+    <div class="footer-links"><a class="footer-link" href="#">✉️ aprendux.educacion@gmail.com</a><a class="footer-link" href="#">📷 @aprendux.educacion</a><a class="footer-link" href="#">in Aprendux</a></div>
+    <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
+  </footer>
+</div>
+
+<!-- ══════════════════ REGISTRO ══════════════════ -->
+<div id="page-registro" class="page">
+  <nav class="navbar">
+    <div class="nav-logo"><span class="nav-logo-icon">🧠</span><div><div class="nav-logo-text">APRENDUX</div><span class="nav-logo-sub">tu propio camino de aprendizaje</span></div></div>
+    <div class="nav-links">
+      <a onclick="showPage('page-inicio','inicio')">Incio</a>
+      <a>Sobre Nosotros</a>
+      <a>Plan De Estudios</a>
+      <button class="btn-iniciar" onclick="showPage('page-dashboard','')">Iniciar Sesión</button>
+    </div>
+  </nav>
+
+  <div class="registro-hero">
+    <h1>BIENVENIDO/A A APRENDUX</h1>
+    <p>¡TU PROPIO CAMINO DE APRENDIZAJE COMIENZA AHORA!</p>
+  </div>
+
+  <div class="registro-body">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start">
+      <div>
+        <h2 class="reg-section-title" style="margin-top:1.5rem">Datos Personales</h2>
+        <div class="reg-field"><label>Nombre</label><input class="reg-input" type="text" placeholder=""></div>
+        <div class="reg-field"><label>Apellido</label><input class="reg-input" type="text" placeholder=""></div>
+        <div class="reg-field"><label>Edad</label><input class="reg-input" type="text" placeholder=""></div>
+        <div class="reg-field"><label>Género</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="genero" value="f"> Femenino</label><label class="radio-opt"><input type="radio" name="genero" value="m"> Masculino</label><label class="radio-opt"><input type="radio" name="genero" value="nb"> No binario</label><label class="radio-opt"><input type="radio" name="genero" value="nc"> Prefiero no contestar</label></div></div>
+        <div class="reg-field"><label>Email</label><input class="reg-input" type="email" placeholder=""></div>
+
+        <h2 class="reg-section-title">Datos Académicos</h2>
+        <div class="reg-field"><label>Institución</label><input class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Grado/Nivel</label><input class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Gestión</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="gestion" value="pub"> Pública</label><label class="radio-opt"><input type="radio" name="gestion" value="priv"> Privada</label></div></div>
+        <div class="reg-field"><label>Turno</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="turno" value="m"> Mañana</label><label class="radio-opt"><input type="radio" name="turno" value="t"> Tarde</label><label class="radio-opt"><input type="radio" name="turno" value="d"> Doble jornada</label></div></div>
+
+        <h2 class="reg-section-title">Datos Familiares</h2>
+        <div class="reg-field"><label>Vínculo Familiar 1</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="v1" value="m"> Madre</label><label class="radio-opt"><input type="radio" name="v1" value="p"> Padre</label><label class="radio-opt"><input type="radio" name="v1" value="t"> Tutor</label></div></div>
+        <div class="reg-field"><label>Nombre y Apellido</label><input class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Edad</label><input class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Trabajo / Estudios</label><input class="reg-input" type="text"></div>
+      </div>
+      <div style="padding-top:2rem;font-size:80px;opacity:0.25">🎯</div>
+    </div>
+    <div style="margin-top:2rem;display:flex;justify-content:space-between;align-items:center">
+      <button class="btn-outline-navy">Agregar más familiares</button>
+      <button class="btn-continuar" onclick="showPage('page-dashboard','')">Continuar</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-logo"><span style="font-size:20px">🧠</span><div><div class="footer-logo-text">APRENDUX</div><span class="footer-logo-sub">tu propio camino de aprendizaje</span></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+      <div><div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:8px">Menú</div><div style="display:flex;flex-direction:column;gap:4px"><a class="footer-link" href="#">Inicio</a><a class="footer-link" href="#">Sobre Nosotros</a><a class="footer-link" href="#">Plan de Estudios</a><a class="footer-link" href="#">Iniciar Sesión</a></div></div>
+      <div><div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:8px">Plataformas</div><div style="display:flex;flex-direction:column;gap:4px"><a class="footer-link" href="#">APRENDUX Matemática</a><a class="footer-link" href="#">APRENDUX Lengua <span style="background:var(--orange);color:var(--navy);font-size:9px;padding:1px 5px;border-radius:3px">PRÓXIMAMENTE</span></a><a class="footer-link" href="#">APRENDUX Inglés <span style="background:var(--orange);color:var(--navy);font-size:9px;padding:1px 5px;border-radius:3px">PRÓXIMAMENTE</span></a></div></div>
+    </div>
+    <div class="footer-copy">Copyright © APRENDUX | Designed by APRENDUX</div>
+  </footer>
+</div>
+
+<!-- ══════════════════ DASHBOARD ══════════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="dash-shell">
+    <!-- SIDEBAR -->
+    <div class="dash-sidebar">
+      <div class="dash-sidebar-logo">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:24px">🧠</span>
+          <div><div class="dash-sidebar-logo-text">APRENDUX</div><span class="dash-sidebar-logo-sub">tu propio camino de aprendizaje</span></div>
+        </div>
+      </div>
+      <div class="dash-nav">
+        <div class="dash-nav-item active" onclick="showTab('tips',this)"><span class="dash-nav-item-icon">💡</span> TIPS Y HERRAMIENTAS</div>
+        <div class="dash-nav-item" onclick="showTab('calendario',this)"><span class="dash-nav-item-icon">📅</span> CALENDARIO</div>
+        <div class="dash-nav-item" onclick="showTab('tests',this)"><span class="dash-nav-item-icon">📋</span> TEST Y AUTOVELUACIONES</div>
+        <div class="dash-nav-item" onclick="showTab('rendimiento',this)"><span class="dash-nav-item-icon">🏆</span> RENDIMIENTO</div>
+      </div>
+      <div class="dash-recordatorios">
+        <div class="dash-rec-title">RECORDATORIOS</div>
+        <div class="dash-rec-day">HOY - Lunes 01 de Marzo</div>
+        <div class="dash-rec-task">Completar actividad matematica</div>
+        <div class="dash-rec-task">Leer texto historia</div>
+        <div style="margin-top:8px"></div>
+        <div class="dash-rec-day">MAÑANA - Martes 02 de Marzo</div>
+        <div class="dash-rec-task">Completar actividad matematica</div>
+        <div class="dash-rec-task">Leer texto historia</div>
+        <div style="margin-top:8px"></div>
+        <div class="dash-rec-day">Viernes 05 de Marzo</div>
+        <div class="dash-rec-task">Completar actividad matematica</div>
+        <div class="dash-rec-task">Leer texto historia</div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="dash-main">
+      <div class="dash-topbar">
+        <div class="dash-topbar-nav">
+          <a class="active" onclick="showTab('tips',document.querySelector('.dash-nav-item'))">Mi panel</a>
+          <a onclick="showTab('perfil', null)">Mi perfil</a>
+          <a onclick="showTab('config', null)">Configuración</a>
+          <a onclick="showPage('page-inicio','inicio')">Cerrar sesión</a>
+        </div>
+        <button class="dash-topbar-btn">Catalina Perez Garcia</button>
+      </div>
+
+      <div class="dash-content">
+
+        <!-- TIPS -->
+        <div id="tab-tips" class="content-tab active">
+          <div class="dash-title-bar"><h1>TIPS Y HERRAMIENTAS</h1></div>
+          <a class="tips-header-link">Recomendación de Rutinas de Estudio</a>
+          <ul class="tips-bullet-list">
+            <li>Establece un horario de estudio regular en un entorno tranquilo.</li>
+            <li>Utiliza diagramas, mapas conceptuales y gráficos para organizar y visualizar la información.</li>
+            <li>Divide el material en segmentos pequeños y enfócate en entender cada parte antes de avanzar.</li>
+            <li>Crea resúmenes visuales y tarjetas de memoria.</li>
+            <li>Practica con ejercicios y casos prácticos para aplicar los conceptos.</li>
+            <li>Usa técnicas de autoevaluación y busca retroalimentación para mejorar continuamente tu comprensión.</li>
+          </ul>
+
+          <div class="tips-act-title">Actividades recomendadas para estudiar</div>
+          <div class="tips-icons-row">
+            <div class="tip-icon-box">🕸️</div>
+            <div class="tip-icon-box">✅</div>
+            <div class="tip-icon-box">📄</div>
+          </div>
+
+          <div class="activity-box">
+            <div class="activity-num">1. <span style="text-decoration:underline">Crea Cuadros y Mapas Visuales</span></div>
+            <div class="activity-line"><strong>🎯 Objetivo:</strong><span>Organizar y visualizar la información para mejorar la comprensión y retención.</span></div>
+            <div class="activity-line"><strong><span style="text-decoration:underline">Instrucciones:</span></strong><span>Utiliza herramientas digitales o papel y lápiz para crear cuadros y mapas visuales que resuman la información clave de los temas de estudio. Incluye diagramas, gráficos y esquemas para representar conceptos y relaciones entre ellos.</span></div>
+            <div class="activity-line"><strong><span style="text-decoration:underline">Explicación Corta:</span></strong><span>Los cuadros y mapas visuales ayudan a organizar la información de manera estructurada, facilitando la comprensión y la retención.</span></div>
+            <div class="activity-delivery"><span class="activity-delivery-icon">📄</span><span><strong><span style="text-decoration:underline">Entrega:</span></strong> Imágenes o archivos PDF de los cuadros y mapas visuales.</span></div>
+            <button class="btn-cargar">Cargar Actividad</button>
+            <div style="clear:both"></div>
+          </div>
+
+          <button class="btn-cargar-mas">Cargar más recomendaciones</button>
+        </div>
+
+        <!-- CALENDARIO -->
+        <div id="tab-calendario" class="content-tab">
+          <div class="dash-title-bar"><h1>CALENDARIO</h1></div>
+          <div class="cal-header">
+            <div class="cal-month">Marzo 2025</div>
+            <div class="cal-view-tabs">
+              <div class="cal-view-tab">Dia</div>
+              <div class="cal-view-tab">Semana</div>
+              <div class="cal-view-tab active">Mes</div>
+            </div>
+          </div>
+          <div class="cal-grid-header">
+            <div class="cal-day-name">Lunes</div><div class="cal-day-name">Martes</div><div class="cal-day-name">Miércoles</div><div class="cal-day-name">Jueves</div><div class="cal-day-name">Viernes</div><div class="cal-day-name">Sábado</div><div class="cal-day-name">Domingo</div>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+
+        <!-- TESTS -->
+        <div id="tab-tests" class="content-tab">
+          <div class="dash-title-bar"><h1>TEST Y AUTOVELUACIONES</h1></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+            <div>
+              <div class="tests-section-title">Próximas fechas</div>
+              <ul class="test-list">
+                <li>Autoevaluación Post examen de geografía</li>
+                <li>Test T.P. Historia</li>
+                <li>Test examen matemáticas</li>
+                <li>Autoevaluación Pre examen matemáticas</li>
+                <li>Autoevaluación Post examen matemáticas</li>
+              </ul>
+              <button class="btn-ver-mas">Ver más</button>
+
+              <div class="tests-section-title" style="margin-top:2rem">Pendientes</div>
+              <ul class="test-list">
+                <li>Autoevaluación T.P. grupal biología</li>
+                <li>Test examen Tabla de Verdad</li>
+                <li>Test examen recuperatorio Tabla de Verdad</li>
+                <li>Test examen geografía</li>
+              </ul>
+              <button class="btn-ver-mas">Ver más</button>
+
+              <div class="tests-section-title" style="margin-top:2rem">Completados</div>
+              <ul class="test-list">
+                <li>Autoevaluación Pre examen geografía</li>
+                <li>Autoevaluación Pre examen Tabla de verdad</li>
+                <li>Test T.P. grupal biología</li>
+                <li>Autoevaluación recuperatorio Tabla de Verdad</li>
+              </ul>
+              <button class="btn-ver-mas">Ver más</button>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;opacity:0.05;font-size:200px">🧠</div>
+          </div>
+        </div>
+
+        <!-- RENDIMIENTO -->
+        <div id="tab-rendimiento" class="content-tab">
+          <div class="dash-title-bar"><h1>RENDIMIENTO</h1></div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:1.5rem;margin-bottom:1.5rem">
+            <div class="rend-chart-box">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <div class="rend-chart-title">ACTIVIDAD</div>
+                <div class="rend-dias-btn">DÍAS ▾</div>
+              </div>
+              <div class="rend-chart-area" id="rend-bars"></div>
+              <div class="rend-day-labels">
+                <span>LUN</span><span>MAR</span><span>MIÉ</span><span>JUE</span><span>VIE</span><span>SÁB</span><span>DOM</span><span>LUN</span><span>MAR</span><span>MIÉ</span><span>JUE</span><span>VIE</span>
+              </div>
+            </div>
+            <div class="rend-stats-col">
+              <div class="rend-stat-box">
+                <div class="rend-stat-label">Test</div>
+                <div class="rend-stat-num">64%</div>
+                <svg width="80" height="30" viewBox="0 0 80 30"><polyline points="0,25 15,18 30,22 45,10 60,15 80,8" fill="none" stroke="#f5a623" stroke-width="2"/></svg>
+              </div>
+              <div class="rend-stat-box">
+                <div class="rend-stat-label">Autoevaluación</div>
+                <div class="rend-stat-num">86%</div>
+                <svg width="80" height="30" viewBox="0 0 80 30"><polyline points="0,22 15,15 30,20 45,8 60,12 80,5" fill="none" stroke="#f5a623" stroke-width="2"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="trimestre-label"><span>1° TRIMESTRE</span>: <span class="estado">TERMINADO</span></div>
+          <div class="trimestre-box">
+            <div class="donut-svg-wrap">
+              <svg viewBox="0 0 36 36"><circle fill="none" stroke="#e0e8f0" stroke-width="4" cx="18" cy="18" r="14"/><circle fill="none" stroke="#1e3a5f" stroke-width="4" stroke-linecap="round" cx="18" cy="18" r="14" stroke-dasharray="70.4 88" transform="rotate(-90 18 18)"/></svg>
+              <div class="donut-pct">80 %</div>
+            </div>
+            <div class="trimestre-stats">
+              <div class="trimestre-stat-row"><strong>30%</strong> Test y Autoevaluaciones completadas</div>
+              <div class="trimestre-stat-row"><strong>30%</strong> Actividades Recomendadas cargadas</div>
+              <div class="trimestre-stat-row"><strong>20%</strong> Mejora de rendimiento académico</div>
+            </div>
+          </div>
+
+          <div class="trimestre-label" style="margin-top:1rem"><span>2° TRIMESTRE</span>: <span class="estado">EN PROGRESO</span></div>
+          <div class="trimestre-box" style="position:relative">
+            <div class="donut-svg-wrap">
+              <svg viewBox="0 0 36 36"><circle fill="none" stroke="#e0e8f0" stroke-width="4" cx="18" cy="18" r="14"/><circle fill="none" stroke="#1e3a5f" stroke-width="4" stroke-linecap="round" cx="18" cy="18" r="14" stroke-dasharray="39.6 88" transform="rotate(-90 18 18)"/></svg>
+              <div class="donut-pct">45 %</div>
+            </div>
+            <div class="trimestre-stats">
+              <div class="trimestre-stat-row"><strong>25%</strong> Test y Autoevaluaciones completadas</div>
+              <div class="trimestre-stat-row"><strong>15%</strong> Actividades Recomendadas cargadas</div>
+              <div class="trimestre-stat-row"><strong>5%</strong> Mejora de rendimiento académico</div>
+            </div>
+            <div class="rend-popup">
+              <strong>¡Estás logrando tus metas!</strong>
+              <span>Tu rendimiento ha mejorado.</span>
+            </div>
+          </div>
+
+          <div class="trimestre-label" style="margin-top:1rem"><span>3° TRIMESTRE</span></div>
+          <div class="trimestre-empty">
+            <div class="donut-empty"></div>
+          </div>
+        </div>
+
+        <!-- PERFIL -->
+        <div id="tab-perfil" class="content-tab">
+          <div class="perfil-layout">
+            <div class="perfil-card-left">
+              <div class="perfil-name-big">Catalina<br>Peréz García</div>
+              <div class="perfil-icon-wrap">🎓</div>
+            </div>
+            <div>
+              <div class="perfil-section-box">
+                <div class="perfil-section-title">Información Personal</div>
+                <div class="perfil-row"><strong>Nombre:</strong> Catalina</div>
+                <div class="perfil-row"><strong>Apellido:</strong> Perez García</div>
+                <div class="perfil-row"><strong>Edad:</strong> 16 años</div>
+                <div class="perfil-row"><strong>Fecha de nacimiento:</strong> 23/02/2008</div>
+                <div class="perfil-row"><strong>Institución:</strong> Colegio Santa Maria del Lujan</div>
+                <div class="perfil-row"><strong>Curso:</strong> 5to año</div>
+                <div class="perfil-row"><strong>División:</strong> A</div>
+                <div class="perfil-actions"><button class="btn-modificar">Modificar</button></div>
+              </div>
+              <div class="perfil-section-box">
+                <div class="perfil-section-title">Información Personal</div>
+                <div class="perfil-row"><strong>Edad:</strong> 16 años</div>
+                <div class="perfil-row"><strong>Fecha de nacimiento:</strong> 23/02/2008</div>
+                <div class="perfil-row"><strong>Institución:</strong> Colegio Santa Maria del Lujan</div>
+                <div class="perfil-row"><strong>Curso:</strong> 5to año</div>
+                <div class="perfil-row"><strong>División:</strong> A</div>
+                <div class="perfil-actions"><button class="btn-modificar">Modificar</button></div>
+              </div>
+              <div class="perfil-section-box">
+                <div class="perfil-section-title">Información Personal</div>
+                <div class="perfil-row"><strong>Edad:</strong> 16 años</div>
+                <div class="perfil-row"><strong>Fecha de nacimiento:</strong> 23/02/2008</div>
+                <div class="perfil-row"><strong>Institución:</strong> Colegio Santa Maria del Lujan</div>
+                <div class="perfil-row"><strong>Curso:</strong> 5to año</div>
+                <div class="perfil-row"><strong>División:</strong> A</div>
+                <div class="perfil-actions"><button class="btn-modificar">Modificar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIG -->
+        <div id="tab-config" class="content-tab">
+          <div class="config-layout">
+            <div class="perfil-card-left">
+              <div class="perfil-name-big">Catalina<br>Peréz García</div>
+              <div class="perfil-icon-wrap">🎓</div>
+            </div>
+            <div class="config-section-box">
+              <div class="config-title">CONFIGURACIÓN</div>
+              <a class="config-link">Cambiar de cuenta</a>
+              <a class="config-link">Eliminar datos de perfil</a>
+              <a class="config-link">Reportar problema</a>
+              <a class="config-link">Elimiar cuenta</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="site-footer">
+        <div class="footer-logo"><span style="font-size:20px">🧠</span><div><div class="footer-logo-text">APRENDUX</div><span class="footer-logo-sub">tu propio camino de aprendizaje</span></div></div>
+        <div class="footer-links"><a class="footer-link" href="#">✉️ aprendux.educacion@gmail.com</a><a class="footer-link" href="#">📷 @aprendux.educacion</a><a class="footer-link" href="#">in Aprendux</a></div>
+        <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(pageId, navActive){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showTab(tab, navItem){
+  document.querySelectorAll('.content-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.dash-nav-item').forEach(n=>n.classList.remove('active'));
+  const el = document.getElementById('tab-'+tab);
+  if(el) el.classList.add('active');
+  if(navItem) navItem.classList.add('active');
+  // Update topbar
+  const topLinks = document.querySelectorAll('.dash-topbar-nav a');
+  topLinks.forEach(a=>a.classList.remove('active'));
+  if(tab==='tips') topLinks[0].classList.add('active');
+  if(tab==='perfil') topLinks[1].classList.add('active');
+  if(tab==='config') topLinks[2].classList.add('active');
+}
+
+// Calendar
+(function buildCal(){
+  const grid = document.getElementById('cal-grid');
+  if(!grid) return;
+  // March 2025 starts on Saturday (index 5 in Mon-Sun), offset = 5
+  const offset = 5;
+  const events = {
+    1: ['2 Act.','3 Rec.'],
+    3: ['Prueba Matemática'],
+    4: ['3 Rec.'],
+    6: ['2 Act.'],
+    7: ['Prueba Historia'],
+    10: ['2 Act.'],
+    12: ['Prueba Geografía'],
+    13: ['2 Act.','3 Rec.'],
+    14: ['3 Rec.'],
+    17: ['Tarea Matemática'],
+    20: ['3 Rec.'],
+    25: ['3 Rec.'],
+    27: ['Trabajo Práctico Inglés'],
+    28: ['2 Act.','3 Rec.','Hacer Test Autoevaluativo']
+  };
+  // Empty cells for offset
+  for(let i=0;i<offset;i++){
+    const c=document.createElement('div');
+    c.className='cal-cell';
+    c.style.background='#f0f4f7';
+    grid.appendChild(c);
+  }
+  for(let d=1;d<=31;d++){
+    const c=document.createElement('div');
+    c.className='cal-cell';
+    const numEl=document.createElement('div');
+    numEl.className='cal-cell-num'+(d===14?' today':'');
+    numEl.textContent=d;
+    c.appendChild(numEl);
+    if(events[d]){
+      events[d].forEach(ev=>{
+        const tag=document.createElement('div');
+        tag.className='cal-event';
+        tag.textContent=ev;
+        c.appendChild(tag);
+      });
+    }
+    grid.appendChild(c);
+  }
+  // Fill remaining
+  const total = offset + 31;
+  const rem = 7 - (total % 7);
+  if(rem < 7){
+    for(let i=0;i<rem;i++){
+      const c=document.createElement('div');
+      c.className='cal-cell';
+      c.style.background='#f0f4f7';
+      const n=document.createElement('div');
+      n.className='cal-cell-num';
+      n.textContent=i+1;
+      n.style.opacity='0.3';
+      c.appendChild(n);
+      grid.appendChild(c);
+    }
+  }
+})();
+
+// Rendimiento bars
+(function buildBars(){
+  const container = document.getElementById('rend-bars');
+  if(!container) return;
+  const vals=[30,60,45,80,55,20,40,65,35,75,50,90];
+  vals.forEach((h,i)=>{
+    const b=document.createElement('div');
+    b.className='rend-bar'+(h>60?' full':'');
+    b.style.height=h+'%';
+    container.appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>
