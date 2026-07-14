@@ -941,6 +941,8 @@ async function enviarAN8n(datos) {
   }
 }
 
+const FORM_TEST_URL = "https://forms.gle/hTn6vUUr4rXQnDur9";
+
 document.querySelector('.btn-continuar').addEventListener('click', () => {
   enviarAN8n({
     nombre: document.querySelector('#nombre')?.value,
@@ -950,6 +952,7 @@ document.querySelector('.btn-continuar').addEventListener('click', () => {
     institucion: document.querySelector('#institucion')?.value,
     grado: document.querySelector('#grado')?.value
   });
+  window.open(FORM_TEST_URL, '_blank');
 });
 </script>
 </body>
