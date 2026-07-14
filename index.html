@@ -312,7 +312,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
     <a class="active" onclick="showPage('page-inicio')">Inicio</a>
     <a onclick="showPage('page-objetivo')">Objetivo</a>
     <a onclick="showPage('page-tecnologia')">Plataforma</a>
-    <button class="btn-nav" onclick="showPage('page-dashboard')">Iniciar sesión</button>
+    <button class="btn-nav" onclick="showPage('page-login')">Iniciar sesión</button>
   </div>
 </nav>
 
@@ -455,7 +455,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
     <a onclick="showPage('page-inicio')">Inicio</a>
     <a class="active">Objetivo</a>
     <a onclick="showPage('page-tecnologia')">Plataforma</a>
-    <button class="btn-nav" onclick="showPage('page-dashboard')">Iniciar sesión</button>
+    <button class="btn-nav" onclick="showPage('page-login')">Iniciar sesión</button>
   </div>
 </nav>
 
@@ -505,7 +505,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
     <a onclick="showPage('page-inicio')">Inicio</a>
     <a onclick="showPage('page-objetivo')">Objetivo</a>
     <a class="active">Plataforma</a>
-    <button class="btn-nav" onclick="showPage('page-dashboard')">Iniciar sesión</button>
+    <button class="btn-nav" onclick="showPage('page-login')">Iniciar sesión</button>
   </div>
 </nav>
 
@@ -553,6 +553,39 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 </footer>
 </div>
 
+<!-- ════════════ LOGIN ════════════ -->
+<div id="page-login" class="page">
+<nav class="navbar">
+  <div class="logo" onclick="showPage('page-inicio')"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LogoAprendux-02.png" alt="Aprendux" style="height:44px;width:auto"></div>
+  <div class="nav-links">
+    <a onclick="showPage('page-inicio')">Inicio</a>
+    <a onclick="showPage('page-objetivo')">Objetivo</a>
+    <a onclick="showPage('page-tecnologia')">Plataforma</a>
+    <button class="btn-nav" onclick="showPage('page-registro')">Registrarme</button>
+  </div>
+</nav>
+
+<div class="reg-hero">
+  <h1>INICIAR SESIÓN</h1>
+  <p>Ingresá con tu mail y contraseña</p>
+</div>
+
+<div class="reg-body" style="max-width:420px">
+  <div class="reg-field" style="grid-template-columns:1fr"><label>Email</label><input id="login-email" class="reg-input" type="email"></div>
+  <div class="reg-field" style="grid-template-columns:1fr"><label>Contraseña</label><input id="login-password" class="reg-input" type="password"></div>
+  <div id="login-error" style="display:none;color:#c0392b;font-size:12px;margin-top:10px">Email o contraseña incorrectos.</div>
+  <div class="reg-actions" style="justify-content:center;margin-top:2rem">
+    <button class="btn-continuar" id="btn-login">Ingresar</button>
+  </div>
+</div>
+
+<footer>
+  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO Aprendux BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
+  <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (6).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (1).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (2).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
+  <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
+</footer>
+</div>
+
 <!-- ════════════ REGISTRO ════════════ -->
 <div id="page-registro" class="page">
 <nav class="navbar">
@@ -561,7 +594,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
     <a onclick="showPage('page-inicio')">Inicio</a>
     <a>Sobre Nosotros</a>
     <a>Plan De Estudios</a>
-    <button class="btn-nav" onclick="showPage('page-dashboard')">Iniciar Sesión</button>
+    <button class="btn-nav" onclick="showPage('page-login')">Iniciar sesión</button>
   </div>
 </nav>
 
@@ -579,6 +612,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <div class="reg-field"><label>Edad</label><input id="edad" class="reg-input" type="text" placeholder=""></div>
       <div class="reg-field"><label>Género</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="gen"> Femenino</label><label class="radio-opt"><input type="radio" name="gen"> Masculino</label><label class="radio-opt"><input type="radio" name="gen"> No binario</label><label class="radio-opt"><input type="radio" name="gen"> Prefiero no contestar</label></div></div>
       <div class="reg-field"><label>Email</label><input id="email" class="reg-input" type="email" placeholder=""></div>
+      <div class="reg-field"><label>Contraseña</label><input id="password" class="reg-input" type="password" placeholder=""></div>
 
       <h2 class="reg-section-title">Datos Académicos</h2>
       <div class="reg-field"><label>Institución</label><input id="institucion" class="reg-input" type="text"></div>
@@ -661,9 +695,9 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
         <a class="active" onclick="showTab('tips',document.querySelector('.dash-nav-item'))">Mi panel</a>
         <a onclick="showTab('perfil',null,'MI PERFIL')">Mi perfil</a>
         <a onclick="showTab('config',null,'CONFIGURACIÓN')">Configuración</a>
-        <a onclick="showPage('page-inicio')">Cerrar sesión</a>
+        <a onclick="cerrarSesion()">Cerrar sesión</a>
       </div>
-      <button class="dash-topbar-btn">Catalina Perez Garcia</button>
+      <button class="dash-topbar-btn" id="dash-user-btn">Mi cuenta</button>
     </div>
 
     <div class="dash-content">
@@ -814,37 +848,22 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
         <div class="dash-title-box"><h1>MI PERFIL</h1></div>
         <div class="perfil-layout">
           <div class="perfil-left-card">
-            <div class="perfil-name">Catalina<br>Peréz García</div>
+            <div class="perfil-name" data-perfil-name>—</div>
             <div class="perfil-avatar"><svg viewBox="0 0 46 46" fill="none"><circle cx="23" cy="16" r="8" stroke="#1e3a5f" stroke-width="2"/><path d="M6 42c0-9.4 7.6-17 17-17s17 7.6 17 17" stroke="#1e3a5f" stroke-width="2" stroke-linecap="round"/></svg></div>
           </div>
           <div>
             <div class="perfil-section-box">
               <div class="perfil-section-h">Información Personal</div>
-              <div class="perfil-row"><strong>Nombre:</strong> Catalina</div>
-              <div class="perfil-row"><strong>Apellido:</strong> Perez García</div>
-              <div class="perfil-row"><strong>Edad:</strong> 16 años</div>
-              <div class="perfil-row"><strong>Fecha de nacimiento:</strong> 23/02/2008</div>
-              <div class="perfil-row"><strong>Institución:</strong> Colegio Santa Maria del Lujan</div>
-              <div class="perfil-row"><strong>Curso:</strong> 5to año</div>
-              <div class="perfil-row"><strong>División:</strong> A</div>
+              <div class="perfil-row"><strong>Nombre:</strong> <span data-perfil-nombre>—</span></div>
+              <div class="perfil-row"><strong>Apellido:</strong> <span data-perfil-apellido>—</span></div>
+              <div class="perfil-row"><strong>Edad:</strong> <span data-perfil-edad>—</span></div>
+              <div class="perfil-row"><strong>Email:</strong> <span data-perfil-email>—</span></div>
               <div class="perfil-actions"><button class="btn-modificar">Modificar</button></div>
             </div>
             <div class="perfil-section-box">
               <div class="perfil-section-h">Información Académica</div>
-              <div class="perfil-row"><strong>Edad:</strong> 16 años</div>
-              <div class="perfil-row"><strong>Fecha de nacimiento:</strong> 23/02/2008</div>
-              <div class="perfil-row"><strong>Institución:</strong> Colegio Santa Maria del Lujan</div>
-              <div class="perfil-row"><strong>Curso:</strong> 5to año</div>
-              <div class="perfil-row"><strong>División:</strong> A</div>
-              <div class="perfil-actions"><button class="btn-modificar">Modificar</button></div>
-            </div>
-            <div class="perfil-section-box">
-              <div class="perfil-section-h">Información Familiar</div>
-              <div class="perfil-row"><strong>Edad:</strong> 16 años</div>
-              <div class="perfil-row"><strong>Fecha de nacimiento:</strong> 23/02/2008</div>
-              <div class="perfil-row"><strong>Institución:</strong> Colegio Santa Maria del Lujan</div>
-              <div class="perfil-row"><strong>Curso:</strong> 5to año</div>
-              <div class="perfil-row"><strong>División:</strong> A</div>
+              <div class="perfil-row"><strong>Institución:</strong> <span data-perfil-institucion>—</span></div>
+              <div class="perfil-row"><strong>Grado/Nivel:</strong> <span data-perfil-grado>—</span></div>
               <div class="perfil-actions"><button class="btn-modificar">Modificar</button></div>
             </div>
           </div>
@@ -856,7 +875,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
         <div class="dash-title-box"><h1>CONFIGURACIÓN</h1></div>
         <div class="config-layout">
           <div class="perfil-left-card">
-            <div class="perfil-name">Catalina<br>Peréz García</div>
+            <div class="perfil-name" data-perfil-name>—</div>
             <div class="perfil-avatar"><svg viewBox="0 0 46 46" fill="none"><circle cx="23" cy="16" r="8" stroke="#1e3a5f" stroke-width="2"/><path d="M6 42c0-9.4 7.6-17 17-17s17 7.6 17 17" stroke="#1e3a5f" stroke-width="2" stroke-linecap="round"/></svg></div>
           </div>
           <div class="config-box">
@@ -949,11 +968,76 @@ document.querySelector('.btn-continuar').addEventListener('click', () => {
     apellido: document.querySelector('#apellido')?.value,
     edad: document.querySelector('#edad')?.value,
     email: document.querySelector('#email')?.value,
+    password: document.querySelector('#password')?.value,
     institucion: document.querySelector('#institucion')?.value,
     grado: document.querySelector('#grado')?.value
   });
   window.open(FORM_TEST_URL, '_blank');
 });
+
+// ── Login ──
+const LOGIN_WEBHOOK_URL = "https://TU-INSTANCIA-N8N.com/webhook/TU-LOGIN-PATH";
+
+async function iniciarSesion(email, password) {
+  const errBox = document.getElementById('login-error');
+  errBox.style.display = 'none';
+  try {
+    const res = await fetch(LOGIN_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      errBox.textContent = "Email o contraseña incorrectos.";
+      errBox.style.display = 'block';
+      return;
+    }
+    localStorage.setItem('aprendux_user', JSON.stringify(data.usuario));
+    cargarPerfilEnDashboard();
+    showPage('page-dashboard');
+  } catch (err) {
+    console.error("Error de login:", err);
+    errBox.textContent = "No se pudo conectar. Intentá de nuevo.";
+    errBox.style.display = 'block';
+  }
+}
+
+document.getElementById('btn-login').addEventListener('click', () => {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  iniciarSesion(email, password);
+});
+
+function cerrarSesion(){
+  localStorage.removeItem('aprendux_user');
+  showPage('page-inicio');
+}
+
+// ── Personalización del dashboard con los datos del alumno logueado ──
+function cargarPerfilEnDashboard(){
+  const raw = localStorage.getItem('aprendux_user');
+  if(!raw) return;
+  let u;
+  try { u = JSON.parse(raw); } catch(e) { return; }
+
+  const nombreCompleto = `${u.nombre || ''} ${u.apellido || ''}`.trim() || 'Mi cuenta';
+  const userBtn = document.getElementById('dash-user-btn');
+  if(userBtn) userBtn.textContent = nombreCompleto;
+
+  document.querySelectorAll('[data-perfil-name]').forEach(el => {
+    el.innerHTML = `${u.nombre || '—'}<br>${u.apellido || ''}`;
+  });
+  document.querySelectorAll('[data-perfil-nombre]').forEach(el => el.textContent = u.nombre || '—');
+  document.querySelectorAll('[data-perfil-apellido]').forEach(el => el.textContent = u.apellido || '—');
+  document.querySelectorAll('[data-perfil-edad]').forEach(el => el.textContent = u.edad ? `${u.edad} años` : '—');
+  document.querySelectorAll('[data-perfil-email]').forEach(el => el.textContent = u.email || '—');
+  document.querySelectorAll('[data-perfil-institucion]').forEach(el => el.textContent = u.institucion || '—');
+  document.querySelectorAll('[data-perfil-grado]').forEach(el => el.textContent = u.grado || '—');
+}
+
+// Si ya hay una sesión guardada, dejamos el dashboard listo para cuando se entre a esa página
+cargarPerfilEnDashboard();
 </script>
 </body>
 </html>
