@@ -925,6 +925,29 @@ function showTab(tab, navItem, title){
     const b=document.createElement('div');b.className='rend-bar'+(h>60?' full':'');b.style.height=h+'%';c.appendChild(b);
   });
 })();
+
+// n8n
+  async function enviarAN8n(datos) {
+  try {
+    const res = await fetch("https://TU-INSTANCIA-N8N.com/webhook/TU-PATH", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
+    if (!res.ok) throw new Error("Error en el webhook");
+    console.log("Enviado a n8n:", await res.json());
+  } catch (err) {
+    console.error("Fallo al conectar con n8n:", err);
+  }
+}
+
+document.querySelector('.btn-continuar').addEventListener('click', () => {
+  enviarAN8n({
+    nombre: document.querySelector('#nombre')?.value,
+    apellido: document.querySelector('#apellido')?.value,
+  });
+});
+
 </script>
 </body>
 </html>
