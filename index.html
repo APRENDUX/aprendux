@@ -634,7 +634,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
   </div>
   <div class="reg-actions">
     <button class="btn-outline">Agregar más familiares</button>
-    <button class="btn-continuar" id="btn-continuar-registro" onclick="showPage('page-dashboard')">Continuar</button>
+    <button class="btn-continuar" id="btn-continuar-registro">Continuar</button>
   </div>
 </div>
 
@@ -854,7 +854,58 @@ async function enviarAN8n(datos) {
 
 const FORM_TEST_URL = "https://forms.gle/hTn6vUUr4rXQnDur9";
 
+// ── Validación del formulario de registro ──
+function validarRegistro(){
+  const contenedor = document.querySelector('.reg-body');
+  let ok = true;
+  let primerCampoInvalido = null;
+
+  // Campos de texto/email/password
+  contenedor.querySelectorAll('input.reg-input').forEach(input => {
+    input.style.borderColor = '';
+    if(!input.value || !input.value.trim()){
+      ok = false;
+      input.style.borderColor = '#c0392b';
+      if(!primerCampoInvalido) primerCampoInvalido = input;
+    }
+  });
+
+  // Grupos de radio (género, gestión, turno, vínculos familiares)
+  const nombresRadios = new Set();
+  contenedor.querySelectorAll('input[type="radio"]').forEach(r => nombresRadios.add(r.name));
+  nombresRadios.forEach(nombre => {
+    const grupo = contenedor.querySelectorAll(`input[name="${nombre}"]`);
+    const marcado = contenedor.querySelector(`input[name="${nombre}"]:checked`);
+    const wrap = grupo[0]?.closest('.radio-group');
+    if(!marcado){
+      ok = false;
+      if(wrap) wrap.style.outline = '1.5px solid #c0392b';
+      if(!primerCampoInvalido) primerCampoInvalido = grupo[0];
+    } else if(wrap){
+      wrap.style.outline = '';
+    }
+  });
+
+  let errorBox = document.getElementById('registro-error');
+  if(!ok){
+    if(!errorBox){
+      errorBox = document.createElement('div');
+      errorBox.id = 'registro-error';
+      errorBox.style.cssText = 'color:#c0392b;font-size:13px;margin-top:10px;text-align:right';
+      document.querySelector('.reg-actions').insertAdjacentElement('beforebegin', errorBox);
+    }
+    errorBox.textContent = 'Completá todos los campos y opciones antes de continuar.';
+    if(primerCampoInvalido) primerCampoInvalido.scrollIntoView({behavior:'smooth', block:'center'});
+  } else if(errorBox){
+    errorBox.remove();
+  }
+
+  return ok;
+}
+
 document.getElementById('btn-continuar-registro').addEventListener('click', () => {
+  if(!validarRegistro()) return;
+
   enviarAN8n({
     nombre: document.querySelector('#nombre')?.value,
     apellido: document.querySelector('#apellido')?.value,
@@ -865,6 +916,7 @@ document.getElementById('btn-continuar-registro').addEventListener('click', () =
     grado: document.querySelector('#grado')?.value
   });
   window.open(FORM_TEST_URL, '_blank');
+  showPage('page-dashboard');
 });
 
 // ── Login ──
