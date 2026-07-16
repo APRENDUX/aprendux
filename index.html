@@ -676,28 +676,20 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       </div>
       <div class="dash-recordatorios">
         <div class="dash-rec-title">RECORDATORIOS</div>
-        <div class="dash-rec-day">HOY - Lunes 01 de Marzo</div>
-        <div class="dash-rec-task">Completar actividad matematica</div>
-        <div class="dash-rec-task">Leer texto historia</div>
-        <div class="dash-rec-day">MAÑANA - Martes 02 de Marzo</div>
-        <div class="dash-rec-task">Completar actividad matematica</div>
-        <div class="dash-rec-task">Leer texto historia</div>
-        <div class="dash-rec-day">Viernes 05 de Marzo</div>
-        <div class="dash-rec-task">Completar actividad matematica</div>
-        <div class="dash-rec-task">Leer texto historia</div>
+        <div class="dash-rec-task" style="padding-left:0">Todavía no tenés recordatorios.</div>
       </div>
     </div>
   </div>
 
   <div class="dash-main">
     <div class="dash-topbar">
+      <div class="logo" onclick="showTab('tips',document.querySelector('.dash-nav-item'))" style="cursor:pointer">
+        <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LogoAprendux-02.png" alt="Aprendux" style="height:32px;width:auto">
+      </div>
       <div class="dash-topbar-nav">
-        <a class="active" onclick="showTab('tips',document.querySelector('.dash-nav-item'))">Mi panel</a>
         <a onclick="showTab('perfil',null,'MI PERFIL')">Mi perfil</a>
-        <a onclick="showTab('config',null,'CONFIGURACIÓN')">Configuración</a>
         <a onclick="cerrarSesion()">Cerrar sesión</a>
       </div>
-      <button class="dash-topbar-btn" id="dash-user-btn">Mi cuenta</button>
     </div>
 
     <div class="dash-content">
@@ -705,31 +697,9 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <!-- TIPS -->
       <div id="tab-tips" class="content-tab active">
         <div class="dash-title-box"><h1>TIPS Y HERRAMIENTAS</h1></div>
-        <a class="tips-link">Recomendación de Rutinas de Estudio</a>
-        <ul class="tips-bullets">
-          <li>Establece un horario de estudio regular en un entorno tranquilo.</li>
-          <li>Utiliza diagramas, mapas conceptuales y gráficos para organizar y visualizar la información.</li>
-          <li>Divide el material en segmentos pequeños y enfócate en entender cada parte antes de avanzar.</li>
-          <li>Crea resúmenes visuales y tarjetas de memoria.</li>
-          <li>Practica con ejercicios y casos prácticos para aplicar los conceptos.</li>
-          <li>Usa técnicas de autoevaluación y busca retroalimentación para mejorar continuamente tu comprensión.</li>
-        </ul>
-        <div class="tips-act-title">Actividades recomendadas para estudiar</div>
-        <div class="tips-icons-row">
-          <div class="tips-icon-box"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (3).png" style="width:36px;height:36px;object-fit:contain"></div>
-          <div class="tips-icon-box"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (4).png" style="width:36px;height:36px;object-fit:contain"></div>
-          <div class="tips-icon-box"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (5).png" style="width:36px;height:36px;object-fit:contain"></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
+          Todavía no tenés tips ni actividades recomendadas.<br>Van a empezar a aparecer acá a medida que completes tests y autoevaluaciones.
         </div>
-        <div class="activity-box">
-          <div class="activity-num">1. <span style="text-decoration:underline;cursor:pointer">Crea Cuadros y Mapas Visuales</span></div>
-          <div class="activity-line"><strong>🎯 <span style="text-decoration:underline">Objetivo:</span></strong><span>Organizar y visualizar la información para mejorar la comprensión y retención.</span></div>
-          <div class="activity-line"><strong><span style="text-decoration:underline">Instrucciones:</span></strong><span>Utiliza herramientas digitales o papel y lápiz para crear cuadros y mapas visuales que resuman la información clave de los temas de estudio. Incluye diagramas, gráficos y esquemas para representar conceptos y relaciones entre ellos.</span></div>
-          <div class="activity-line"><strong><span style="text-decoration:underline">Explicación Corta:</span></strong><span>Los cuadros y mapas visuales ayudan a organizar la información de manera estructurada, facilitando la comprensión y la retención.</span></div>
-          <div class="activity-line"><strong>📄 <span style="text-decoration:underline">Entrega:</span></strong><span>Imágenes o archivos PDF de los cuadros y mapas visuales.</span></div>
-          <button class="btn-cargar">Cargar Actividad</button>
-          <div style="clear:both"></div>
-        </div>
-        <button class="btn-cargar-mas">Cargar más recomendaciones</button>
       </div>
 
       <!-- CALENDARIO -->
@@ -754,93 +724,17 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <!-- TESTS -->
       <div id="tab-tests" class="content-tab">
         <div class="dash-title-box"><h1>TEST Y AUTOVELUACIONES</h1></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
-          <div>
-            <div class="tests-section-h">Próximas fechas</div>
-            <ul class="tests-list">
-              <li>Autoevaluación Post examen de geografía</li>
-              <li>Test T.P. Historia</li>
-              <li>Test examen matemáticas</li>
-              <li>Autoevaluación Pre examen matemáticas</li>
-              <li>Autoevaluación Post examen matemáticas</li>
-            </ul>
-            <button class="btn-ver-mas">Ver más</button>
-            <div class="tests-section-h">Pendientes</div>
-            <ul class="tests-list">
-              <li>Autoevaluación T.P. grupal biología</li>
-              <li>Test examen Tabla de Verdad</li>
-              <li>Test examen recuperatorio Tabla de Verdad</li>
-              <li>Test examen geografía</li>
-            </ul>
-            <button class="btn-ver-mas">Ver más</button>
-            <div class="tests-section-h">Completados</div>
-            <ul class="tests-list">
-              <li>Autoevaluación Pre examen geografía</li>
-              <li>Autoevaluación Pre examen Tabla de verdad</li>
-              <li>Test T.P. grupal biología</li>
-              <li>Autoevaluación recuperatorio Tabla de Verdad</li>
-            </ul>
-            <button class="btn-ver-mas">Ver más</button>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:center;opacity:0.04;font-size:220px;line-height:1">🧠</div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
+          Todavía no tenés tests ni autoevaluaciones cargados.<br>Van a aparecer acá a medida que tu institución o docente los vayan asignando.
         </div>
       </div>
 
       <!-- RENDIMIENTO -->
       <div id="tab-rendimiento" class="content-tab">
         <div class="dash-title-box"><h1>RENDIMIENTO</h1></div>
-        <div class="rend-top">
-          <div class="rend-chart-box">
-            <div class="rend-chart-header">
-              <div class="rend-chart-title">ACTIVIDAD</div>
-              <select class="rend-dias-sel"><option>DÍAS</option><option>MES</option></select>
-            </div>
-            <div class="rend-bars" id="rend-bars"></div>
-            <div class="rend-day-labels"><span>LUN</span><span>MAR</span><span>MIÉ</span><span>JUE</span><span>VIE</span><span>SÁB</span><span>DOM</span><span>LUN</span><span>MAR</span><span>MIÉ</span><span>JUE</span><span>VIE</span></div>
-          </div>
-          <div class="rend-stats">
-            <div class="rend-stat-box">
-              <div class="rend-stat-label">Test</div>
-              <div class="rend-stat-num">64%</div>
-              <svg class="rend-wave" viewBox="0 0 100 28"><polyline points="0,22 15,16 30,20 45,10 60,14 75,8 100,12" fill="none" stroke="#f5a623" stroke-width="2"/></svg>
-            </div>
-            <div class="rend-stat-box">
-              <div class="rend-stat-label">Autoevaluación</div>
-              <div class="rend-stat-num">86%</div>
-              <svg class="rend-wave" viewBox="0 0 100 28"><polyline points="0,20 15,14 30,18 45,8 60,12 75,6 100,10" fill="none" stroke="#f5a623" stroke-width="2"/></svg>
-            </div>
-          </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
+          Todavía no hay datos de rendimiento.<br>A medida que completes tests y autoevaluaciones vas a poder ver acá tu progreso.
         </div>
-
-        <div class="trimestre-label"><span>1° TRIMESTRE</span>: <span class="estado">TERMINADO</span></div>
-        <div class="trimestre-box">
-          <div class="donut-wrap">
-            <svg viewBox="0 0 36 36"><circle fill="none" stroke="#e0e8f0" stroke-width="4" cx="18" cy="18" r="14"/><circle fill="none" stroke="#1e3a5f" stroke-width="4" stroke-linecap="round" cx="18" cy="18" r="14" stroke-dasharray="70.4 88" transform="rotate(-90 18 18)"/></svg>
-            <div class="donut-pct">80 %</div>
-          </div>
-          <div class="trim-stats">
-            <div class="trim-stat-row"><strong>30%</strong> Test y Autoevaluaciones completadas</div>
-            <div class="trim-stat-row"><strong>30%</strong> Actividades Recomendadas cargadas</div>
-            <div class="trim-stat-row"><strong>20%</strong> Mejora de rendimiento académico</div>
-          </div>
-        </div>
-
-        <div class="trimestre-label" style="margin-top:1rem"><span>2° TRIMESTRE</span>: <span class="estado">EN PROGRESO</span></div>
-        <div class="trimestre-box" style="position:relative">
-          <div class="donut-wrap">
-            <svg viewBox="0 0 36 36"><circle fill="none" stroke="#e0e8f0" stroke-width="4" cx="18" cy="18" r="14"/><circle fill="none" stroke="#1e3a5f" stroke-width="4" stroke-linecap="round" cx="18" cy="18" r="14" stroke-dasharray="39.6 88" transform="rotate(-90 18 18)"/></svg>
-            <div class="donut-pct">45 %</div>
-          </div>
-          <div class="trim-stats">
-            <div class="trim-stat-row"><strong>25%</strong> Test y Autoevaluaciones completadas</div>
-            <div class="trim-stat-row"><strong>15%</strong> Actividades Recomendadas cargadas</div>
-            <div class="trim-stat-row"><strong>5%</strong> Mejora de rendimiento académico</div>
-          </div>
-          <div class="rend-popup-box"><strong>¡Estás logrando tus metas!</strong><span>Tu rendimiento ha mejorado.</span></div>
-        </div>
-
-        <div class="trimestre-label" style="margin-top:1rem"><span>3° TRIMESTRE</span></div>
-        <div class="trim-empty"><div style="width:80px;height:80px;border-radius:50%;border:8px solid #e8cfa0"></div></div>
       </div>
 
       <!-- PERFIL -->
@@ -914,9 +808,7 @@ function showTab(tab, navItem, title){
   if(navItem)navItem.classList.add('active');
   const tb=document.querySelectorAll('.dash-topbar-nav a');
   tb.forEach(a=>a.classList.remove('active'));
-  if(tab==='tips')tb[0].classList.add('active');
-  if(tab==='perfil')tb[1].classList.add('active');
-  if(tab==='config')tb[2].classList.add('active');
+  if(tab==='perfil' && tb[0])tb[0].classList.add('active');
 }
 
 // Calendario
@@ -924,7 +816,7 @@ function showTab(tab, navItem, title){
   const grid=document.getElementById('cal-body');
   if(!grid)return;
   const offset=5; // marzo 2025 empieza sábado
-  const events={1:['2 Act.','3 Rec.'],3:['Prueba Matemática'],4:['3 Rec.'],6:['2 Act.'],7:['Prueba Historia'],10:['2 Act.'],12:['Prueba Geografía'],13:['2 Act.','3 Rec.'],14:['3 Rec.'],17:['Tarea Matemática'],20:['3 Rec.'],25:['3 Rec.'],27:['Trabajo Práctico Inglés'],28:['2 Act.','3 Rec.','Hacer Test Autoevaluativo']};
+  const events={}; // se va a completar con datos reales del alumno a medida que registre entregas/exámenes
   for(let i=0;i<offset;i++){const c=document.createElement('div');c.className='cal-cell off';grid.appendChild(c);}
   for(let d=1;d<=31;d++){
     const c=document.createElement('div');c.className='cal-cell';
