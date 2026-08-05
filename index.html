@@ -891,8 +891,8 @@ function validarRegistro(){
     if(!errorBox){
       errorBox = document.createElement('div');
       errorBox.id = 'registro-error';
-      errorBox.style.cssText = 'color:#c0392b;font-size:13px;margin-top:10px;text-align:right';
-      document.querySelector('.reg-actions').insertAdjacentElement('beforebegin', errorBox);
+      errorBox.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#c0392b;color:#fff;font-size:13px;font-weight:600;padding:12px 22px;border-radius:8px;box-shadow:var(--shadow-md);z-index:9999';
+      document.body.appendChild(errorBox);
     }
     errorBox.textContent = 'Completá todos los campos y opciones antes de continuar.';
     if(primerCampoInvalido) primerCampoInvalido.scrollIntoView({behavior:'smooth', block:'center'});
@@ -900,6 +900,9 @@ function validarRegistro(){
     errorBox.remove();
   }
 
+  if(!ok){
+    console.log('Registro: faltan completar campos u opciones. Revisá los bordes/contornos rojos en el formulario.');
+  }
   return ok;
 }
 
