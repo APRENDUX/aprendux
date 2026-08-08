@@ -603,7 +603,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
   <p>¡TU PROPIO CAMINO DE APRENDIZAJE COMIENZA AHORA!</p>
 </div>
 
-<div class="reg-body">
+<div class="reg-body" id="reg-body-registro">
   <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start">
     <div>
       <h2 class="reg-section-title">Datos Personales</h2>
@@ -858,7 +858,7 @@ const FORM_TEST_URL = "https://forms.gle/hTn6vUUr4rXQnDur9";
 
 // ── Validación del formulario de registro ──
 function validarRegistro(){
-  const contenedor = document.querySelector('.reg-body');
+  const contenedor = document.getElementById('reg-body-registro');
   let ok = true;
   let primerCampoInvalido = null;
 
