@@ -625,10 +625,12 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <div class="reg-field"><label>Nombre y Apellido</label><input class="reg-input" type="text"></div>
       <div class="reg-field"><label>Edad</label><input class="reg-input" type="text"></div>
       <div class="reg-field"><label>Trabajo / Estudios</label><input class="reg-input" type="text"></div>
-      <div class="reg-field"><label>Vínculo Familiar 2</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="v2"> Madre</label><label class="radio-opt"><input type="radio" name="v2"> Padre</label><label class="radio-opt"><input type="radio" name="v2"> Tutor</label></div></div>
-      <div class="reg-field"><label>Nombre y Apellido</label><input class="reg-input" type="text"></div>
-      <div class="reg-field"><label>Edad</label><input class="reg-input" type="text"></div>
-      <div class="reg-field"><label>Trabajo / Estudios</label><input class="reg-input" type="text"></div>
+      <div id="familiar-2-opcional">
+        <div class="reg-field"><label>Vínculo Familiar 2 <span style="font-weight:400;color:var(--gray);font-size:11px">(opcional)</span></label><div class="radio-group"><label class="radio-opt"><input type="radio" name="v2"> Madre</label><label class="radio-opt"><input type="radio" name="v2"> Padre</label><label class="radio-opt"><input type="radio" name="v2"> Tutor</label></div></div>
+        <div class="reg-field"><label>Nombre y Apellido</label><input class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Edad</label><input class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Trabajo / Estudios</label><input class="reg-input" type="text"></div>
+      </div>
     </div>
     <div style="padding-top:4rem;font-size:100px;opacity:0.15;line-height:1">🎯</div>
   </div>
@@ -860,8 +862,9 @@ function validarRegistro(){
   let ok = true;
   let primerCampoInvalido = null;
 
-  // Campos de texto/email/password
+  // Campos de texto/email/password (se excluye el bloque opcional de Familiar 2)
   contenedor.querySelectorAll('input.reg-input').forEach(input => {
+    if(input.closest('#familiar-2-opcional')) return;
     input.style.borderColor = '';
     if(!input.value || !input.value.trim()){
       ok = false;
@@ -870,9 +873,12 @@ function validarRegistro(){
     }
   });
 
-  // Grupos de radio (género, gestión, turno, vínculos familiares)
+  // Grupos de radio (género, gestión, turno, vínculo familiar 1 — v2 es opcional)
   const nombresRadios = new Set();
-  contenedor.querySelectorAll('input[type="radio"]').forEach(r => nombresRadios.add(r.name));
+  contenedor.querySelectorAll('input[type="radio"]').forEach(r => {
+    if(r.closest('#familiar-2-opcional')) return;
+    nombresRadios.add(r.name);
+  });
   nombresRadios.forEach(nombre => {
     const grupo = contenedor.querySelectorAll(`input[name="${nombre}"]`);
     const marcado = contenedor.querySelector(`input[name="${nombre}"]:checked`);
