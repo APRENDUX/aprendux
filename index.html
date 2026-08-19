@@ -610,26 +610,26 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <div class="reg-field"><label>Nombre</label><input id="nombre" class="reg-input" type="text" placeholder=""></div>
       <div class="reg-field"><label>Apellido</label><input id="apellido" class="reg-input" type="text" placeholder=""></div>
       <div class="reg-field"><label>Edad</label><input id="edad" class="reg-input" type="text" placeholder=""></div>
-      <div class="reg-field"><label>Género</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="gen"> Femenino</label><label class="radio-opt"><input type="radio" name="gen"> Masculino</label><label class="radio-opt"><input type="radio" name="gen"> No binario</label><label class="radio-opt"><input type="radio" name="gen"> Prefiero no contestar</label></div></div>
+      <div class="reg-field"><label>Género</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="gen" value="femenino"> Femenino</label><label class="radio-opt"><input type="radio" name="gen" value="masculino"> Masculino</label><label class="radio-opt"><input type="radio" name="gen" value="no_binario"> No binario</label><label class="radio-opt"><input type="radio" name="gen" value="prefiero_no_contestar"> Prefiero no contestar</label></div></div>
       <div class="reg-field"><label>Email</label><input id="email" class="reg-input" type="email" placeholder=""></div>
       <div class="reg-field"><label>Contraseña</label><input id="password" class="reg-input" type="password" placeholder=""></div>
 
       <h2 class="reg-section-title">Datos Académicos</h2>
       <div class="reg-field"><label>Institución</label><input id="institucion" class="reg-input" type="text"></div>
       <div class="reg-field"><label>Grado/Nivel</label><input id="grado" class="reg-input" type="text"></div>
-      <div class="reg-field"><label>Gestión</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="gest"> Pública</label><label class="radio-opt"><input type="radio" name="gest"> Privada</label></div></div>
-      <div class="reg-field"><label>Turno</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="turno"> Mañana</label><label class="radio-opt"><input type="radio" name="turno"> Tarde</label><label class="radio-opt"><input type="radio" name="turno"> Doble jornada</label></div></div>
+      <div class="reg-field"><label>Gestión</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="gest" value="publica"> Pública</label><label class="radio-opt"><input type="radio" name="gest" value="privada"> Privada</label></div></div>
+      <div class="reg-field"><label>Turno</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="turno" value="manana"> Mañana</label><label class="radio-opt"><input type="radio" name="turno" value="tarde"> Tarde</label><label class="radio-opt"><input type="radio" name="turno" value="doble_jornada"> Doble jornada</label></div></div>
 
       <h2 class="reg-section-title">Datos Familiares</h2>
-      <div class="reg-field"><label>Vínculo Familiar 1</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="v1"> Madre</label><label class="radio-opt"><input type="radio" name="v1"> Padre</label><label class="radio-opt"><input type="radio" name="v1"> Tutor</label></div></div>
-      <div class="reg-field"><label>Nombre y Apellido</label><input class="reg-input" type="text"></div>
-      <div class="reg-field"><label>Edad</label><input class="reg-input" type="text"></div>
-      <div class="reg-field"><label>Trabajo / Estudios</label><input class="reg-input" type="text"></div>
+      <div class="reg-field"><label>Vínculo Familiar 1</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="v1" value="madre"> Madre</label><label class="radio-opt"><input type="radio" name="v1" value="padre"> Padre</label><label class="radio-opt"><input type="radio" name="v1" value="tutor"> Tutor</label></div></div>
+      <div class="reg-field"><label>Nombre y Apellido</label><input id="fam1-nombre" class="reg-input" type="text"></div>
+      <div class="reg-field"><label>Edad</label><input id="fam1-edad" class="reg-input" type="text"></div>
+      <div class="reg-field"><label>Trabajo / Estudios</label><input id="fam1-trabajo" class="reg-input" type="text"></div>
       <div id="familiar-2-opcional">
-        <div class="reg-field"><label>Vínculo Familiar 2 <span style="font-weight:400;color:var(--gray);font-size:11px">(opcional)</span></label><div class="radio-group"><label class="radio-opt"><input type="radio" name="v2"> Madre</label><label class="radio-opt"><input type="radio" name="v2"> Padre</label><label class="radio-opt"><input type="radio" name="v2"> Tutor</label></div></div>
-        <div class="reg-field"><label>Nombre y Apellido</label><input class="reg-input" type="text"></div>
-        <div class="reg-field"><label>Edad</label><input class="reg-input" type="text"></div>
-        <div class="reg-field"><label>Trabajo / Estudios</label><input class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Vínculo Familiar 2 <span style="font-weight:400;color:var(--gray);font-size:11px">(opcional)</span></label><div class="radio-group"><label class="radio-opt"><input type="radio" name="v2" value="madre"> Madre</label><label class="radio-opt"><input type="radio" name="v2" value="padre"> Padre</label><label class="radio-opt"><input type="radio" name="v2" value="tutor"> Tutor</label></div></div>
+        <div class="reg-field"><label>Nombre y Apellido</label><input id="fam2-nombre" class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Edad</label><input id="fam2-edad" class="reg-input" type="text"></div>
+        <div class="reg-field"><label>Trabajo / Estudios</label><input id="fam2-trabajo" class="reg-input" type="text"></div>
       </div>
     </div>
     <div style="padding-top:4rem;font-size:100px;opacity:0.15;line-height:1">🎯</div>
@@ -699,7 +699,8 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <!-- TIPS -->
       <div id="tab-tips" class="content-tab active">
         <div class="dash-title-box"><h1>TIPS Y HERRAMIENTAS</h1></div>
-        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
+        <div id="tips-resumen" style="display:none;background:var(--navy);color:#fff;border-radius:var(--radius-lg);padding:1.5rem 1.75rem;margin-bottom:1rem;font-size:14px;line-height:1.6"></div>
+        <div id="tips-box" style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
           Todavía no tenés tips ni actividades recomendadas.<br>Van a empezar a aparecer acá a medida que completes tests y autoevaluaciones.
         </div>
       </div>
@@ -795,7 +796,13 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
+// ── Supabase (cuentas y perfiles reales) ──
+const SUPABASE_URL = 'https://ihxyqpqfhphqchrkihoe.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_jNlO3gKJ0RpFjRmMbiy0lw_g8gmPCIG';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -839,22 +846,30 @@ function showTab(tab, navItem, title){
   });
 })();
 
-// ── Conexión con n8n ──
-async function enviarAN8n(datos) {
-  try {
-    const res = await fetch("https://aprendux.app.n8n.cloud/webhook-test/18abb887-af9c-49b0-8e05-e9e799533366", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(datos)
-    });
-    if (!res.ok) throw new Error("Error en el webhook");
-    console.log("Enviado a n8n:", await res.json());
-  } catch (err) {
-    console.error("Fallo al conectar con n8n:", err);
-  }
+// ── Conexión con n8n (IDA) ──
+const N8N_WEBHOOK_URL = "https://aprendux.app.n8n.cloud/webhook/18abb887-af9c-49b0-8e05-e9e799533366";
+
+async function enviarAN8n(datos, userId) {
+  const { password, ...datosSinPassword } = datos;   // la contraseña NO viaja a n8n
+  const payload = { ...datosSinPassword, user_id: userId, origen: "aprendux.ar" };
+
+  const res = await fetch(N8N_WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) throw new Error("n8n respondió " + res.status);
+  return res.json();
 }
 
-const FORM_TEST_URL = "https://docs.google.com/forms/d/12prt_dQvqPFR_Lgo22rTV2v8_JFNwnzT2YMquVvPtT0/viewform";
+// ── Test de estilos de aprendizaje (Google Form) ──
+// Se abre con el user_id de Supabase prellenado en el campo "ID Aprendux",
+// para poder atar la respuesta del test al alumno registrado.
+const FORM_TEST_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSfTob-WMr5XBrGyB1Gr9PtHkU0UPVGZLT4lfvyTDtRhRCkfAg/viewform?usp=pp_url&entry.1659336231=";
+
+function linkDelTest(userId){
+  return FORM_TEST_BASE + encodeURIComponent(userId || "");
+}
 
 // ── Validación del formulario de registro ──
 function validarRegistro(){
@@ -912,48 +927,127 @@ function validarRegistro(){
   return ok;
 }
 
-document.getElementById('btn-continuar-registro').addEventListener('click', () => {
+function mostrarErrorRegistro(msg){
+  let box = document.getElementById('registro-error');
+  if(!box){
+    box = document.createElement('div');
+    box.id = 'registro-error';
+    box.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#c0392b;color:#fff;font-size:13px;font-weight:600;padding:12px 22px;border-radius:8px;box-shadow:var(--shadow-md);z-index:9999';
+    document.body.appendChild(box);
+  }
+  box.textContent = msg;
+}
+
+document.getElementById('btn-continuar-registro').addEventListener('click', async () => {
   if(!validarRegistro()) return;
 
-  enviarAN8n({
-    nombre: document.querySelector('#nombre')?.value,
-    apellido: document.querySelector('#apellido')?.value,
-    edad: document.querySelector('#edad')?.value,
-    email: document.querySelector('#email')?.value,
+  const btn = document.getElementById('btn-continuar-registro');
+  btn.disabled = true;
+  const textoOriginal = btn.textContent;
+  btn.textContent = 'Creando cuenta...';
+
+  const datos = {
+    nombre: document.querySelector('#nombre')?.value.trim(),
+    apellido: document.querySelector('#apellido')?.value.trim(),
+    edad: document.querySelector('#edad')?.value.trim(),
+    genero: document.querySelector('input[name="gen"]:checked')?.value,
+    email: document.querySelector('#email')?.value.trim(),
     password: document.querySelector('#password')?.value,
-    institucion: document.querySelector('#institucion')?.value,
-    grado: document.querySelector('#grado')?.value
+    institucion: document.querySelector('#institucion')?.value.trim(),
+    grado: document.querySelector('#grado')?.value.trim(),
+    gestion: document.querySelector('input[name="gest"]:checked')?.value,
+    turno: document.querySelector('input[name="turno"]:checked')?.value,
+    fam1_vinculo: document.querySelector('input[name="v1"]:checked')?.value,
+    fam1_nombre: document.querySelector('#fam1-nombre')?.value.trim(),
+    fam1_edad: document.querySelector('#fam1-edad')?.value.trim(),
+    fam1_trabajo: document.querySelector('#fam1-trabajo')?.value.trim(),
+    fam2_vinculo: document.querySelector('input[name="v2"]:checked')?.value,
+    fam2_nombre: document.querySelector('#fam2-nombre')?.value.trim(),
+    fam2_edad: document.querySelector('#fam2-edad')?.value.trim(),
+    fam2_trabajo: document.querySelector('#fam2-trabajo')?.value.trim()
+  };
+
+  // 1. Crear la cuenta real en Supabase Auth
+  const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+    email: datos.email,
+    password: datos.password
   });
-  window.open(FORM_TEST_URL, '_blank');
+
+  if(authError){
+    mostrarErrorRegistro(
+      authError.message === 'User already registered'
+        ? 'Ya existe una cuenta con ese email. Probá iniciar sesión.'
+        : 'No se pudo crear la cuenta: ' + authError.message
+    );
+    btn.disabled = false;
+    btn.textContent = textoOriginal;
+    return;
+  }
+
+  const userId = authData.user?.id;
+
+  // 2. Guardar el perfil y los datos familiares en la base
+  if(userId){
+    await supabaseClient.from('profiles').insert({
+      id: userId,
+      nombre: datos.nombre,
+      apellido: datos.apellido,
+      edad: datos.edad ? parseInt(datos.edad, 10) : null,
+      genero: datos.genero,
+      institucion: datos.institucion,
+      grado_nivel: datos.grado,
+      gestion: datos.gestion,
+      turno: datos.turno
+    });
+
+    const familiares = [];
+    if(datos.fam1_vinculo){
+      familiares.push({ profile_id: userId, vinculo: datos.fam1_vinculo, nombre_apellido: datos.fam1_nombre, edad: datos.fam1_edad ? parseInt(datos.fam1_edad, 10) : null, trabajo_estudios: datos.fam1_trabajo });
+    }
+    if(datos.fam2_vinculo){
+      familiares.push({ profile_id: userId, vinculo: datos.fam2_vinculo, nombre_apellido: datos.fam2_nombre, edad: datos.fam2_edad ? parseInt(datos.fam2_edad, 10) : null, trabajo_estudios: datos.fam2_trabajo });
+    }
+    if(familiares.length) await supabaseClient.from('family_members').insert(familiares);
+  }
+
+  // 3. Mandar los datos al pipeline de IA en n8n (clustering, plan de estudio, tips)
+  try {
+    await enviarAN8n(datos, userId);
+    if(userId) await supabaseClient.from('pipeline_runs').insert({ user_id: userId, etapa: 'webhook_enviado' });
+  } catch (err) {
+    console.error("Fallo al conectar con n8n:", err);
+    if(userId) await supabaseClient.from('pipeline_runs').insert({ user_id: userId, etapa: 'webhook_fallo', detalle: String(err) });
+  }
+  window.open(linkDelTest(userId), '_blank');
+
+  await cargarPerfilEnDashboard();
   showPage('page-dashboard');
 });
 
-// ── Login ──
-const LOGIN_WEBHOOK_URL = "https://TU-INSTANCIA-N8N.com/webhook/TU-LOGIN-PATH";
-
+// ── Login (Supabase Auth real, ya no el placeholder de n8n) ──
 async function iniciarSesion(email, password) {
   const errBox = document.getElementById('login-error');
   errBox.style.display = 'none';
-  try {
-    const res = await fetch(LOGIN_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (!res.ok || !data.ok) {
-      errBox.textContent = "Email o contraseña incorrectos.";
-      errBox.style.display = 'block';
-      return;
-    }
-    localStorage.setItem('aprendux_user', JSON.stringify(data.usuario));
-    cargarPerfilEnDashboard();
-    showPage('page-dashboard');
-  } catch (err) {
-    console.error("Error de login:", err);
-    errBox.textContent = "No se pudo conectar. Intentá de nuevo.";
+  const btn = document.getElementById('btn-login');
+  btn.disabled = true;
+  const textoOriginal = btn.textContent;
+  btn.textContent = 'Ingresando...';
+
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+  btn.disabled = false;
+  btn.textContent = textoOriginal;
+
+  if(error){
+    errBox.textContent = error.message === 'Invalid login credentials'
+      ? 'Email o contraseña incorrectos.'
+      : 'No se pudo conectar. Intentá de nuevo.';
     errBox.style.display = 'block';
+    return;
   }
+
+  await cargarPerfilEnDashboard();
+  showPage('page-dashboard');
 }
 
 document.getElementById('btn-login').addEventListener('click', () => {
@@ -963,34 +1057,92 @@ document.getElementById('btn-login').addEventListener('click', () => {
 });
 
 function cerrarSesion(){
-  localStorage.removeItem('aprendux_user');
+  supabaseClient.auth.signOut();
   showPage('page-inicio');
 }
 
-// ── Personalización del dashboard con los datos del alumno logueado ──
-function cargarPerfilEnDashboard(){
-  const raw = localStorage.getItem('aprendux_user');
-  if(!raw) return;
-  let u;
-  try { u = JSON.parse(raw); } catch(e) { return; }
+// ── Personalización del dashboard con los datos del alumno logueado (leídos de Supabase) ──
+async function cargarPerfilEnDashboard(){
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if(!user) return;
 
-  const nombreCompleto = `${u.nombre || ''} ${u.apellido || ''}`.trim() || 'Mi cuenta';
+  const { data: perfil } = await supabaseClient.from('profiles').select('*').eq('id', user.id).single();
+  if(!perfil) return;
+
+  const nombreCompleto = `${perfil.nombre || ''} ${perfil.apellido || ''}`.trim() || 'Mi cuenta';
   const userBtn = document.getElementById('dash-user-btn');
   if(userBtn) userBtn.textContent = nombreCompleto;
 
   document.querySelectorAll('[data-perfil-name]').forEach(el => {
-    el.innerHTML = `${u.nombre || '—'}<br>${u.apellido || ''}`;
+    el.innerHTML = `${perfil.nombre || '—'}<br>${perfil.apellido || ''}`;
   });
-  document.querySelectorAll('[data-perfil-nombre]').forEach(el => el.textContent = u.nombre || '—');
-  document.querySelectorAll('[data-perfil-apellido]').forEach(el => el.textContent = u.apellido || '—');
-  document.querySelectorAll('[data-perfil-edad]').forEach(el => el.textContent = u.edad ? `${u.edad} años` : '—');
-  document.querySelectorAll('[data-perfil-email]').forEach(el => el.textContent = u.email || '—');
-  document.querySelectorAll('[data-perfil-institucion]').forEach(el => el.textContent = u.institucion || '—');
-  document.querySelectorAll('[data-perfil-grado]').forEach(el => el.textContent = u.grado || '—');
+  document.querySelectorAll('[data-perfil-nombre]').forEach(el => el.textContent = perfil.nombre || '—');
+  document.querySelectorAll('[data-perfil-apellido]').forEach(el => el.textContent = perfil.apellido || '—');
+  document.querySelectorAll('[data-perfil-edad]').forEach(el => el.textContent = perfil.edad ? `${perfil.edad} años` : '—');
+  document.querySelectorAll('[data-perfil-email]').forEach(el => el.textContent = user.email || '—');
+  document.querySelectorAll('[data-perfil-institucion]').forEach(el => el.textContent = perfil.institucion || '—');
+  document.querySelectorAll('[data-perfil-grado]').forEach(el => el.textContent = perfil.grado_nivel || '—');
+
+  cargarTipsEnDashboard();
 }
 
-// Si ya hay una sesión guardada, dejamos el dashboard listo para cuando se entre a esa página
-cargarPerfilEnDashboard();
+// ── VUELTA: los tips que genera el agente de IA en n8n ──
+function escaparHTML(t){
+  return String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function pintarTips(plan){
+  const box = document.getElementById('tips-box');
+  const resumenBox = document.getElementById('tips-resumen');
+  if(!box) return;
+
+  const tips = Array.isArray(plan?.tips) ? plan.tips : [];
+  if(!tips.length) return false;
+
+  if(resumenBox && plan.resumen){
+    resumenBox.textContent = plan.resumen;
+    resumenBox.style.display = 'block';
+  }
+
+  box.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem';
+  box.innerHTML = tips.map(t => `
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.4rem;text-align:left">
+      <h3 style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin:0 0 .5rem">${escaparHTML(t.titulo)}</h3>
+      <p style="font-size:13px;line-height:1.6;color:var(--gray);margin:0">${escaparHTML(t.detalle)}</p>
+      ${t.herramienta ? `<p style="font-size:12px;color:var(--navy);margin:.75rem 0 0;font-weight:600">🔧 ${escaparHTML(t.herramienta)}</p>` : ''}
+    </div>
+  `).join('');
+  return true;
+}
+
+function mostrarTipsEnCamino(){
+  const box = document.getElementById('tips-box');
+  if(box) box.innerHTML = 'Estamos armando tus tips personalizados a partir de tus respuestas.<br>Aparecen acá en un par de minutos — podés cerrar y volver más tarde.';
+}
+
+async function cargarTipsEnDashboard(intento = 0){
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if(!user) return;
+
+  const { data: plan } = await supabaseClient
+    .from('study_plans')
+    .select('resumen, tips, cluster_id, created_at')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if(pintarTips(plan)) return;
+
+  // Todavía no llegaron: n8n tarda un par de minutos en generarlos.
+  if(intento === 0) mostrarTipsEnCamino();
+  if(intento < 20) setTimeout(() => cargarTipsEnDashboard(intento + 1), 15000);
+}
+
+// Si ya había una sesión activa (Supabase la persiste sola en el navegador), restauramos el dashboard
+supabaseClient.auth.getSession().then(({ data: { session } }) => {
+  if(session) cargarPerfilEnDashboard();
+});
 </script>
 </body>
 </html>
