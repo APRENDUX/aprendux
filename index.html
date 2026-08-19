@@ -249,6 +249,13 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 .tests-list{list-style:disc;padding-left:1.25rem;display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
 .tests-list li{font-size:13px;color:var(--navy)}
 .btn-ver-mas{background:var(--navy);color:#fff;padding:8px 20px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif;display:block;width:fit-content;margin-bottom:1rem}
+.test-item{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.4rem;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.test-item-titulo{font-size:14px;font-weight:600;color:var(--navy)}
+.test-item-right{display:flex;align-items:center;gap:12px}
+.test-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.3px}
+.test-badge.pendiente{background:#fdefd0;color:#8a5a00}
+.test-badge.completado{background:#dff3e3;color:#1e7a3c}
+.btn-realizar-test{background:var(--navy);color:#fff;padding:8px 18px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif;white-space:nowrap}
 
 /* RENDIMIENTO */
 .rend-top{display:grid;grid-template-columns:1fr auto;gap:1.5rem;margin-bottom:1.5rem;align-items:start}
@@ -780,7 +787,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <div id="tab-calendario" class="content-tab">
         <div class="dash-title-box"><h1>CALENDARIO</h1></div>
         <div class="cal-header">
-          <div class="cal-month-btn">Marzo 2025</div>
+          <div class="cal-month-btn" id="cal-month-label">Marzo 2025</div>
           <div class="cal-views">
             <div class="cal-view">Dia</div>
             <div class="cal-view">Semana</div>
@@ -793,12 +800,16 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
           </div>
           <div class="cal-body" id="cal-body"></div>
         </div>
+        <div style="text-align:center;color:var(--gray);font-size:12px;margin-top:10px">
+          Todavía no tenés eventos cargados. Van a aparecer acá a medida que agregues entregas, exámenes y recordatorios.
+        </div>
       </div>
 
       <!-- TESTS -->
       <div id="tab-tests" class="content-tab">
         <div class="dash-title-box"><h1>TEST Y AUTOVELUACIONES</h1></div>
-        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
+        <div id="tests-list"></div>
+        <div id="tests-empty" style="display:none;background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
           Todavía no tenés tests ni autoevaluaciones cargados.<br>Van a aparecer acá a medida que tu institución o docente los vayan asignando.
         </div>
       </div>
@@ -891,20 +902,78 @@ function showTab(tab, navItem, title){
   if(tab==='perfil' && tb[0])tb[0].classList.add('active');
 }
 
+// ── Test y Autoevaluaciones ──
+// Para agregar más, sumá objetos acá: { titulo: "Nombre del test", url: "https://forms.gle/..." }
+const TESTS_DISPONIBLES = [
+  { id: 'test-ejemplo-1', titulo: 'Test de ejemplo', url: 'https://docs.google.com/forms/d/e/1FAIpQLSeVTKdWAmV6LytppVZ9CIfUaoh_v_GLJuTr3d32FBqKyXqRAw/viewform?usp=publish-editor' }
+];
+
+function testCompletado(id){
+  return localStorage.getItem('aprendux_test_' + id) === 'completado';
+}
+
+function renderTests(){
+  const lista = document.getElementById('tests-list');
+  const vacio = document.getElementById('tests-empty');
+  if(!lista) return;
+
+  if(!TESTS_DISPONIBLES.length){
+    lista.innerHTML = '';
+    if(vacio) vacio.style.display = 'block';
+    return;
+  }
+  if(vacio) vacio.style.display = 'none';
+
+  lista.innerHTML = TESTS_DISPONIBLES.map(t => {
+    const completado = testCompletado(t.id);
+    return `
+      <div class="test-item">
+        <div class="test-item-titulo">${t.titulo}</div>
+        <div class="test-item-right">
+          <span class="test-badge ${completado ? 'completado' : 'pendiente'}">${completado ? 'Completado' : 'Pendiente'}</span>
+          <button class="btn-realizar-test" data-test-id="${t.id}" data-test-url="${t.url}">${completado ? 'Volver a hacer' : 'Realizar test'}</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  lista.querySelectorAll('.btn-realizar-test').forEach(btn => {
+    btn.addEventListener('click', () => {
+      localStorage.setItem('aprendux_test_' + btn.dataset.testId, 'completado');
+      window.open(btn.dataset.testUrl, '_blank');
+      renderTests();
+    });
+  });
+}
+renderTests();
+
 // Calendario
 (function(){
   const grid=document.getElementById('cal-body');
   if(!grid)return;
-  const offset=5; // marzo 2025 empieza sábado
+
+  const hoy = new Date();
+  const anio = hoy.getFullYear();
+  const mes = hoy.getMonth(); // 0 = enero
+  const nombresMeses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+  const label = document.getElementById('cal-month-label');
+  if(label) label.textContent = `${nombresMeses[mes]} ${anio}`;
+
+  const primerDiaSemana = new Date(anio, mes, 1).getDay(); // 0=domingo..6=sábado
+  const offset = (primerDiaSemana + 6) % 7; // convertido a semana que arranca en lunes
+  const diasEnMes = new Date(anio, mes + 1, 0).getDate();
   const events={}; // se va a completar con datos reales del alumno a medida que registre entregas/exámenes
+
   for(let i=0;i<offset;i++){const c=document.createElement('div');c.className='cal-cell off';grid.appendChild(c);}
-  for(let d=1;d<=31;d++){
+  for(let d=1;d<=diasEnMes;d++){
     const c=document.createElement('div');c.className='cal-cell';
-    const n=document.createElement('div');n.className='cal-cell-num'+(d===14?' today':'');n.textContent=d;c.appendChild(n);
+    const esHoy = d===hoy.getDate();
+    const n=document.createElement('div');n.className='cal-cell-num'+(esHoy?' today':'');n.textContent=d;c.appendChild(n);
     if(events[d])events[d].forEach(ev=>{const t=document.createElement('div');t.className='cal-event'+(ev.includes('Rec')?' orange':'');t.textContent=ev;c.appendChild(t);});
     grid.appendChild(c);
   }
-  const total=offset+31;const rem=7-(total%7);
+  const total=offset+diasEnMes;const rem=7-(total%7);
   if(rem<7)for(let i=1;i<=rem;i++){const c=document.createElement('div');c.className='cal-cell off';const n=document.createElement('div');n.className='cal-cell-num';n.style.opacity='.3';n.textContent=i;c.appendChild(n);grid.appendChild(c);}
 })();
 
