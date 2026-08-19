@@ -1091,12 +1091,24 @@ function escaparHTML(t){
   return String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// n8n manda el campo jsonb como texto, así que puede llegar de las dos formas.
+function normalizarTips(valor){
+  if(Array.isArray(valor)) return valor;
+  if(typeof valor === 'string'){
+    try {
+      const parseado = JSON.parse(valor);
+      return Array.isArray(parseado) ? parseado : [];
+    } catch(e){ return []; }
+  }
+  return [];
+}
+
 function pintarTips(plan){
   const box = document.getElementById('tips-box');
   const resumenBox = document.getElementById('tips-resumen');
-  if(!box) return;
+  if(!box) return false;
 
-  const tips = Array.isArray(plan?.tips) ? plan.tips : [];
+  const tips = normalizarTips(plan?.tips);
   if(!tips.length) return false;
 
   if(resumenBox && plan.resumen){
@@ -1120,23 +1132,43 @@ function mostrarTipsEnCamino(){
   if(box) box.innerHTML = 'Estamos armando tus tips personalizados a partir de tus respuestas.<br>Aparecen acá en un par de minutos — podés cerrar y volver más tarde.';
 }
 
-async function cargarTipsEnDashboard(intento = 0){
-  const { data: { user } } = await supabaseClient.auth.getUser();
-  if(!user) return;
+// Una sola cadena de polling por sesión, y nunca borra tips ya dibujados.
+let tipsPollingActivo = false;
+let tipsYaDibujados = false;
 
-  const { data: plan } = await supabaseClient
+async function cargarTipsEnDashboard(intento = 0){
+  if(intento === 0){
+    if(tipsPollingActivo || tipsYaDibujados) return;
+    tipsPollingActivo = true;
+  }
+
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if(!user){ tipsPollingActivo = false; return; }
+
+  // Trae las últimas filas y se queda con la primera que realmente tenga tips:
+  // n8n puede haber dejado alguna vacía mientras generaba.
+  const { data: planes } = await supabaseClient
     .from('study_plans')
     .select('resumen, tips, cluster_id, created_at')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
+    .limit(10);
 
-  if(pintarTips(plan)) return;
+  const plan = (planes || []).find(p => normalizarTips(p.tips).length > 0);
+
+  if(pintarTips(plan)){
+    tipsYaDibujados = true;
+    tipsPollingActivo = false;
+    return;
+  }
 
   // Todavía no llegaron: n8n tarda un par de minutos en generarlos.
   if(intento === 0) mostrarTipsEnCamino();
-  if(intento < 20) setTimeout(() => cargarTipsEnDashboard(intento + 1), 15000);
+  if(intento < 20){
+    setTimeout(() => cargarTipsEnDashboard(intento + 1), 15000);
+  } else {
+    tipsPollingActivo = false;
+  }
 }
 
 // Si ya había una sesión activa (Supabase la persiste sola en el navegador), restauramos el dashboard
