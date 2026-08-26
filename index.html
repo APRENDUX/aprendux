@@ -249,13 +249,6 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 .tests-list{list-style:disc;padding-left:1.25rem;display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
 .tests-list li{font-size:13px;color:var(--navy)}
 .btn-ver-mas{background:var(--navy);color:#fff;padding:8px 20px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif;display:block;width:fit-content;margin-bottom:1rem}
-.test-item{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.4rem;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.test-item-titulo{font-size:14px;font-weight:600;color:var(--navy)}
-.test-item-right{display:flex;align-items:center;gap:12px}
-.test-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.3px}
-.test-badge.pendiente{background:#fdefd0;color:#8a5a00}
-.test-badge.completado{background:#dff3e3;color:#1e7a3c}
-.btn-realizar-test{background:var(--navy);color:#fff;padding:8px 18px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif;white-space:nowrap}
 
 /* RENDIMIENTO */
 .rend-top{display:grid;grid-template-columns:1fr auto;gap:1.5rem;margin-bottom:1.5rem;align-items:start}
@@ -305,77 +298,6 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 .config-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow)}
 .config-title{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:1.5rem}
 .config-link{display:block;font-size:14px;color:var(--navy);text-decoration:underline;margin-bottom:16px;cursor:pointer;font-weight:500}
-/* ══════════════ RESPONSIVE / MOBILE ══════════════ */
-@media (max-width: 860px){
-  /* Navbar */
-  .navbar{padding:0 1rem;height:auto;min-height:56px;flex-wrap:wrap;gap:8px 0;position:static}
-  .navbar .logo img{height:34px !important}
-  .nav-links{gap:1rem;flex-wrap:wrap;width:100%;justify-content:flex-start;padding-bottom:8px}
-  .nav-links a{font-size:12px}
-  .btn-nav{padding:7px 14px;font-size:12px}
-
-  /* Landing sections: todo a una columna */
-  .hero{padding:2.5rem 1.25rem 2rem}
-  .hero-inner,
-  .asistencia-inner,
-  .objetivo-inner,
-  .tec-hero-inner,
-  .tec-recursos-inner,
-  .ben-docentes-inner{grid-template-columns:1fr !important;gap:2rem !important}
-  .ben-docentes-inner{gap:2.5rem !important}
-
-  .asistencia,.beneficios,.ben-docentes,.objetivo-section,.tec-hero,.tec-recursos{padding:2.5rem 1.25rem}
-  .info-box,.equipo-box{margin:0 1.25rem 0;padding:1.5rem 1.25rem}
-  .steps-section{padding:1.25rem 1.25rem 2rem}
-  .step-chip{min-width:44%;flex:1 1 44%}
-
-  .ben-top{grid-template-columns:1fr !important;gap:1.5rem}
-  .ben-grid{grid-template-columns:repeat(2,1fr) !important}
-
-  .asistencia-img-mini{display:none}
-  .asistencia-popup,.objetivo-popup{position:static;margin-top:10px;width:fit-content}
-  .asistencia-img-main,.objetivo-img-wrap{height:220px}
-
-  /* Registro */
-  .reg-hero{padding:1.75rem 1.25rem}
-  .reg-hero h1{font-size:18px}
-  .reg-body{padding:0 1.25rem 2.5rem;margin:1.25rem auto}
-  .reg-body > div{grid-template-columns:1fr !important}
-  .reg-body > div > div:last-child{display:none} /* saca el emoji decorativo grande */
-  .reg-field{grid-template-columns:1fr !important;gap:4px;padding:10px 0}
-  .radio-group{gap:0.75rem}
-  .reg-actions{flex-direction:column;gap:12px;align-items:stretch}
-  .reg-actions button{width:100%}
-
-  /* Dashboard */
-  .dash-shell{grid-template-columns:1fr !important}
-  .dash-sidebar{border-right:none;border-bottom:1px solid var(--border)}
-  .dash-nav{flex-direction:row;flex-wrap:wrap;padding:10px}
-  .dash-nav-item{flex:1 1 auto;justify-content:center;font-size:11px;padding:8px}
-  .dash-nav-item-icon{width:16px;height:16px}
-  .dash-recordatorios{margin:8px 4px 4px;width:100%}
-  .dash-topbar{padding:0 1rem;flex-wrap:wrap;height:auto;min-height:54px;gap:8px 0}
-  .dash-topbar-nav{gap:1rem}
-  .dash-content{padding:1.25rem}
-
-  .rend-top{grid-template-columns:1fr !important}
-  .perfil-layout,.config-layout{grid-template-columns:1fr !important}
-  .perfil-left-card{display:flex;align-items:center;gap:14px}
-  .perfil-name{margin-bottom:0}
-
-  .tests-section-h ~ div[style*="grid-template-columns:1fr 1fr"],
-  #tab-tests > div{grid-template-columns:1fr !important}
-
-  footer{padding:1.25rem;flex-direction:column;text-align:center}
-  .footer-links{flex-direction:column;gap:10px;align-items:center}
-}
-
-@media (max-width: 480px){
-  .hero-title{font-size:28px}
-  .step-chip{min-width:100%}
-  .step-arrow{transform:rotate(90deg)}
-  .ben-grid{grid-template-columns:1fr !important}
-}
 </style>
 </head>
 <body>
@@ -756,7 +678,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       </div>
       <div class="dash-recordatorios">
         <div class="dash-rec-title">RECORDATORIOS</div>
-        <div class="dash-rec-task" style="padding-left:0">Todavía no tenés recordatorios.</div>
+        <div id="rec-lista" class="dash-rec-task" style="padding-left:0">Todavía no tenés recordatorios.</div>
       </div>
     </div>
   </div>
@@ -787,7 +709,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <div id="tab-calendario" class="content-tab">
         <div class="dash-title-box"><h1>CALENDARIO</h1></div>
         <div class="cal-header">
-          <div class="cal-month-btn" id="cal-month-label">Marzo 2025</div>
+          <div class="cal-month-btn">Marzo 2025</div>
           <div class="cal-views">
             <div class="cal-view">Dia</div>
             <div class="cal-view">Semana</div>
@@ -800,16 +722,12 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
           </div>
           <div class="cal-body" id="cal-body"></div>
         </div>
-        <div style="text-align:center;color:var(--gray);font-size:12px;margin-top:10px">
-          Todavía no tenés eventos cargados. Van a aparecer acá a medida que agregues entregas, exámenes y recordatorios.
-        </div>
       </div>
 
       <!-- TESTS -->
       <div id="tab-tests" class="content-tab">
         <div class="dash-title-box"><h1>TEST Y AUTOVELUACIONES</h1></div>
-        <div id="tests-list"></div>
-        <div id="tests-empty" style="display:none;background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
+        <div id="tests-box" style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
           Todavía no tenés tests ni autoevaluaciones cargados.<br>Van a aparecer acá a medida que tu institución o docente los vayan asignando.
         </div>
       </div>
@@ -902,78 +820,20 @@ function showTab(tab, navItem, title){
   if(tab==='perfil' && tb[0])tb[0].classList.add('active');
 }
 
-// ── Test y Autoevaluaciones ──
-// Para agregar más, sumá objetos acá: { titulo: "Nombre del test", url: "https://forms.gle/..." }
-const TESTS_DISPONIBLES = [
-  { id: 'test-ejemplo-1', titulo: 'Test de ejemplo', url: 'https://docs.google.com/forms/d/e/1FAIpQLSeVTKdWAmV6LytppVZ9CIfUaoh_v_GLJuTr3d32FBqKyXqRAw/viewform?usp=publish-editor' }
-];
-
-function testCompletado(id){
-  return localStorage.getItem('aprendux_test_' + id) === 'completado';
-}
-
-function renderTests(){
-  const lista = document.getElementById('tests-list');
-  const vacio = document.getElementById('tests-empty');
-  if(!lista) return;
-
-  if(!TESTS_DISPONIBLES.length){
-    lista.innerHTML = '';
-    if(vacio) vacio.style.display = 'block';
-    return;
-  }
-  if(vacio) vacio.style.display = 'none';
-
-  lista.innerHTML = TESTS_DISPONIBLES.map(t => {
-    const completado = testCompletado(t.id);
-    return `
-      <div class="test-item">
-        <div class="test-item-titulo">${t.titulo}</div>
-        <div class="test-item-right">
-          <span class="test-badge ${completado ? 'completado' : 'pendiente'}">${completado ? 'Completado' : 'Pendiente'}</span>
-          <button class="btn-realizar-test" data-test-id="${t.id}" data-test-url="${t.url}">${completado ? 'Volver a hacer' : 'Realizar test'}</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  lista.querySelectorAll('.btn-realizar-test').forEach(btn => {
-    btn.addEventListener('click', () => {
-      localStorage.setItem('aprendux_test_' + btn.dataset.testId, 'completado');
-      window.open(btn.dataset.testUrl, '_blank');
-      renderTests();
-    });
-  });
-}
-renderTests();
-
 // Calendario
 (function(){
   const grid=document.getElementById('cal-body');
   if(!grid)return;
-
-  const hoy = new Date();
-  const anio = hoy.getFullYear();
-  const mes = hoy.getMonth(); // 0 = enero
-  const nombresMeses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-
-  const label = document.getElementById('cal-month-label');
-  if(label) label.textContent = `${nombresMeses[mes]} ${anio}`;
-
-  const primerDiaSemana = new Date(anio, mes, 1).getDay(); // 0=domingo..6=sábado
-  const offset = (primerDiaSemana + 6) % 7; // convertido a semana que arranca en lunes
-  const diasEnMes = new Date(anio, mes + 1, 0).getDate();
+  const offset=5; // marzo 2025 empieza sábado
   const events={}; // se va a completar con datos reales del alumno a medida que registre entregas/exámenes
-
   for(let i=0;i<offset;i++){const c=document.createElement('div');c.className='cal-cell off';grid.appendChild(c);}
-  for(let d=1;d<=diasEnMes;d++){
+  for(let d=1;d<=31;d++){
     const c=document.createElement('div');c.className='cal-cell';
-    const esHoy = d===hoy.getDate();
-    const n=document.createElement('div');n.className='cal-cell-num'+(esHoy?' today':'');n.textContent=d;c.appendChild(n);
+    const n=document.createElement('div');n.className='cal-cell-num'+(d===14?' today':'');n.textContent=d;c.appendChild(n);
     if(events[d])events[d].forEach(ev=>{const t=document.createElement('div');t.className='cal-event'+(ev.includes('Rec')?' orange':'');t.textContent=ev;c.appendChild(t);});
     grid.appendChild(c);
   }
-  const total=offset+diasEnMes;const rem=7-(total%7);
+  const total=offset+31;const rem=7-(total%7);
   if(rem<7)for(let i=1;i<=rem;i++){const c=document.createElement('div');c.className='cal-cell off';const n=document.createElement('div');n.className='cal-cell-num';n.style.opacity='.3';n.textContent=i;c.appendChild(n);grid.appendChild(c);}
 })();
 
@@ -1223,92 +1083,342 @@ async function cargarPerfilEnDashboard(){
   document.querySelectorAll('[data-perfil-institucion]').forEach(el => el.textContent = perfil.institucion || '—');
   document.querySelectorAll('[data-perfil-grado]').forEach(el => el.textContent = perfil.grado_nivel || '—');
 
-  cargarTipsEnDashboard();
+  cargarPanelesDelAlumno();
 }
 
-// ── VUELTA: los tips que genera el agente de IA en n8n ──
+// ══════════════════════════════════════════════════════════════
+//  TESTS, RECORDATORIOS Y DEVOLUCIONES
+//  Cada etapa se desbloquea con un dato en Supabase:
+//    fila en study_plans    → se habilita RC1
+//    fila en test_feedback  → se habilita RC2 y aparece la devolución
+// ══════════════════════════════════════════════════════════════
+
+const TESTS = [
+  {
+    id: 'rc1',
+    titulo: 'Test de Razonamiento Crítico',
+    descripcion: 'Son preguntas de comprensión y análisis de argumentos. Te lleva unos 15 minutos y no hace falta que estudies nada antes.',
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLSd5x7zoJGGaYYpaa6LchrVbCvyrUC8YDWbVaFQZ8zrfUVtBpg/viewform?usp=pp_url&entry.232870428=',
+    requiere: 'estilos',
+    esperando: 'Se habilita cuando completes el test de estilos de aprendizaje.'
+  },
+  {
+    id: 'rc2',
+    titulo: 'Test de Razonamiento Crítico 2',
+    descripcion: 'La segunda parte, con argumentos un poco más largos. Ya con tu devolución de la primera en mano.',
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLScZDgC7tSHEx0ZUB6XXpsLuDP2bLNa-DuBUVy_XXC3csoOvlw/viewform?usp=pp_url&entry.141070892=',
+    requiere: 'rc1',
+    esperando: 'Se habilita cuando tengas la devolución del primero.'
+  }
+];
+
 function escaparHTML(t){
   return String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// n8n manda el campo jsonb como texto, así que puede llegar de las dos formas.
-function normalizarTips(valor){
+function nombreDeTest(id){
+  const t = TESTS.find(t => t.id === id);
+  return t ? t.titulo : 'tu test';
+}
+
+function linkDelTest(base, userId){
+  if(!base) return '';
+  return base.includes('entry.') ? base + encodeURIComponent(userId || '') : base;
+}
+
+// El campo jsonb puede llegar como lista o como texto, según lo haya escrito n8n.
+function comoLista(valor){
   if(Array.isArray(valor)) return valor;
   if(typeof valor === 'string'){
     try {
-      const parseado = JSON.parse(valor);
-      return Array.isArray(parseado) ? parseado : [];
+      const p = JSON.parse(valor);
+      return Array.isArray(p) ? p : [];
     } catch(e){ return []; }
   }
   return [];
 }
 
-function pintarTips(plan){
-  const box = document.getElementById('tips-box');
-  const resumenBox = document.getElementById('tips-resumen');
-  if(!box) return false;
-
-  const tips = normalizarTips(plan?.tips);
-  if(!tips.length) return false;
-
-  if(resumenBox && plan.resumen){
-    resumenBox.textContent = plan.resumen;
-    resumenBox.style.display = 'block';
+function comoObjeto(valor){
+  if(valor && typeof valor === 'object') return valor;
+  if(typeof valor === 'string'){
+    try { return JSON.parse(valor) || {}; } catch(e){ return {}; }
   }
-
-  box.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem';
-  box.innerHTML = tips.map(t => `
-    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.4rem;text-align:left">
-      <h3 style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin:0 0 .5rem">${escaparHTML(t.titulo)}</h3>
-      <p style="font-size:13px;line-height:1.6;color:var(--gray);margin:0">${escaparHTML(t.detalle)}</p>
-      ${t.herramienta ? `<p style="font-size:12px;color:var(--navy);margin:.75rem 0 0;font-weight:600">🔧 ${escaparHTML(t.herramienta)}</p>` : ''}
-    </div>
-  `).join('');
-  return true;
+  return {};
 }
 
-function mostrarTipsEnCamino(){
-  const box = document.getElementById('tips-box');
-  if(box) box.innerHTML = 'Estamos armando tus tips personalizados a partir de tus respuestas.<br>Aparecen acá en un par de minutos — podés cerrar y volver más tarde.';
-}
+// ── Carga central: una sola consulta a cada tabla, y de ahí sale todo ──
+let panelesPolling = false;
 
-// Una sola cadena de polling por sesión, y nunca borra tips ya dibujados.
-let tipsPollingActivo = false;
-let tipsYaDibujados = false;
-
-async function cargarTipsEnDashboard(intento = 0){
+async function cargarPanelesDelAlumno(intento = 0){
   if(intento === 0){
-    if(tipsPollingActivo || tipsYaDibujados) return;
-    tipsPollingActivo = true;
+    if(panelesPolling) return;
+    panelesPolling = true;
   }
 
   const { data: { user } } = await supabaseClient.auth.getUser();
-  if(!user){ tipsPollingActivo = false; return; }
+  if(!user){ panelesPolling = false; return; }
 
-  // Trae las últimas filas y se queda con la primera que realmente tenga tips:
-  // n8n puede haber dejado alguna vacía mientras generaba.
-  const { data: planes } = await supabaseClient
-    .from('study_plans')
-    .select('resumen, tips, cluster_id, created_at')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(10);
+  const [{ data: planes }, { data: devoluciones }] = await Promise.all([
+    supabaseClient.from('study_plans')
+      .select('resumen, tips, created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(10),
+    supabaseClient.from('test_feedback')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(10)
+  ]);
 
-  const plan = (planes || []).find(p => normalizarTips(p.tips).length > 0);
+  const plan = (planes || []).find(p => comoLista(p.tips).length > 0) || null;
 
-  if(pintarTips(plan)){
-    tipsYaDibujados = true;
-    tipsPollingActivo = false;
+  // Una devolución por test. Las filas viejas no tienen la columna 'test': son de RC1.
+  const porTest = new Map();
+  (devoluciones || []).forEach(d => {
+    const id = d.test || 'rc1';
+    if(!porTest.has(id)) porTest.set(id, { ...d, test: id });   // la más reciente de cada test
+  });
+
+  const estado = {
+    estilos: !!plan,
+    rc1: porTest.has('rc1'),
+    rc2: porTest.has('rc2')
+  };
+
+  pintarRecordatorios(estado);
+  pintarTests(estado, user.id, porTest);
+  pintarTips(plan, porTest);
+
+  // Mientras falte algo que n8n todavía está generando, reintentamos.
+  const faltaAlgo = !plan;
+  if(faltaAlgo && intento < 20){
+    setTimeout(() => cargarPanelesDelAlumno(intento + 1), 15000);
+  } else {
+    panelesPolling = false;
+  }
+}
+
+function testsHabilitados(estado){
+  return TESTS.filter(t => (t.requiere === 'estilos' && estado.estilos) || (t.requiere === 'rc1' && estado.rc1));
+}
+
+// ── Recordatorios (barra lateral) ──
+function pintarRecordatorios(estado){
+  const caja = document.getElementById('rec-lista');
+  if(!caja) return;
+
+  // RC1 ya está hecho si existe la devolución; RC2 no lo sabemos todavía.
+  const pendientes = testsHabilitados(estado).filter(t => !(t.id === 'rc1' && estado.rc1));
+
+  if(!pendientes.length){
+    caja.style.color = '';
+    caja.innerHTML = 'Todavía no tenés recordatorios.';
     return;
   }
 
-  // Todavía no llegaron: n8n tarda un par de minutos en generarlos.
-  if(intento === 0) mostrarTipsEnCamino();
-  if(intento < 20){
-    setTimeout(() => cargarTipsEnDashboard(intento + 1), 15000);
-  } else {
-    tipsPollingActivo = false;
+  const titular = pendientes.length === 1 ? 'Tenés un test nuevo' : `Tenés ${pendientes.length} tests nuevos`;
+
+  caja.style.color = '#fff';
+  caja.innerHTML = `
+    <span style="display:block;font-weight:600;margin-bottom:2px">${escaparHTML(titular)}</span>
+    <span style="display:block;font-size:9.5px;color:rgba(255,255,255,.65);line-height:1.5">
+      ${pendientes.map(t => escaparHTML(t.titulo)).join('<br>')}
+    </span>
+    <a href="#" onclick="showTab('tests',document.querySelectorAll('.dash-nav-item')[2]);return false;"
+       style="display:inline-block;margin-top:6px;font-size:9.5px;color:#fff;text-decoration:underline;cursor:pointer">
+      ${pendientes.length === 1 ? 'Ir al test' : 'Ir a los tests'}
+    </a>
+  `;
+}
+
+// ── Panel TEST Y AUTOEVALUACIONES ──
+function pintarTests(estado, userId, porTest){
+  const caja = document.getElementById('tests-box');
+  if(!caja) return;
+
+  if(!estado.estilos){
+    caja.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px';
+    caja.innerHTML = 'Todavía no tenés tests cargados.<br>Van a aparecer acá a medida que completes tu perfil de aprendizaje.';
+    return;
   }
+
+  caja.style.cssText = 'display:flex;flex-direction:column;gap:2rem;background:none;border:0;padding:0;text-align:left';
+
+  const tarjetas = TESTS.map(test => {
+    const disponible = (test.requiere === 'estilos' && estado.estilos) || (test.requiere === 'rc1' && estado.rc1);
+    const completado = porTest.has(test.id);
+    const link = disponible && !completado ? linkDelTest(test.url, userId) : '';
+
+    let etiqueta, colorEtiqueta, fondoEtiqueta;
+    if(completado){ etiqueta = 'Completado'; colorEtiqueta = '#1f7a5e'; fondoEtiqueta = '#e2f2ef'; }
+    else if(disponible){ etiqueta = 'Pendiente'; colorEtiqueta = '#b4530a'; fondoEtiqueta = '#faf1e2'; }
+    else { etiqueta = 'Próximamente'; colorEtiqueta = '#7b8794'; fondoEtiqueta = '#eef1f5'; }
+
+    let pie;
+    if(completado){
+      const puntajeDelTest = porTest.get(test.id)?.puntaje;
+      pie = puntajeDelTest !== null && puntajeDelTest !== undefined
+        ? `<p style="margin:0;line-height:1.4"><span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)">Resultado</span><br><span style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums">${escaparHTML(String(puntajeDelTest))} / 10</span></p>`
+        : `<p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">Tu devolución está más abajo.</p>`;
+    } else if(link){
+      pie = `<a href="${escaparHTML(link)}" target="_blank" rel="noopener"
+               style="align-self:flex-start;display:inline-block;background:var(--navy);color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none">
+               Comenzar el test
+             </a>`;
+    } else {
+      pie = `<p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">${escaparHTML(test.esperando)}</p>`;
+    }
+
+    return `
+      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;display:flex;flex-direction:column">
+        <div style="display:inline-block;align-self:flex-start;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:${colorEtiqueta};background:${fondoEtiqueta};padding:3px 8px;border-radius:4px;margin-bottom:.75rem">
+          ${etiqueta}
+        </div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin:0 0 .5rem;line-height:1.3">
+          ${escaparHTML(test.titulo)}
+        </h3>
+        <p style="font-size:13px;color:var(--gray);margin:0 0 1.25rem;line-height:1.6;flex:1">
+          ${escaparHTML(test.descripcion)}
+        </p>
+        ${pie}
+      </div>
+    `;
+  }).join('');
+
+  // Una sección de devolución por test completado, en el orden en que aparecen los tests
+  const devoluciones = TESTS
+    .filter(t => porTest.has(t.id))
+    .map(t => pintarDevolucion(porTest.get(t.id), t.titulo))
+    .join('');
+
+  caja.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem">${tarjetas}</div>
+    ${devoluciones}
+  `;
+}
+
+// ── La devolución del último test, debajo de las tarjetas ──
+function pintarDevolucion(devolucion, tituloDelTest){
+  if(!devolucion) return '';
+
+  const dev = comoObjeto(devolucion.contenido);
+  const fortalezas = Array.isArray(dev.fortalezas) ? dev.fortalezas : [];
+  const aMejorar = Array.isArray(dev.a_mejorar) ? dev.a_mejorar : [];
+  const tipsDelTest = comoLista(dev.tips);
+
+  if(!dev.resumen && !fortalezas.length && !aMejorar.length && !tipsDelTest.length) return '';
+
+  return `
+    <section>
+      ${encabezadoBloque('Tu devolución · ' + tituloDelTest)}
+
+      ${dev.resumen ? `
+        <p style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.4rem;font-size:14px;line-height:1.7;color:var(--navy);margin:0 0 1rem">
+          ${escaparHTML(dev.resumen)}
+        </p>` : ''}
+
+      ${fortalezas.length ? `
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.4rem;margin-bottom:1rem">
+          <h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 .5rem">Lo que ya hacés</h4>
+          <ul style="margin:0;padding-left:1.1rem;font-size:13px;line-height:1.7;color:var(--gray)">
+            ${fortalezas.map(f => `<li>${escaparHTML(f)}</li>`).join('')}
+          </ul>
+        </div>` : ''}
+
+      ${aMejorar.length ? `
+        <div style="display:grid;gap:.75rem">
+          ${aMejorar.map(a => `
+            <div style="background:#fff;border:1px solid var(--border);border-left:3px solid var(--navy);border-radius:var(--radius-lg);padding:1.25rem 1.4rem">
+              <h4 style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin:0 0 .4rem">${escaparHTML(a.habilidad)}</h4>
+              <p style="font-size:13px;line-height:1.65;color:var(--gray);margin:0">${escaparHTML(a.explicacion)}</p>
+              ${a.como_se_ve ? `<p style="font-size:12.5px;line-height:1.6;color:var(--gray);margin:.6rem 0 0;font-style:italic">Cómo se ve: ${escaparHTML(a.como_se_ve)}</p>` : ''}
+            </div>
+          `).join('')}
+        </div>` : ''}
+
+      ${tipsDelTest.length ? `
+        <div style="margin-top:1rem">
+          <h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 .75rem">Para practicar esto</h4>
+          ${grillaDeTips(tipsDelTest)}
+        </div>` : ''}
+    </section>
+  `;
+}
+
+// ── Panel TIPS Y HERRAMIENTAS: dos bloques que conviven ──
+function tarjetaTip(t){
+  return `
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.4rem;text-align:left">
+      <h4 style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin:0 0 .5rem">${escaparHTML(t.titulo)}</h4>
+      <p style="font-size:13px;line-height:1.6;color:var(--gray);margin:0">${escaparHTML(t.detalle)}</p>
+      ${t.herramienta && t.herramienta !== 'Ninguna'
+        ? `<p style="font-size:12px;color:var(--navy);margin:.75rem 0 0;font-weight:600">🔧 ${escaparHTML(t.herramienta)}</p>` : ''}
+    </div>
+  `;
+}
+
+function encabezadoBloque(texto){
+  return `<h3 style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin:0 0 .85rem">${escaparHTML(texto)}</h3>`;
+}
+
+function grillaDeTips(tips){
+  return `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">${tips.map(tarjetaTip).join('')}</div>`;
+}
+
+function pintarTips(plan, porTest){
+  const box = document.getElementById('tips-box');
+  const resumenBox = document.getElementById('tips-resumen');
+  if(!box) return;
+
+  const tipsPerfil = comoLista(plan?.tips);
+
+  // Un bloque por test que haya dejado tips, en el orden de la lista de tests
+  const bloquesDeTest = TESTS
+    .filter(t => porTest.has(t.id))
+    .map(t => ({ titulo: t.titulo, tips: comoLista(comoObjeto(porTest.get(t.id).contenido).tips) }))
+    .filter(b => b.tips.length);
+
+  if(!tipsPerfil.length && !bloquesDeTest.length){
+    if(resumenBox) resumenBox.style.display = 'none';
+    box.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px';
+    box.innerHTML = 'Estamos armando tus recomendaciones a partir de tus respuestas.<br>Aparecen acá en un par de minutos — podés cerrar y volver más tarde.';
+    return;
+  }
+
+  // El resumen del perfil va arriba de todo, en la barra azul
+  if(resumenBox && plan?.resumen){
+    resumenBox.textContent = plan.resumen;
+    resumenBox.style.display = 'block';
+  } else if(resumenBox){
+    resumenBox.style.display = 'none';
+  }
+
+  box.style.cssText = 'display:flex;flex-direction:column;gap:2rem;background:none;border:0;padding:0;text-align:left';
+
+  const bloques = [];
+
+  // Primero el perfil de aprendizaje, que es el punto de partida
+  if(tipsPerfil.length){
+    bloques.push(`
+      <section>
+        ${encabezadoBloque('A partir del test de estilos de aprendizaje')}
+        ${grillaDeTips(tipsPerfil)}
+      </section>
+    `);
+  }
+
+  // Y debajo, un bloque por cada test que fue dejando tips nuevos
+  bloquesDeTest.forEach(b => {
+    bloques.push(`
+      <section>
+        ${encabezadoBloque('A partir del ' + b.titulo)}
+        ${grillaDeTips(b.tips)}
+      </section>
+    `);
+  });
+
+  box.innerHTML = bloques.join('');
 }
 
 // Si ya había una sesión activa (Supabase la persiste sola en el navegador), restauramos el dashboard
