@@ -867,7 +867,7 @@ async function enviarAN8n(datos, userId) {
 // para poder atar la respuesta del test al alumno registrado.
 const FORM_TEST_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSfTob-WMr5XBrGyB1Gr9PtHkU0UPVGZLT4lfvyTDtRhRCkfAg/viewform?usp=pp_url&entry.1659336231=";
 
-function linkDelTest(userId){
+function linkDelTestDeEstilos(userId){
   return FORM_TEST_BASE + encodeURIComponent(userId || "");
 }
 
@@ -1018,7 +1018,7 @@ document.getElementById('btn-continuar-registro').addEventListener('click', asyn
     console.error("Fallo al conectar con n8n:", err);
     if(userId) await supabaseClient.from('pipeline_runs').insert({ user_id: userId, etapa: 'webhook_fallo', detalle: String(err) });
   }
-  window.open(linkDelTest(userId), '_blank');
+  window.open(linkDelTestDeEstilos(userId), '_blank');
 
   await cargarPerfilEnDashboard();
   showPage('page-dashboard');
