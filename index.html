@@ -777,10 +777,13 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
         <div class="dash-title-box"><h1>CALENDARIO</h1></div>
         <div class="cal-header">
           <div class="cal-month-btn" id="cal-month-label">Marzo 2025</div>
-          <div class="cal-views">
-            <div class="cal-view">Dia</div>
-            <div class="cal-view">Semana</div>
-            <div class="cal-view active">Mes</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="cal-views">
+              <div class="cal-view">Dia</div>
+              <div class="cal-view">Semana</div>
+              <div class="cal-view active">Mes</div>
+            </div>
+            <button class="btn-cargar" id="btn-abrir-evento" style="float:none;padding:8px 16px">+ Agregar evento</button>
           </div>
         </div>
         <div class="cal-grid-wrap">
@@ -789,8 +792,42 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
           </div>
           <div class="cal-body" id="cal-body"></div>
         </div>
-        <div style="text-align:center;color:var(--gray);font-size:12px;margin-top:10px">
+        <div id="cal-empty-note" style="text-align:center;color:var(--gray);font-size:12px;margin-top:10px">
           Todavía no tenés eventos cargados. Van a aparecer acá a medida que agregues entregas, exámenes y recordatorios.
+        </div>
+      </div>
+
+      <!-- MODAL: agregar evento al calendario -->
+      <div id="cal-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(30,58,95,0.45);z-index:2000;align-items:center;justify-content:center">
+        <div style="background:#fff;border-radius:var(--radius-lg);padding:1.75rem;width:min(90vw,380px);box-shadow:var(--shadow-md)">
+          <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;color:var(--navy);margin-bottom:1rem">Agregar evento</h3>
+
+          <div style="margin-bottom:12px">
+            <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:4px">Título</label>
+            <input id="cal-evento-titulo" class="reg-input" type="text" placeholder="Ej: Entrega de Lengua">
+          </div>
+
+          <div style="margin-bottom:12px">
+            <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:4px">Fecha</label>
+            <input id="cal-evento-fecha" class="reg-input" type="date">
+          </div>
+
+          <div style="margin-bottom:18px">
+            <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:4px">Tipo</label>
+            <select id="cal-evento-tipo" class="reg-input">
+              <option value="Entrega">Entrega</option>
+              <option value="Examen">Examen</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div id="cal-evento-error" style="display:none;color:#c0392b;font-size:12px;margin-bottom:12px"></div>
+
+          <div style="display:flex;gap:10px;justify-content:flex-end">
+            <button id="btn-cancelar-evento" class="btn-outline" style="padding:8px 18px">Cancelar</button>
+            <button id="btn-guardar-evento" class="btn-primary" style="padding:8px 18px">Guardar</button>
+          </div>
         </div>
       </div>
 
@@ -891,7 +928,18 @@ function showTab(tab, navItem, title){
 }
 
 // Calendario
-(function(){
+const CAL_EVENTOS_KEY = 'aprendux_calendar_events';
+
+function calLeerEventos(){
+  try {
+    return JSON.parse(localStorage.getItem(CAL_EVENTOS_KEY) || '[]');
+  } catch(e){ return []; }
+}
+function calGuardarEventos(lista){
+  localStorage.setItem(CAL_EVENTOS_KEY, JSON.stringify(lista));
+}
+
+function renderCalendario(){
   const grid=document.getElementById('cal-body');
   if(!grid)return;
 
@@ -908,18 +956,89 @@ function showTab(tab, navItem, title){
   const primerDiaSemana = new Date(anio, mes, 1).getDay(); // 0=domingo..6=sábado
   const offset = (primerDiaSemana + 6) % 7; // convertido a semana que arranca en lunes
 
-  const events={}; // se va a completar con datos reales del alumno a medida que registre entregas/exámenes
+  // Agrupar los eventos guardados que caen en el mes que se está mostrando
+  const todos = calLeerEventos();
+  const events = {};
+  todos.forEach(ev => {
+    const f = new Date(ev.fecha + 'T00:00:00');
+    if(f.getFullYear() === anio && f.getMonth() === mes){
+      const dia = f.getDate();
+      if(!events[dia]) events[dia] = [];
+      events[dia].push(ev);
+    }
+  });
 
+  const notaVacia = document.getElementById('cal-empty-note');
+  if(notaVacia) notaVacia.style.display = Object.keys(events).length ? 'none' : 'block';
+
+  grid.innerHTML = '';
   for(let i=0;i<offset;i++){const c=document.createElement('div');c.className='cal-cell off';grid.appendChild(c);}
   for(let d=1;d<=diasEnMes;d++){
     const c=document.createElement('div');c.className='cal-cell';
     const n=document.createElement('div');n.className='cal-cell-num'+(d===diaHoy?' today':'');n.textContent=d;c.appendChild(n);
-    if(events[d])events[d].forEach(ev=>{const t=document.createElement('div');t.className='cal-event'+(ev.includes('Rec')?' orange':'');t.textContent=ev;c.appendChild(t);});
+    if(events[d]) events[d].forEach(ev=>{
+      const t=document.createElement('div');
+      t.className='cal-event'+(ev.tipo==='Pendiente'?' orange':'');
+      t.textContent=ev.titulo;
+      t.title='Tocá para borrar este evento';
+      t.style.cursor='pointer';
+      t.addEventListener('click', () => {
+        if(confirm(`¿Borrar "${ev.titulo}"?`)){
+          calGuardarEventos(calLeerEventos().filter(x => x.id !== ev.id));
+          renderCalendario();
+        }
+      });
+      c.appendChild(t);
+    });
     grid.appendChild(c);
   }
   const total=offset+diasEnMes;const rem=7-(total%7);
   if(rem<7)for(let i=1;i<=rem;i++){const c=document.createElement('div');c.className='cal-cell off';const n=document.createElement('div');n.className='cal-cell-num';n.style.opacity='.3';n.textContent=i;c.appendChild(n);grid.appendChild(c);}
+}
+renderCalendario();
+
+// Modal para agregar evento
+(function(){
+  const overlay = document.getElementById('cal-modal-overlay');
+  const btnAbrir = document.getElementById('btn-abrir-evento');
+  const btnCancelar = document.getElementById('btn-cancelar-evento');
+  const btnGuardar = document.getElementById('btn-guardar-evento');
+  if(!overlay || !btnAbrir) return;
+
+  function abrirModal(){
+    document.getElementById('cal-evento-titulo').value = '';
+    document.getElementById('cal-evento-fecha').value = '';
+    document.getElementById('cal-evento-tipo').value = 'Entrega';
+    document.getElementById('cal-evento-error').style.display = 'none';
+    overlay.style.display = 'flex';
+  }
+  function cerrarModal(){ overlay.style.display = 'none'; }
+
+  btnAbrir.addEventListener('click', abrirModal);
+  btnCancelar.addEventListener('click', cerrarModal);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) cerrarModal(); });
+
+  btnGuardar.addEventListener('click', () => {
+    const titulo = document.getElementById('cal-evento-titulo').value.trim();
+    const fecha = document.getElementById('cal-evento-fecha').value;
+    const tipo = document.getElementById('cal-evento-tipo').value;
+    const errorBox = document.getElementById('cal-evento-error');
+
+    if(!titulo || !fecha){
+      errorBox.textContent = 'Completá el título y la fecha.';
+      errorBox.style.display = 'block';
+      return;
+    }
+
+    const nuevo = { id: 'ev_' + Date.now(), titulo, fecha, tipo };
+    const lista = calLeerEventos();
+    lista.push(nuevo);
+    calGuardarEventos(lista);
+    cerrarModal();
+    renderCalendario();
+  });
 })();
+
 
 // Barras rendimiento
 (function(){
