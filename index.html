@@ -1386,7 +1386,7 @@ async function cargarPanelesDelAlumno(intento = 0){
 
   const [{ data: planes }, { data: devoluciones }] = await Promise.all([
     supabaseClient.from('study_plans')
-      .select('resumen, tips, created_at')
+      .select('resumen, tips, contenido, created_at')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(10),
@@ -1581,8 +1581,9 @@ function pintarDevolucion(devolucion, tituloDelTest){
   const fortalezas = Array.isArray(dev.fortalezas) ? dev.fortalezas : [];
   const aMejorar = Array.isArray(dev.a_mejorar) ? dev.a_mejorar : [];
   const tipsDelTest = comoLista(dev.tips);
+  const detalle = Array.isArray(dev.detalle) ? dev.detalle : [];
 
-  if(!dev.resumen && !fortalezas.length && !aMejorar.length && !tipsDelTest.length) return '';
+  if(!dev.resumen && !fortalezas.length && !aMejorar.length && !tipsDelTest.length && !detalle.length) return '';
 
   return `
     <section>
@@ -1617,8 +1618,58 @@ function pintarDevolucion(devolucion, tituloDelTest){
           <h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 .75rem">Para practicar esto</h4>
           ${grillaDeTips(tipsDelTest)}
         </div>` : ''}
+
+      ${detalle.length ? bloquePreguntaPorPregunta(detalle) : ''}
     </section>
   `;
+}
+
+// ── Pregunta por pregunta ──
+// Para cada consigna: qué eligió, cuál buscaba el test, y por qué cada una
+// de esas dos opciones funciona o no. Sin decirle que se equivocó: la idea es
+// que entienda el razonamiento, no que cuente aciertos.
+function bloquePreguntaPorPregunta(detalle){
+  const items = detalle.map(d => {
+    const coincide = d.elegida && d.correcta && d.elegida === d.correcta;
+    const etiqueta = !d.elegida
+      ? 'Sin respuesta'
+      : (coincide ? `Elegiste (${escaparHTML(d.elegida)})` : `Elegiste (${escaparHTML(d.elegida)}) · el test buscaba (${escaparHTML(d.correcta)})`);
+
+    return `
+      <details style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:0;overflow:hidden">
+        <summary style="list-style:none;cursor:pointer;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:1rem">
+          <span style="font-family:'Montserrat',sans-serif;font-size:13.5px;font-weight:700;color:var(--navy)">Pregunta ${escaparHTML(String(d.n))}</span>
+          <span style="font-size:11.5px;color:var(--gray);text-align:right">${etiqueta}</span>
+        </summary>
+        <div style="padding:0 1.25rem 1.25rem;border-top:1px solid var(--border)">
+          ${d.situacion ? `
+            <p style="font-size:12.5px;line-height:1.65;color:var(--gray);margin:.9rem 0 0">
+              <span style="color:var(--navy);font-weight:700">La situación:</span> ${escaparHTML(d.situacion)}
+            </p>` : ''}
+          ${d.porQueLaCorrecta ? `
+            <p style="font-size:13px;line-height:1.7;color:var(--gray);margin:.9rem 0 0;padding-left:.9rem;border-left:3px solid var(--navy)">
+              <span style="color:var(--navy);font-weight:700">Por qué funciona la (${escaparHTML(d.correcta)}):</span> ${escaparHTML(d.porQueLaCorrecta)}
+            </p>` : ''}
+          ${!coincide && d.porQueTuOpcion ? `
+            <p style="font-size:13px;line-height:1.7;color:var(--gray);margin:.9rem 0 0;padding-left:.9rem;border-left:3px solid #d7ba7e">
+              <span style="color:var(--navy);font-weight:700">Qué pasa con la (${escaparHTML(d.elegida)}), la que elegiste:</span> ${escaparHTML(d.porQueTuOpcion)}
+            </p>` : ''}
+          ${d.razonamiento ? `
+            <p style="font-size:12.5px;line-height:1.65;color:var(--gray);margin:.9rem 0 0;font-style:italic">
+              ${escaparHTML(d.razonamiento)}
+            </p>` : ''}
+        </div>
+      </details>`;
+  }).join('');
+
+  return `
+    <div style="margin-top:1.5rem">
+      <h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 .4rem">Pregunta por pregunta</h4>
+      <p style="font-size:12.5px;color:var(--gray);margin:0 0 .85rem;line-height:1.6">
+        Tocá cualquiera para ver el razonamiento detrás. No importa cuántas coincidieron: importa entender por qué.
+      </p>
+      <div style="display:grid;gap:.6rem">${items}</div>
+    </div>`;
 }
 
 // ── Panel TIPS Y HERRAMIENTAS: dos bloques que conviven ──
@@ -1631,6 +1682,101 @@ function tarjetaTip(t){
         ? `<p style="font-size:12px;color:var(--navy);margin:.75rem 0 0;font-weight:600">🔧 ${escaparHTML(t.herramienta)}</p>` : ''}
     </div>
   `;
+}
+
+// ── Actividades ──
+// El agente devuelve 3 actividades junto con los tips. Vienen adentro de
+// 'contenido', que guarda la respuesta completa. Si n8n todavía no está
+// guardando ese campo, esto devuelve una lista vacía y no se rompe nada.
+function actividadesDelPlan(plan){
+  if(!plan) return [];
+  const completo = comoObjeto(plan.contenido);
+  const lista = completo.actividades;
+  return Array.isArray(lista) ? lista.filter(a => a && (a.titulo || a.descripcion)) : [];
+}
+
+// Tres solapas con ícono arriba; abajo, la actividad elegida en detalle.
+let ACTIVIDADES_ACTUALES = [];
+
+const ICONOS_ACTIVIDAD = [
+  // mapa conceptual
+  `<svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+     <circle cx="24" cy="24" r="5"/><circle cx="8" cy="12" r="3.4"/><circle cx="8" cy="36" r="3.4"/>
+     <circle cx="40" cy="12" r="3.4"/><circle cx="40" cy="36" r="3.4"/>
+     <path d="M19.6 21 11 13.8M19.6 27 11 34.2M28.4 21 37 13.8M28.4 27 37 34.2"/>
+   </svg>`,
+  // grabar / explicar paso a paso
+  `<svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+     <rect x="10" y="6" width="28" height="36" rx="2.5"/>
+     <path d="M16 15h6M16 23h6M16 31h6M28 15h4M28 23h4M28 31h4"/>
+   </svg>`,
+  // debatir con alguien
+  `<svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+     <rect x="8" y="8" width="32" height="32" rx="2.5"/>
+     <circle cx="19" cy="19" r="4"/>
+     <path d="M12 33c1.5-4 4-6 7-6s5.5 2 7 6M28 16h8M28 22h8M28 28h6"/>
+   </svg>`
+];
+
+function campoActividad(etiqueta, texto){
+  if(!texto) return '';
+  return `
+    <p style="font-size:13px;line-height:1.7;color:var(--gray);margin:0 0 .7rem">
+      <span style="color:var(--navy);font-weight:700;border-bottom:1px solid var(--navy)">${escaparHTML(etiqueta)}:</span>
+      ${escaparHTML(texto)}
+    </p>`;
+}
+
+function seleccionarActividad(i){
+  const a = ACTIVIDADES_ACTUALES[i];
+  if(!a) return;
+
+  document.querySelectorAll('[data-act-tab]').forEach(b => {
+    const activo = Number(b.dataset.actTab) === i;
+    b.style.borderColor = activo ? 'var(--navy)' : 'var(--border)';
+    b.style.background  = activo ? '#eef2f8' : '#fff';
+    b.style.color       = activo ? 'var(--navy)' : '#9aa5b1';
+  });
+
+  const panel = document.getElementById('act-panel');
+  if(!panel) return;
+
+  // Los nombres de los campos cambian según lo que devuelva el agente:
+  // aceptamos las dos formas y mostramos sólo lo que exista.
+  const instrucciones = a.instrucciones || a.descripcion || '';
+  const explicacion   = a.explicacion_corta || a.explicacion || a.adaptacion || '';
+
+  panel.innerHTML = `
+    <div style="background:#fff;border:1.5px solid var(--navy);border-radius:var(--radius-lg);padding:1.6rem 1.75rem">
+      <h4 style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--navy);margin:0 0 1rem;line-height:1.35">
+        <span style="border-bottom:1px solid var(--navy)">${escaparHTML(String(a.numero || i + 1))}. ${escaparHTML(a.titulo || '')}</span>
+      </h4>
+      ${campoActividad('Objetivo', a.objetivo)}
+      ${campoActividad('Instrucciones', instrucciones)}
+      ${campoActividad('Explicación corta', explicacion)}
+      ${campoActividad('Entrega', a.entrega)}
+    </div>`;
+}
+window.seleccionarActividad = seleccionarActividad;
+
+function bloqueActividades(actividades){
+  ACTIVIDADES_ACTUALES = actividades;
+  return `
+    <section>
+      ${encabezadoBloque('Actividades recomendadas para estudiar')}
+      <p style="font-size:13px;color:var(--gray);margin:0 0 1rem;line-height:1.6">
+        Elegí <strong style="color:var(--navy)">una</strong> de las tres. No hace falta que las hagas todas.
+      </p>
+      <div style="display:flex;gap:.75rem;margin-bottom:1.1rem;flex-wrap:wrap">
+        ${actividades.map((a, i) => `
+          <button type="button" data-act-tab="${i}" onclick="seleccionarActividad(${i})"
+            title="${escaparHTML(a.titulo || '')}"
+            style="width:74px;height:64px;display:flex;align-items:center;justify-content:center;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);color:#9aa5b1;cursor:pointer;transition:all .15s">
+            ${ICONOS_ACTIVIDAD[i % ICONOS_ACTIVIDAD.length]}
+          </button>`).join('')}
+      </div>
+      <div id="act-panel"></div>
+    </section>`;
 }
 
 function encabezadoBloque(texto){
@@ -1654,7 +1800,9 @@ function pintarTips(plan, porTest){
     .map(t => ({ titulo: t.titulo, tips: comoLista(comoObjeto(porTest.get(t.id).contenido).tips) }))
     .filter(b => b.tips.length);
 
-  if(!tipsPerfil.length && !bloquesDeTest.length){
+  const actividades = actividadesDelPlan(plan);
+
+  if(!tipsPerfil.length && !bloquesDeTest.length && !actividades.length){
     if(resumenBox) resumenBox.style.display = 'none';
     box.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px';
     box.innerHTML = 'Estamos armando tus recomendaciones a partir de tus respuestas.<br>Aparecen acá en un par de minutos — podés cerrar y volver más tarde.';
@@ -1663,7 +1811,9 @@ function pintarTips(plan, porTest){
 
   // El resumen del perfil va arriba de todo, en la barra azul
   if(resumenBox && plan?.resumen){
-    resumenBox.textContent = plan.resumen;
+    resumenBox.innerHTML = `
+      <span style="display:block;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.6rem">Cómo aprendés</span>
+      <span style="display:block;font-size:16.5px;line-height:1.65">${escaparHTML(plan.resumen)}</span>`;
     resumenBox.style.display = 'block';
   } else if(resumenBox){
     resumenBox.style.display = 'none';
@@ -1693,7 +1843,13 @@ function pintarTips(plan, porTest){
     `);
   });
 
+  // Las actividades van al final: primero entender cómo aprende, después practicar.
+  if(actividades.length) bloques.push(bloqueActividades(actividades));
+
   box.innerHTML = bloques.join('');
+
+  // El panel de la actividad se dibuja recién ahora, cuando las solapas existen.
+  if(actividades.length) seleccionarActividad(0);
 }
 
 // Si ya había una sesión activa (Supabase la persiste sola en el navegador), restauramos el dashboard
