@@ -321,6 +321,9 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
   .info-box,.equipo-box{margin:0 1.25rem 0;padding:1.5rem 1.25rem}
   .steps-section{padding:1.25rem 1.25rem 2rem}
   .step-chip{min-width:44%;flex:1 1 44%}
+  .step-arrow{display:none} /* con 2 columnas, la flecha entre medio quedaba huérfana */
+
+  .hero-img-wrap img{max-width:200px !important}
 
   .ben-top{grid-template-columns:1fr !important;gap:1.5rem}
   .ben-grid{grid-template-columns:repeat(2,1fr) !important}
@@ -362,7 +365,6 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 @media (max-width: 480px){
   .hero-title{font-size:28px}
   .step-chip{min-width:100%}
-  .step-arrow{transform:rotate(90deg)}
   .ben-grid{grid-template-columns:1fr !important}
 }
 </style>
@@ -391,7 +393,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
       <p class="hero-sub">Acompañamos a los estudiantes de manera dinámica y especializada.</p>
       <button class="btn-primary" onclick="showPage('page-registro')">Comenzar ahora</button>
     </div>
-    <div style="display:flex;align-items:center;justify-content:center">
+    <div class="hero-img-wrap" style="display:flex;align-items:center;justify-content:center">
       <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LO_QUE_QUEDa.png" alt="" style="width:90%;max-width:480px;opacity:0.6">
     </div>
   </div>
@@ -1189,9 +1191,19 @@ document.getElementById('btn-continuar-registro').addEventListener('click', asyn
 
   const userId = authData.user?.id;
 
+  // Si Supabase tiene activada la confirmación por mail, signUp NO devuelve sesión.
+  // Sin sesión, RLS bloquea el insert del perfil y el alumno cae en un dashboard vacío.
+  // Mejor avisarle que quedarse callados.
+  if(!authData.session){
+    mostrarErrorRegistro('Te mandamos un mail para confirmar la cuenta. Confirmalo y volvé a entrar.');
+    btn.disabled = false;
+    btn.textContent = textoOriginal;
+    return;
+  }
+
   // 2. Guardar el perfil y los datos familiares en la base
   if(userId){
-    await supabaseClient.from('profiles').insert({
+    const { error: errPerfil } = await supabaseClient.from('profiles').insert({
       id: userId,
       nombre: datos.nombre,
       apellido: datos.apellido,
@@ -1202,6 +1214,7 @@ document.getElementById('btn-continuar-registro').addEventListener('click', asyn
       gestion: datos.gestion,
       turno: datos.turno
     });
+    if(errPerfil) console.error('No se pudo guardar el perfil:', errPerfil);
 
     const familiares = [];
     if(datos.fam1_vinculo){
@@ -1269,23 +1282,33 @@ async function cargarPerfilEnDashboard(){
   const { data: { user } } = await supabaseClient.auth.getUser();
   if(!user) return;
 
-  const { data: perfil } = await supabaseClient.from('profiles').select('*').eq('id', user.id).single();
-  if(!perfil) return;
+  // maybeSingle: si no hay fila devuelve null en vez de tirar error.
+  const { data: perfil } = await supabaseClient.from('profiles').select('*').eq('id', user.id).maybeSingle();
 
-  const nombreCompleto = `${perfil.nombre || ''} ${perfil.apellido || ''}`.trim() || 'Mi cuenta';
-  const userBtn = document.getElementById('dash-user-btn');
-  if(userBtn) userBtn.textContent = nombreCompleto;
-
-  document.querySelectorAll('[data-perfil-name]').forEach(el => {
-    el.innerHTML = `${perfil.nombre || '—'}<br>${perfil.apellido || ''}`;
-  });
-  document.querySelectorAll('[data-perfil-nombre]').forEach(el => el.textContent = perfil.nombre || '—');
-  document.querySelectorAll('[data-perfil-apellido]').forEach(el => el.textContent = perfil.apellido || '—');
-  document.querySelectorAll('[data-perfil-edad]').forEach(el => el.textContent = perfil.edad ? `${perfil.edad} años` : '—');
   document.querySelectorAll('[data-perfil-email]').forEach(el => el.textContent = user.email || '—');
-  document.querySelectorAll('[data-perfil-institucion]').forEach(el => el.textContent = perfil.institucion || '—');
-  document.querySelectorAll('[data-perfil-grado]').forEach(el => el.textContent = perfil.grado_nivel || '—');
 
+  if(perfil){
+    const nombreCompleto = `${perfil.nombre || ''} ${perfil.apellido || ''}`.trim() || 'Mi cuenta';
+    const userBtn = document.getElementById('dash-user-btn');
+    if(userBtn) userBtn.textContent = nombreCompleto;
+
+    document.querySelectorAll('[data-perfil-name]').forEach(el => {
+      el.innerHTML = `${perfil.nombre || '—'}<br>${perfil.apellido || ''}`;
+    });
+    document.querySelectorAll('[data-perfil-nombre]').forEach(el => el.textContent = perfil.nombre || '—');
+    document.querySelectorAll('[data-perfil-apellido]').forEach(el => el.textContent = perfil.apellido || '—');
+    document.querySelectorAll('[data-perfil-edad]').forEach(el => el.textContent = perfil.edad ? `${perfil.edad} años` : '—');
+    document.querySelectorAll('[data-perfil-institucion]').forEach(el => el.textContent = perfil.institucion || '—');
+    document.querySelectorAll('[data-perfil-grado]').forEach(el => el.textContent = perfil.grado_nivel || '—');
+  } else {
+    // El perfil no llegó a guardarse. Antes esto dejaba TODO el panel vacío y sin
+    // explicación. Ahora seguimos: los tests y los tips no dependen del perfil.
+    const userBtn = document.getElementById('dash-user-btn');
+    if(userBtn) userBtn.textContent = user.email || 'Mi cuenta';
+    console.warn('No hay fila en profiles para este usuario. El panel sigue funcionando igual.');
+  }
+
+  // Esto va SIEMPRE, haya perfil o no.
   cargarPanelesDelAlumno();
 }
 
@@ -1394,13 +1417,22 @@ async function cargarPanelesDelAlumno(intento = 0){
   pintarTips(plan, porTest);
 
   // Mientras falte algo que n8n todavía está generando, reintentamos.
+  // 90 intentos cada 20s = media hora. n8n puede tardar: el Schedule Trigger
+  // corre cada tantos minutos y recién ahí se genera el plan.
   const faltaAlgo = !plan;
-  if(faltaAlgo && intento < 20){
-    setTimeout(() => cargarPanelesDelAlumno(intento + 1), 15000);
+  if(faltaAlgo && intento < 90){
+    setTimeout(() => cargarPanelesDelAlumno(intento + 1), 20000);
   } else {
     panelesPolling = false;
   }
 }
+
+// Botón manual, por si el alumno vuelve más tarde y el polling ya se cortó.
+function refrescarPaneles(){
+  panelesPolling = false;
+  cargarPanelesDelAlumno();
+}
+window.refrescarPaneles = refrescarPaneles;
 
 function testsHabilitados(estado){
   return TESTS.filter(t => (t.requiere === 'estilos' && estado.estilos) || (t.requiere === 'rc1' && estado.rc1));
@@ -1410,6 +1442,21 @@ function testsHabilitados(estado){
 function pintarRecordatorios(estado){
   const caja = document.getElementById('rec-lista');
   if(!caja) return;
+
+  // Mientras no esté hecho el test de estilos, ese es el único recordatorio que importa.
+  if(!estado.estilos){
+    caja.style.color = '#fff';
+    caja.innerHTML = `
+      <span style="display:block;font-weight:600;margin-bottom:2px">Tenés un test pendiente</span>
+      <span style="display:block;font-size:9.5px;color:rgba(255,255,255,.65);line-height:1.5">
+        Test de estilos de aprendizaje
+      </span>
+      <a href="#" onclick="showTab('tests',document.querySelectorAll('.dash-nav-item')[2]);return false;"
+         style="display:inline-block;margin-top:6px;font-size:9.5px;color:#fff;text-decoration:underline;cursor:pointer">
+        Ir al test
+      </a>`;
+    return;
+  }
 
   // RC1 ya está hecho si existe la devolución; RC2 no lo sabemos todavía.
   const pendientes = testsHabilitados(estado).filter(t => !(t.id === 'rc1' && estado.rc1));
@@ -1441,8 +1488,33 @@ function pintarTests(estado, userId, porTest){
   if(!caja) return;
 
   if(!estado.estilos){
-    caja.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px';
-    caja.innerHTML = 'Todavía no tenés tests cargados.<br>Van a aparecer acá a medida que completes tu perfil de aprendizaje.';
+    // El link del test de estilos vive acá, no sólo en la ventana que se abre al
+    // registrarse. Si esa ventana la bloquea el navegador o la alumna la cierra,
+    // el test tiene que seguir estando a mano.
+    caja.style.cssText = 'display:flex;flex-direction:column;gap:2rem;background:none;border:0;padding:0;text-align:left';
+    caja.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;display:flex;flex-direction:column">
+          <div style="display:inline-block;align-self:flex-start;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#b4530a;background:#faf1e2;padding:3px 8px;border-radius:4px;margin-bottom:.75rem">
+            Pendiente
+          </div>
+          <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin:0 0 .5rem;line-height:1.3">
+            Test de estilos de aprendizaje
+          </h3>
+          <p style="font-size:13px;color:var(--gray);margin:0 0 1.25rem;line-height:1.6;flex:1">
+            Es el primero. Con tus respuestas armamos tu perfil y se habilitan los demás tests.
+            Te lleva unos 10 minutos.
+          </p>
+          <a href="${escaparHTML(linkDelTestDeEstilos(userId))}" target="_blank" rel="noopener"
+             style="align-self:flex-start;display:inline-block;background:var(--navy);color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none">
+            Comenzar el test
+          </a>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">
+        ¿Ya lo completaste y todavía no ves nada? Dale unos minutos y
+        <a href="#" onclick="refrescarPaneles();return false;" style="color:var(--navy);font-weight:600">actualizá</a>.
+      </p>`;
     return;
   }
 
