@@ -662,7 +662,6 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
   <div class="nav-links">
     <a onclick="showPage('page-inicio')">Inicio</a>
     <a>Sobre Nosotros</a>
-    <a>Plan De Estudios</a>
     <button class="btn-nav" onclick="showPage('page-login')">Iniciar sesión</button>
   </div>
 </nav>
@@ -712,7 +711,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 <footer>
   <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO Aprendux BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
-    <div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:8px">Menú</div><div style="display:flex;flex-direction:column;gap:5px"><a class="footer-links" href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Inicio</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Sobre Nosotros</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Plan de Estudios</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Iniciar Sesión</a></div></div>
+    <div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:8px">Menú</div><div style="display:flex;flex-direction:column;gap:5px"><a class="footer-links" href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Inicio</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Sobre Nosotros</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Iniciar Sesión</a></div></div>
     <div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:8px">Plataformas</div><div style="display:flex;flex-direction:column;gap:5px"><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">APRENDUX Matemática</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">APRENDUX Lengua <span style="background:var(--orange);color:var(--navy);font-size:9px;padding:1px 5px;border-radius:3px">PRÓXIMAMENTE</span></a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">APRENDUX Inglés <span style="background:var(--orange);color:var(--navy);font-size:9px;padding:1px 5px;border-radius:3px">PRÓXIMAMENTE</span></a></div></div>
   </div>
   <div class="footer-copy">Copyright © APRENDUX | Designed by APRENDUX</div>
@@ -1533,9 +1532,22 @@ function pintarTests(estado, userId, porTest){
     let pie;
     if(completado){
       const puntajeDelTest = porTest.get(test.id)?.puntaje;
-      pie = puntajeDelTest !== null && puntajeDelTest !== undefined
-        ? `<p style="margin:0;line-height:1.4"><span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)">Resultado</span><br><span style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums">${escaparHTML(String(puntajeDelTest))} / 10</span></p>`
-        : `<p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">Tu devolución está más abajo.</p>`;
+      const hayPuntaje = puntajeDelTest !== null && puntajeDelTest !== undefined;
+
+      const resultado = hayPuntaje
+        ? `<p style="margin:0;line-height:1.4">
+             <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)">Resultado</span><br>
+             <span style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums">${escaparHTML(String(puntajeDelTest))} / 10</span>
+           </p>`
+        : '';
+
+      const boton = `
+        <button type="button" onclick="abrirDevolucion('${escaparHTML(test.id)}')"
+          style="align-self:flex-end;background:var(--navy);color:#fff;font-family:'Montserrat',sans-serif;font-size:12.5px;font-weight:600;padding:9px 16px;border:0;border-radius:8px;cursor:pointer;white-space:nowrap">
+          Ver mi devolución
+        </button>`;
+
+      pie = `<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap">${resultado}${boton}</div>`;
     } else if(link){
       pie = `<a href="${escaparHTML(link)}" target="_blank" rel="noopener"
                style="align-self:flex-start;display:inline-block;background:var(--navy);color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none">
@@ -1561,19 +1573,59 @@ function pintarTests(estado, userId, porTest){
     `;
   }).join('');
 
-  // Una sección de devolución por test completado, en el orden en que aparecen los tests
-  const devoluciones = TESTS
-    .filter(t => porTest.has(t.id))
-    .map(t => pintarDevolucion(porTest.get(t.id), t.titulo))
-    .join('');
+  // Las devoluciones ya no van debajo de las tarjetas: se abren desde el botón
+  // de cada tarjeta, en una ventana. Las guardamos acá para tenerlas a mano.
+  DEVOLUCIONES_ACTUALES = porTest;
 
   caja.innerHTML = `
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem">${tarjetas}</div>
-    ${devoluciones}
   `;
 }
 
 // ── La devolución del último test, debajo de las tarjetas ──
+// ── La devolución se abre en una ventana, desde el botón de cada tarjeta ──
+let DEVOLUCIONES_ACTUALES = new Map();
+
+function cerrarDevolucion(){
+  const overlay = document.getElementById('dev-modal');
+  if(overlay) overlay.style.display = 'none';
+  document.body.style.overflow = '';
+}
+window.cerrarDevolucion = cerrarDevolucion;
+
+function abrirDevolucion(testId){
+  const devolucion = DEVOLUCIONES_ACTUALES.get(testId);
+  if(!devolucion) return;
+
+  const test = TESTS.find(t => t.id === testId);
+  const titulo = test ? test.titulo : 'tu test';
+
+  let overlay = document.getElementById('dev-modal');
+  if(!overlay){
+    overlay = document.createElement('div');
+    overlay.id = 'dev-modal';
+    overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(11,31,59,.55);z-index:9998;overflow-y:auto;padding:2.5rem 1rem';
+    overlay.innerHTML = `
+      <div id="dev-modal-caja" style="background:#f4f6f9;max-width:840px;margin:0 auto;border-radius:var(--radius-lg);padding:1.5rem 1.75rem 2rem;position:relative;box-shadow:0 20px 60px rgba(11,31,59,.35)">
+        <button type="button" onclick="cerrarDevolucion()" aria-label="Cerrar"
+          style="position:absolute;top:1rem;right:1rem;width:32px;height:32px;border:0;border-radius:50%;background:#fff;color:var(--navy);font-size:17px;line-height:1;cursor:pointer;box-shadow:0 1px 4px rgba(11,31,59,.18)">✕</button>
+        <div id="dev-modal-body"></div>
+      </div>`;
+    // Cerrar tocando fuera de la caja
+    overlay.addEventListener('click', e => { if(e.target === overlay) cerrarDevolucion(); });
+    document.body.appendChild(overlay);
+  }
+
+  document.getElementById('dev-modal-body').innerHTML = pintarDevolucion(devolucion, titulo);
+  overlay.style.display = 'block';
+  overlay.scrollTop = 0;
+  document.body.style.overflow = 'hidden';   // que no scrollee la página de atrás
+}
+window.abrirDevolucion = abrirDevolucion;
+
+// Escape cierra la ventana
+document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrarDevolucion(); });
+
 function pintarDevolucion(devolucion, tituloDelTest){
   if(!devolucion) return '';
 
@@ -1587,7 +1639,8 @@ function pintarDevolucion(devolucion, tituloDelTest){
 
   return `
     <section>
-      ${encabezadoBloque('Tu devolución · ' + tituloDelTest)}
+      <p style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin:0 0 .35rem">Tu devolución</p>
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin:0 0 1.35rem;line-height:1.25;padding-right:2.5rem">${escaparHTML(tituloDelTest)}</h2>
 
       ${dev.resumen ? `
         <p style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.4rem;font-size:14px;line-height:1.7;color:var(--navy);margin:0 0 1rem">
