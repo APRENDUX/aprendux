@@ -56,6 +56,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 .hero-eyebrow{font-size:15px;color:var(--navy);margin-bottom:4px}
 .hero-title{font-family:'Montserrat',sans-serif;font-size:clamp(30px,4.5vw,50px);font-weight:800;color:var(--navy);line-height:1.05;margin-bottom:12px}
+br.mobile-break{display:none}
 .hero-sub{font-size:14px;color:var(--gray);margin-bottom:2rem;line-height:1.7}
 .hero-img{position:relative;border-radius:var(--radius-lg);overflow:hidden}
 .hero-mockup{background:var(--blue-bg);border-radius:var(--radius-lg);border:1px solid var(--border);padding:0;overflow:hidden;box-shadow:var(--shadow-md)}
@@ -308,26 +309,34 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
   .btn-nav{padding:7px 14px;font-size:12px}
 
   /* Landing sections: todo a una columna */
-  .hero{padding:2rem 1.25rem 1.5rem}
-  .hero-inner,
+  .hero{padding:1.5rem 1.25rem 0.75rem;position:relative}
+  .hero-inner{gap:0.5rem !important}
   .asistencia-inner,
   .objetivo-inner,
   .tec-hero-inner,
   .tec-recursos-inner,
   .ben-docentes-inner{grid-template-columns:1fr !important;gap:1.5rem !important}
 
-  .asistencia,.beneficios,.ben-docentes,.objetivo-section,.tec-hero,.tec-recursos{padding:2rem 1.25rem}
-  .info-box,.equipo-box{margin:0 0.75rem 0;padding:1.25rem 1rem}
-  .steps-section{padding:1rem 1.25rem 1.5rem}
-  .step-chip{min-width:44%;flex:1 1 44%;padding:1rem 0.75rem}
-  .step-chip-icon{width:32px;height:32px}
-  .step-arrow{display:none} /* con 2 columnas, la flecha entre medio quedaba huérfana */
+  /* Hero: título dividido + imagen chica arriba a la derecha, no abajo ocupando todo */
+  .hero-inner{grid-template-columns:1fr !important;position:relative}
+  br.mobile-break{display:inline}
+  .hero-inner > div:first-child{padding-right:80px}
+  .hero-img-wrap{position:absolute;top:0;right:0;width:70px}
+  .hero-img-wrap img{max-width:70px !important;width:100% !important}
 
-  .hero-img-wrap img{max-width:160px !important}
+  div[style*="padding:2rem 2.5rem 0"]{padding:0.75rem 1.25rem 0 !important}
+
+  .asistencia,.beneficios,.ben-docentes,.objetivo-section,.tec-hero,.tec-recursos{padding:1.5rem 1.25rem}
+  .info-box,.equipo-box{margin:0 0.5rem 0;padding:0.85rem 1rem}
+  .steps-section{padding:1rem 1.25rem 1.5rem}
+  .steps-chips{flex-direction:column}
+  .step-chip{width:150px;height:150px;flex:0 0 150px;min-width:0;max-width:150px;margin:0 auto;justify-content:center}
+  .step-chip-icon{width:32px;height:32px}
+  .step-arrow{display:block !important;transform:rotate(90deg);margin:2px auto;font-size:16px}
 
   .ben-top{grid-template-columns:1fr !important;gap:1.25rem}
   .ben-docentes-grid{grid-template-columns:1fr 1fr}
-  .ben-doc-card{min-height:190px;display:flex;align-items:center}
+  .ben-doc-card{min-height:130px;display:flex;align-items:center}
   .ben-grid{grid-template-columns:repeat(2,1fr) !important}
   .ben-card-icon{width:40px;height:40px}
 
@@ -372,8 +381,6 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 
 @media (max-width: 480px){
   .hero-title{font-size:28px}
-  .step-chip{min-width:100%}
-  .step-arrow{display:block !important;transform:rotate(90deg);margin:2px auto;font-size:16px}
   .ben-grid{grid-template-columns:1fr !important}
 }
 </style>
@@ -398,7 +405,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
   <div class="hero-inner">
     <div>
       <div class="hero-eyebrow">Personalización del aprendizaje con</div>
-      <h1 class="hero-title">Inteligencia Artificial</h1>
+      <h1 class="hero-title">Inteligencia<br class="mobile-break"> Artificial</h1>
       <p class="hero-sub">Acompañamos a los estudiantes de manera dinámica y especializada.</p>
       <button class="btn-primary" onclick="showPage('page-registro')">Comenzar ahora</button>
     </div>
@@ -539,7 +546,7 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
 
 <div class="objetivo-hero">
   <div class="objetivo-eyebrow">Potenciamos el aprendizaje y lo impulsamos al maximo ofreciendo un</div>
-  <h1 class="objetivo-title">Camino de Aprendizaje Personalizado</h1>
+  <h1 class="objetivo-title">Camino de Aprendizaje<br class="mobile-break"> Personalizado</h1>
   <p class="objetivo-sub">Nuestro objetivo es proporcionar y agilizar el rendimiento de cada persona al máximo a través del autoconocimiento.</p>
 </div>
 
