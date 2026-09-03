@@ -308,29 +308,35 @@ footer{background:var(--navy);padding:1.75rem 2.5rem;display:flex;align-items:ce
   .btn-nav{padding:7px 14px;font-size:12px}
 
   /* Landing sections: todo a una columna */
-  .hero{padding:2.5rem 1.25rem 2rem}
+  .hero{padding:2rem 1.25rem 1.5rem}
   .hero-inner,
   .asistencia-inner,
   .objetivo-inner,
   .tec-hero-inner,
   .tec-recursos-inner,
-  .ben-docentes-inner{grid-template-columns:1fr !important;gap:2rem !important}
-  .ben-docentes-inner{gap:2.5rem !important}
+  .ben-docentes-inner{grid-template-columns:1fr !important;gap:1.5rem !important}
 
-  .asistencia,.beneficios,.ben-docentes,.objetivo-section,.tec-hero,.tec-recursos{padding:2.5rem 1.25rem}
-  .info-box,.equipo-box{margin:0 1.25rem 0;padding:1.5rem 1.25rem}
-  .steps-section{padding:1.25rem 1.25rem 2rem}
-  .step-chip{min-width:44%;flex:1 1 44%}
+  .asistencia,.beneficios,.ben-docentes,.objetivo-section,.tec-hero,.tec-recursos{padding:2rem 1.25rem}
+  .info-box,.equipo-box{margin:0 1.25rem 0;padding:1.25rem 1.25rem}
+  .steps-section{padding:1rem 1.25rem 1.5rem}
+  .step-chip{min-width:44%;flex:1 1 44%;padding:1rem 0.75rem}
+  .step-chip-icon{width:32px;height:32px}
   .step-arrow{display:none} /* con 2 columnas, la flecha entre medio quedaba huérfana */
 
-  .hero-img-wrap img{max-width:200px !important}
+  .hero-img-wrap img{max-width:160px !important}
 
-  .ben-top{grid-template-columns:1fr !important;gap:1.5rem}
+  .ben-top{grid-template-columns:1fr !important;gap:1.25rem}
   .ben-grid{grid-template-columns:repeat(2,1fr) !important}
+  .ben-card-icon{width:40px;height:40px}
+
+  .beneficios img[src*="Group.png"]{width:180px !important}
 
   .asistencia-img-mini{display:none}
   .asistencia-popup,.objetivo-popup{position:static;margin-top:10px;width:fit-content}
-  .asistencia-img-main,.objetivo-img-wrap{height:220px}
+  .asistencia-img-main,.objetivo-img-wrap{height:170px}
+
+  .tec-mockup-laptop img,.tec-monitor-wrap img{max-height:220px}
+  .tec-mockup-laptop,.tec-monitor-wrap{height:auto}
 
   /* Registro */
   .reg-hero{padding:1.75rem 1.25rem}
