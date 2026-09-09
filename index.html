@@ -299,6 +299,11 @@ br.mobile-break{display:none}
 .config-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow)}
 .config-title{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:1.5rem}
 .config-link{display:block;font-size:14px;color:var(--navy);text-decoration:underline;margin-bottom:16px;cursor:pointer;font-weight:500}
+/* En los bloques plegables, la palabra "ver" desaparece cuando ya está abierto */
+details[open] > summary .ver-mas{display:none}
+/* Medida de lectura: ~11 palabras por renglón. Todo el texto largo del panel la usa. */
+.medida{max-width:62ch}
+summary::-webkit-details-marker{display:none}
 /* ══════════════ RESPONSIVE / MOBILE ══════════════ */
 @media (max-width: 860px){
   /* Navbar */
@@ -483,22 +488,22 @@ br.mobile-break{display:none}
       </div>
       <div class="ben-grid">
         <div class="ben-card">
-          <div class="ben-card-icon"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group 1000011115.png" style="width:52px;height:52px;object-fit:contain"></div>
+          <div class="ben-card-icon"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%201000011115.png" style="width:52px;height:52px;object-fit:contain"></div>
           <h3>Promueve la autonomía y la autogestión</h3>
           <p>del aprendizaje a través de un perfil personalizado.</p>
         </div>
         <div class="ben-card">
-          <div class="ben-card-icon"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group 1000011116.png" style="width:52px;height:52px;object-fit:contain"></div>
+          <div class="ben-card-icon"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%201000011116.png" style="width:52px;height:52px;object-fit:contain"></div>
           <h3>Organiza el calendario académico</h3>
           <p>y permite un seguimiento del rendimiento.</p>
         </div>
         <div class="ben-card">
-          <div class="ben-card-icon"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group 1000011117.png" style="width:52px;height:52px;object-fit:contain"></div>
+          <div class="ben-card-icon"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%201000011117.png" style="width:52px;height:52px;object-fit:contain"></div>
           <h3>Mejora del rendimiento académico</h3>
           <p>a través de tips, tests y herramientas específicas.</p>
         </div>
         <div class="ben-card">
-          <div class="ben-card-icon"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group 1000011118.png" style="width:52px;height:52px;object-fit:contain"></div>
+          <div class="ben-card-icon"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%201000011118.png" style="width:52px;height:52px;object-fit:contain"></div>
           <h3>Genera planes de estudio personalizados</h3>
           <p>según el ritmo y estilo de aprendizaje del alumno/a.</p>
         </div>
@@ -524,11 +529,11 @@ br.mobile-break{display:none}
 </div>
 
 <footer>
-  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO Aprendux BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
+  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO%20Aprendux%20BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
   <div class="footer-links">
-    <a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (6).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a>
-    <a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (1).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a>
-    <a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (2).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a>
+    <a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%286%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a>
+    <a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%281%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a>
+    <a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%282%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a>
   </div>
   <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
 </footer>
@@ -578,8 +583,8 @@ br.mobile-break{display:none}
 <div style="padding:2rem 0 0"></div>
 
 <footer>
-  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO Aprendux BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
-  <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (6).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (1).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (2).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
+  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO%20Aprendux%20BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
+  <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%286%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%281%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%282%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
   <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
 </footer>
 </div>
@@ -604,7 +609,7 @@ br.mobile-break{display:none}
       <button class="btn-primary" onclick="showPage('page-registro')">Comenzar ahora</button>
     </div>
     <div class="tec-mockup-laptop">
-      <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/MacBook Pro 16incs copy 1.png" alt="Laptop con plataforma">
+      <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/MacBook%20Pro%2016incs%20copy%201.png" alt="Laptop con plataforma">
     </div>
   </div>
 </div>
@@ -634,8 +639,8 @@ br.mobile-break{display:none}
 </div>
 
 <footer>
-  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO Aprendux BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
-  <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (6).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (1).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (2).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
+  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO%20Aprendux%20BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
+  <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%286%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%281%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%282%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
   <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
 </footer>
 </div>
@@ -667,8 +672,8 @@ br.mobile-break{display:none}
 </div>
 
 <footer>
-  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO Aprendux BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
-  <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (6).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (1).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (2).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
+  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO%20Aprendux%20BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
+  <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%286%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%281%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%282%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
   <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
 </footer>
 </div>
@@ -727,7 +732,7 @@ br.mobile-break{display:none}
 </div>
 
 <footer>
-  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO Aprendux BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
+  <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO%20Aprendux%20BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
     <div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:8px">Menú</div><div style="display:flex;flex-direction:column;gap:5px"><a class="footer-links" href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Inicio</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Sobre Nosotros</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">Iniciar Sesión</a></div></div>
     <div><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:8px">Plataformas</div><div style="display:flex;flex-direction:column;gap:5px"><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">APRENDUX Matemática</a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">APRENDUX Lengua <span style="background:var(--orange);color:var(--navy);font-size:9px;padding:1px 5px;border-radius:3px">PRÓXIMAMENTE</span></a><a href="#" style="color:rgba(255,255,255,0.6);font-size:12px;text-decoration:none">APRENDUX Inglés <span style="background:var(--orange);color:var(--navy);font-size:9px;padding:1px 5px;border-radius:3px">PRÓXIMAMENTE</span></a></div></div>
@@ -756,7 +761,7 @@ br.mobile-break{display:none}
       </div>
       <div class="dash-nav-item" onclick="showTab('tests',this)">
         <svg class="dash-nav-item-icon" viewBox="0 0 20 20" fill="none"><rect x="3" y="2" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="7" x2="14" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="11" x2="14" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="15" x2="10" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
-        TEST Y AUTOVELUACIONES
+        TEST Y AUTOEVALUACIONES
       </div>
       <div class="dash-nav-item" onclick="showTab('rendimiento',this)">
         <svg class="dash-nav-item-icon" viewBox="0 0 20 20" fill="none"><polyline points="2,16 7,10 11,13 15,6 18,9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -852,7 +857,7 @@ br.mobile-break{display:none}
 
       <!-- TESTS -->
       <div id="tab-tests" class="content-tab">
-        <div class="dash-title-box"><h1>TEST Y AUTOVELUACIONES</h1></div>
+        <div class="dash-title-box"><h1>TEST Y AUTOEVALUACIONES</h1></div>
         <div id="tests-box" style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
           Todavía no tenés tests ni autoevaluaciones cargados.<br>Van a aparecer acá a medida que tu institución o docente los vayan asignando.
         </div>
@@ -914,8 +919,8 @@ br.mobile-break{display:none}
     </div>
 
     <footer>
-      <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO Aprendux BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
-      <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (6).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (1).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group (2).png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
+      <div><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LOGO%20Aprendux%20BLANCO.png" alt="Aprendux" style="height:36px;width:auto"></div>
+      <div class="footer-links"><a href="mailto:aprendux.educacion@gmail.com"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%286%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">aprendux.educacion@gmail.com</a><a href="https://instagram.com/aprendux.educacion"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%281%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">@aprendux.educacion</a><a href="#"><img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/Group%20%282%29.png" alt="" style="height:18px;width:auto;filter:brightness(0) invert(1);vertical-align:middle;margin-right:5px">Aprendux</a></div>
       <div class="footer-copy">Copyright © 2024 Aprendux. All rights Reserved</div>
     </footer>
   </div>
@@ -946,16 +951,101 @@ function showTab(tab, navItem, title){
   if(tab==='perfil' && tb[0])tb[0].classList.add('active');
 }
 
-// Calendario
+// ══════════════════════════════════════════════════════════════
+//  CALENDARIO
+//  Los eventos viven en Supabase (tabla eventos_calendario), así la alumna
+//  los ve desde cualquier dispositivo. localStorage queda sólo como respaldo
+//  para cuando no hay sesión iniciada, y se migra al entrar.
+// ══════════════════════════════════════════════════════════════
 const CAL_EVENTOS_KEY = 'aprendux_calendar_events';
+let CAL_EVENTOS = [];
 
-function calLeerEventos(){
-  try {
-    return JSON.parse(localStorage.getItem(CAL_EVENTOS_KEY) || '[]');
-  } catch(e){ return []; }
+function calLeerLocales(){
+  try { return JSON.parse(localStorage.getItem(CAL_EVENTOS_KEY) || '[]'); }
+  catch(e){ return []; }
 }
-function calGuardarEventos(lista){
-  localStorage.setItem(CAL_EVENTOS_KEY, JSON.stringify(lista));
+function calGuardarLocales(lista){
+  try { localStorage.setItem(CAL_EVENTOS_KEY, JSON.stringify(lista)); } catch(e){}
+}
+
+async function calUsuario(){
+  try {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    return user || null;
+  } catch(e){ return null; }
+}
+
+// Los eventos que quedaron en el navegador antes de tener sesión se suben
+// una sola vez y se limpian de localStorage.
+async function calMigrarLocales(user){
+  const locales = calLeerLocales();
+  if(!locales.length) return;
+
+  const filas = locales.map(ev => ({
+    user_id: user.id, titulo: ev.titulo, fecha: ev.fecha, tipo: ev.tipo || 'Otro'
+  }));
+  const { error } = await supabaseClient.from('eventos_calendario').insert(filas);
+  if(error){ console.warn('No se pudieron migrar los eventos locales:', error); return; }
+  calGuardarLocales([]);
+}
+
+async function refrescarCalendario(){
+  const user = await calUsuario();
+
+  if(!user){
+    CAL_EVENTOS = calLeerLocales();
+    renderCalendario();
+    return;
+  }
+
+  await calMigrarLocales(user);
+
+  const { data, error } = await supabaseClient
+    .from('eventos_calendario')
+    .select('id, titulo, fecha, tipo')
+    .eq('user_id', user.id)
+    .order('fecha', { ascending: true });
+
+  if(error){
+    console.warn('No se pudo leer el calendario:', error);
+    CAL_EVENTOS = calLeerLocales();
+  } else {
+    CAL_EVENTOS = data || [];
+  }
+  renderCalendario();
+}
+window.refrescarCalendario = refrescarCalendario;
+
+async function calAgregarEvento(ev){
+  const user = await calUsuario();
+
+  if(!user){
+    const lista = calLeerLocales();
+    lista.push({ id: 'ev_' + Date.now(), ...ev });
+    calGuardarLocales(lista);
+    return { ok: true };
+  }
+
+  const { error } = await supabaseClient
+    .from('eventos_calendario')
+    .insert({ user_id: user.id, ...ev });
+
+  if(error){
+    console.error('No se pudo guardar el evento:', error);
+    return { ok: false, error };
+  }
+  return { ok: true };
+}
+
+async function calBorrarEvento(id){
+  const user = await calUsuario();
+
+  if(!user){
+    calGuardarLocales(calLeerLocales().filter(x => x.id !== id));
+    return;
+  }
+  const { error } = await supabaseClient.from('eventos_calendario').delete().eq('id', id);
+  if(error) console.warn('No se pudo borrar el evento:', error);
 }
 
 function renderCalendario(){
@@ -975,11 +1065,10 @@ function renderCalendario(){
   const primerDiaSemana = new Date(anio, mes, 1).getDay(); // 0=domingo..6=sábado
   const offset = (primerDiaSemana + 6) % 7; // convertido a semana que arranca en lunes
 
-  // Agrupar los eventos guardados que caen en el mes que se está mostrando
-  const todos = calLeerEventos();
+  // Agrupar los eventos que caen en el mes que se está mostrando
   const events = {};
-  todos.forEach(ev => {
-    const f = new Date(ev.fecha + 'T00:00:00');
+  (CAL_EVENTOS || []).forEach(ev => {
+    const f = new Date(String(ev.fecha).slice(0,10) + 'T00:00:00');
     if(f.getFullYear() === anio && f.getMonth() === mes){
       const dia = f.getDate();
       if(!events[dia]) events[dia] = [];
@@ -1001,10 +1090,10 @@ function renderCalendario(){
       t.textContent=ev.titulo;
       t.title='Tocá para borrar este evento';
       t.style.cursor='pointer';
-      t.addEventListener('click', () => {
+      t.addEventListener('click', async () => {
         if(confirm(`¿Borrar "${ev.titulo}"?`)){
-          calGuardarEventos(calLeerEventos().filter(x => x.id !== ev.id));
-          renderCalendario();
+          await calBorrarEvento(ev.id);
+          refrescarCalendario();
         }
       });
       c.appendChild(t);
@@ -1014,7 +1103,7 @@ function renderCalendario(){
   const total=offset+diasEnMes;const rem=7-(total%7);
   if(rem<7)for(let i=1;i<=rem;i++){const c=document.createElement('div');c.className='cal-cell off';const n=document.createElement('div');n.className='cal-cell-num';n.style.opacity='.3';n.textContent=i;c.appendChild(n);grid.appendChild(c);}
 }
-renderCalendario();
+refrescarCalendario();
 
 // Modal para agregar evento
 (function(){
@@ -1037,7 +1126,7 @@ renderCalendario();
   btnCancelar.addEventListener('click', cerrarModal);
   overlay.addEventListener('click', (e) => { if(e.target === overlay) cerrarModal(); });
 
-  btnGuardar.addEventListener('click', () => {
+  btnGuardar.addEventListener('click', async () => {
     const titulo = document.getElementById('cal-evento-titulo').value.trim();
     const fecha = document.getElementById('cal-evento-fecha').value;
     const tipo = document.getElementById('cal-evento-tipo').value;
@@ -1049,12 +1138,18 @@ renderCalendario();
       return;
     }
 
-    const nuevo = { id: 'ev_' + Date.now(), titulo, fecha, tipo };
-    const lista = calLeerEventos();
-    lista.push(nuevo);
-    calGuardarEventos(lista);
+    btnGuardar.disabled = true;
+    const res = await calAgregarEvento({ titulo, fecha, tipo });
+    btnGuardar.disabled = false;
+
+    if(!res.ok){
+      errorBox.textContent = 'No se pudo guardar. Probá de nuevo.';
+      errorBox.style.display = 'block';
+      return;
+    }
+
     cerrarModal();
-    renderCalendario();
+    refrescarCalendario();
   });
 })();
 
@@ -1339,19 +1434,23 @@ async function cargarPerfilEnDashboard(){
 const TESTS = [
   {
     id: 'rc1',
-    titulo: 'Test de Razonamiento Crítico',
-    descripcion: 'Son preguntas de comprensión y análisis de argumentos. Te lleva unos 15 minutos y no hace falta que estudies nada antes.',
+    titulo: 'Razonamiento Crítico',
+    emoji: '🧩',
+    minutos: 2,
+    descripcion: 'Te proponemos diez situaciones cortas.',
     url: 'https://docs.google.com/forms/d/e/1FAIpQLSd5x7zoJGGaYYpaa6LchrVbCvyrUC8YDWbVaFQZ8zrfUVtBpg/viewform?usp=pp_url&entry.232870428=',
     requiere: 'estilos',
-    esperando: 'Se habilita cuando completes el test de estilos de aprendizaje.'
+    esperando: 'Se abre cuando termines el de estilos.'
   },
   {
     id: 'rc2',
-    titulo: 'Test de Razonamiento Crítico 2',
-    descripcion: 'La segunda parte, con argumentos un poco más largos. Ya con tu devolución de la primera en mano.',
+    titulo: 'Razonamiento Crítico 2',
+    emoji: '🔍',
+    minutos: 1,
+    descripcion: 'La segunda vuelta, pero otros desafíos…',
     url: 'https://docs.google.com/forms/d/e/1FAIpQLScZDgC7tSHEx0ZUB6XXpsLuDP2bLNa-DuBUVy_XXC3csoOvlw/viewform?usp=pp_url&entry.141070892=',
     requiere: 'rc1',
-    esperando: 'Se habilita cuando tengas la devolución del primero.'
+    esperando: 'Se abre cuando llegue tu devolución del primero.'
   }
 ];
 
@@ -1500,104 +1599,114 @@ function pintarRecordatorios(estado){
 }
 
 // ── Panel TEST Y AUTOEVALUACIONES ──
+// Un solo recorrido: estilos → RC1 → RC2. Cada paso sabe si está hecho,
+// disponible o todavía cerrado, y de ahí sale toda la pantalla.
+
+const PASO_ESTILOS = {
+  id: 'estilos',
+  titulo: 'Estilos de aprendizaje',
+  emoji: '🧭',
+  minutos: 5,
+  descripcion: 'Entendamos cómo estudiás.',
+  esperando: ''
+};
+
+function pasosDelRecorrido(estado, porTest){
+  const pasos = [{ ...PASO_ESTILOS, completado: estado.estilos, disponible: true }];
+  TESTS.forEach(t => {
+    const disponible = (t.requiere === 'estilos' && estado.estilos) || (t.requiere === 'rc1' && estado.rc1);
+    const devolucion = porTest.get(t.id);
+    pasos.push({ ...t, completado: porTest.has(t.id), disponible, puntaje: devolucion ? devolucion.puntaje : null });
+  });
+  return pasos;
+}
+
+// Tira de progreso: círculos numerados unidos por una línea.
+function barraDeRecorrido(pasos){
+  const hechos = pasos.filter(p => p.completado).length;
+
+  const puntos = pasos.map((p, i) => {
+    const activo = !p.completado && p.disponible;
+    const color = p.completado ? '#1f7a5e' : (activo ? 'var(--navy)' : '#c6ced8');
+    return `
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.45rem;flex:1 1 0;min-width:0">
+        <div style="width:30px;height:30px;border-radius:50%;border:2px solid ${color};background:${p.completado ? '#1f7a5e' : '#fff'};color:${p.completado ? '#fff' : color};display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;flex:none">${p.completado ? '✓' : (i + 1)}</div>
+        <span style="font-size:10.5px;line-height:1.3;text-align:center;color:${p.completado || activo ? 'var(--navy)' : '#9aa5b1'};font-weight:${activo ? '700' : '500'}">${escaparHTML(p.titulo)}</span>
+      </div>`;
+  }).join('<div style="height:2px;background:#dfe4ea;flex:0 0 20px;margin-top:14px"></div>');
+
+  return `
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1rem">
+        <span style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray)">Tu recorrido</span>
+        <span style="font-size:12px;color:var(--gray)"><strong style="color:var(--navy)">${hechos}</strong> de ${pasos.length} completados</span>
+      </div>
+      <div style="display:flex;align-items:flex-start">${puntos}</div>
+    </div>`;
+}
+
+function tarjetaDePaso(paso, userId){
+  const link = paso.id === 'estilos' ? linkDelTestDeEstilos(userId) : linkDelTest(paso.url, userId);
+
+  let etiqueta, colorEtiqueta, fondoEtiqueta;
+  if(paso.completado){ etiqueta = 'Completado'; colorEtiqueta = '#1f7a5e'; fondoEtiqueta = '#e2f2ef'; }
+  else if(paso.disponible){ etiqueta = 'Pendiente'; colorEtiqueta = '#b4530a'; fondoEtiqueta = '#faf1e2'; }
+  else { etiqueta = 'Próximamente'; colorEtiqueta = '#7b8794'; fondoEtiqueta = '#eef1f5'; }
+
+  const botonBase = "align-self:flex-start;display:inline-block;background:var(--navy);color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;padding:11px 22px;border:0;border-radius:8px;text-decoration:none;cursor:pointer";
+
+  let pie;
+  if(paso.completado && paso.id !== 'estilos'){
+    const hayPuntaje = paso.puntaje !== null && paso.puntaje !== undefined;
+    const resultado = hayPuntaje
+      ? `<p style="margin:0;line-height:1.4">
+           <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)">Resultado</span><br>
+           <span style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums">${escaparHTML(String(paso.puntaje))} / 10</span>
+         </p>`
+      : '';
+    const boton = `<button type="button" onclick="abrirDevolucion('${escaparHTML(paso.id)}')" style="${botonBase};align-self:flex-end;padding:9px 16px;font-size:12.5px;white-space:nowrap">Ver mi devolución →</button>`;
+    pie = `<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap">${resultado}${boton}</div>`;
+  } else if(paso.completado){
+    pie = `<p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">Tus resultados están en <strong style="color:var(--navy)">Tips y herramientas</strong>.</p>`;
+  } else if(paso.disponible){
+    pie = `<a href="${escaparHTML(link)}" target="_blank" rel="noopener" style="${botonBase}">Empezar →</a>`;
+  } else {
+    pie = `<p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">🔒 ${escaparHTML(paso.esperando)}</p>`;
+  }
+
+  const opacidad = paso.disponible ? '1' : '.62';
+
+  return `
+    <div style="background:#fff;border:1px solid ${!paso.completado && paso.disponible ? 'var(--navy)' : 'var(--border)'};border-radius:var(--radius-lg);padding:1.5rem 1.6rem;display:flex;flex-direction:column;opacity:${opacidad}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-bottom:.85rem">
+        <span style="font-size:28px;line-height:1">${paso.emoji || '📘'}</span>
+        <span style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:${colorEtiqueta};background:${fondoEtiqueta};padding:3px 8px;border-radius:4px">${etiqueta}</span>
+      </div>
+      <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin:0 0 .4rem;line-height:1.3">${escaparHTML(paso.titulo)}</h3>
+      <p class="medida" style="font-size:13px;color:var(--gray);margin:0 0 .75rem;line-height:1.6;flex:1">${escaparHTML(paso.descripcion)}</p>
+      <p style="font-size:11.5px;color:#9aa5b1;margin:0 0 1.1rem">⏱ ${paso.minutos} min · no hay que estudiar</p>
+      ${pie}
+    </div>`;
+}
+
 function pintarTests(estado, userId, porTest){
   const caja = document.getElementById('tests-box');
   if(!caja) return;
 
-  if(!estado.estilos){
-    // El link del test de estilos vive acá, no sólo en la ventana que se abre al
-    // registrarse. Si esa ventana la bloquea el navegador o la alumna la cierra,
-    // el test tiene que seguir estando a mano.
-    caja.style.cssText = 'display:flex;flex-direction:column;gap:2rem;background:none;border:0;padding:0;text-align:left';
-    caja.innerHTML = `
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem">
-        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;display:flex;flex-direction:column">
-          <div style="display:inline-block;align-self:flex-start;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#b4530a;background:#faf1e2;padding:3px 8px;border-radius:4px;margin-bottom:.75rem">
-            Pendiente
-          </div>
-          <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin:0 0 .5rem;line-height:1.3">
-            Test de estilos de aprendizaje
-          </h3>
-          <p style="font-size:13px;color:var(--gray);margin:0 0 1.25rem;line-height:1.6;flex:1">
-            Es el primero. Con tus respuestas armamos tu perfil y se habilitan los demás tests.
-            Te lleva unos 10 minutos.
-          </p>
-          <a href="${escaparHTML(linkDelTestDeEstilos(userId))}" target="_blank" rel="noopener"
-             style="align-self:flex-start;display:inline-block;background:var(--navy);color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none">
-            Comenzar el test
-          </a>
-        </div>
-      </div>
-      <p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">
-        ¿Ya lo completaste y todavía no ves nada? Dale unos minutos y
-        <a href="#" onclick="refrescarPaneles();return false;" style="color:var(--navy);font-weight:600">actualizá</a>.
-      </p>`;
-    return;
-  }
-
-  caja.style.cssText = 'display:flex;flex-direction:column;gap:2rem;background:none;border:0;padding:0;text-align:left';
-
-  const tarjetas = TESTS.map(test => {
-    const disponible = (test.requiere === 'estilos' && estado.estilos) || (test.requiere === 'rc1' && estado.rc1);
-    const completado = porTest.has(test.id);
-    const link = disponible && !completado ? linkDelTest(test.url, userId) : '';
-
-    let etiqueta, colorEtiqueta, fondoEtiqueta;
-    if(completado){ etiqueta = 'Completado'; colorEtiqueta = '#1f7a5e'; fondoEtiqueta = '#e2f2ef'; }
-    else if(disponible){ etiqueta = 'Pendiente'; colorEtiqueta = '#b4530a'; fondoEtiqueta = '#faf1e2'; }
-    else { etiqueta = 'Próximamente'; colorEtiqueta = '#7b8794'; fondoEtiqueta = '#eef1f5'; }
-
-    let pie;
-    if(completado){
-      const puntajeDelTest = porTest.get(test.id)?.puntaje;
-      const hayPuntaje = puntajeDelTest !== null && puntajeDelTest !== undefined;
-
-      const resultado = hayPuntaje
-        ? `<p style="margin:0;line-height:1.4">
-             <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)">Resultado</span><br>
-             <span style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums">${escaparHTML(String(puntajeDelTest))} / 10</span>
-           </p>`
-        : '';
-
-      const boton = `
-        <button type="button" onclick="abrirDevolucion('${escaparHTML(test.id)}')"
-          style="align-self:flex-end;background:var(--navy);color:#fff;font-family:'Montserrat',sans-serif;font-size:12.5px;font-weight:600;padding:9px 16px;border:0;border-radius:8px;cursor:pointer;white-space:nowrap">
-          Ver mi devolución
-        </button>`;
-
-      pie = `<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap">${resultado}${boton}</div>`;
-    } else if(link){
-      pie = `<a href="${escaparHTML(link)}" target="_blank" rel="noopener"
-               style="align-self:flex-start;display:inline-block;background:var(--navy);color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none">
-               Comenzar el test
-             </a>`;
-    } else {
-      pie = `<p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">${escaparHTML(test.esperando)}</p>`;
-    }
-
-    return `
-      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;display:flex;flex-direction:column">
-        <div style="display:inline-block;align-self:flex-start;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:${colorEtiqueta};background:${fondoEtiqueta};padding:3px 8px;border-radius:4px;margin-bottom:.75rem">
-          ${etiqueta}
-        </div>
-        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin:0 0 .5rem;line-height:1.3">
-          ${escaparHTML(test.titulo)}
-        </h3>
-        <p style="font-size:13px;color:var(--gray);margin:0 0 1.25rem;line-height:1.6;flex:1">
-          ${escaparHTML(test.descripcion)}
-        </p>
-        ${pie}
-      </div>
-    `;
-  }).join('');
-
-  // Las devoluciones ya no van debajo de las tarjetas: se abren desde el botón
-  // de cada tarjeta, en una ventana. Las guardamos acá para tenerlas a mano.
+  // Las devoluciones se abren desde el botón de cada tarjeta; las guardamos acá.
   DEVOLUCIONES_ACTUALES = porTest;
 
+  const pasos = pasosDelRecorrido(estado, porTest);
+  const tarjetas = pasos.map(p => tarjetaDePaso(p, userId)).join('');
+
+  caja.style.cssText = 'display:flex;flex-direction:column;gap:1.5rem;background:none;border:0;padding:0;text-align:left';
   caja.innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem">${tarjetas}</div>
-  `;
+    ${barraDeRecorrido(pasos)}
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">${tarjetas}</div>
+    <p style="font-size:12.5px;color:var(--gray);margin:0;line-height:1.6">
+      ¿Ya lo completaste y todavía no ves nada? Dale unos minutos y
+      <a href="#" onclick="refrescarPaneles();return false;" style="color:var(--navy);font-weight:600">actualizá</a>.
+    </p>`;
 }
 
 // ── La devolución del último test, debajo de las tarjetas ──
@@ -1648,49 +1757,20 @@ function pintarDevolucion(devolucion, tituloDelTest){
   if(!devolucion) return '';
 
   const dev = comoObjeto(devolucion.contenido);
-  const fortalezas = Array.isArray(dev.fortalezas) ? dev.fortalezas : [];
-  const aMejorar = Array.isArray(dev.a_mejorar) ? dev.a_mejorar : [];
-  const tipsDelTest = comoLista(dev.tips);
   const detalle = Array.isArray(dev.detalle) ? dev.detalle : [];
+  if(!detalle.length) return '';
 
-  if(!dev.resumen && !fortalezas.length && !aMejorar.length && !tipsDelTest.length && !detalle.length) return '';
-
+  // Decisión de Cata (09/09): la devolución es SÓLO el pregunta por pregunta.
+  // El resumen, las fortalezas y el "para afilar" salieron de esta pantalla.
+  // Los tips del test no se pierden: siguen en TIPS Y HERRAMIENTAS.
   return `
     <section>
       <p style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin:0 0 .35rem">Tu devolución</p>
-      <h2 style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin:0 0 1.35rem;line-height:1.25;padding-right:2.5rem">${escaparHTML(tituloDelTest)}</h2>
-
-      ${dev.resumen ? `
-        <p style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.4rem;font-size:14px;line-height:1.7;color:var(--navy);margin:0 0 1rem">
-          ${escaparHTML(dev.resumen)}
-        </p>` : ''}
-
-      ${fortalezas.length ? `
-        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.4rem;margin-bottom:1rem">
-          <h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 .5rem">Lo que ya hacés</h4>
-          <ul style="margin:0;padding-left:1.1rem;font-size:13px;line-height:1.7;color:var(--gray)">
-            ${fortalezas.map(f => `<li>${escaparHTML(f)}</li>`).join('')}
-          </ul>
-        </div>` : ''}
-
-      ${aMejorar.length ? `
-        <div style="display:grid;gap:.75rem">
-          ${aMejorar.map(a => `
-            <div style="background:#fff;border:1px solid var(--border);border-left:3px solid var(--navy);border-radius:var(--radius-lg);padding:1.25rem 1.4rem">
-              <h4 style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin:0 0 .4rem">${escaparHTML(a.habilidad)}</h4>
-              <p style="font-size:13px;line-height:1.65;color:var(--gray);margin:0">${escaparHTML(a.explicacion)}</p>
-              ${a.como_se_ve ? `<p style="font-size:12.5px;line-height:1.6;color:var(--gray);margin:.6rem 0 0;font-style:italic">Cómo se ve: ${escaparHTML(a.como_se_ve)}</p>` : ''}
-            </div>
-          `).join('')}
-        </div>` : ''}
-
-      ${tipsDelTest.length ? `
-        <div style="margin-top:1rem">
-          <h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 .75rem">Para practicar esto</h4>
-          ${grillaDeTips(tipsDelTest)}
-        </div>` : ''}
-
-      ${detalle.length ? bloquePreguntaPorPregunta(detalle) : ''}
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin:0 0 .5rem;line-height:1.25;padding-right:2.5rem">${escaparHTML(tituloDelTest)}</h2>
+      <p class="medida" style="font-size:13.5px;color:var(--gray);margin:0 0 1.25rem;line-height:1.6">
+        Tocá una pregunta para ver el razonamiento. No importa cuántas coincidieron.
+      </p>
+      ${bloquePreguntaPorPregunta(detalle)}
     </section>
   `;
 }
@@ -1702,53 +1782,53 @@ function pintarDevolucion(devolucion, tituloDelTest){
 function bloquePreguntaPorPregunta(detalle){
   const items = detalle.map(d => {
     const coincide = d.elegida && d.correcta && d.elegida === d.correcta;
+    const marca = !d.elegida ? '·' : (coincide ? '✓' : '↔');
+    const colorMarca = !d.elegida ? '#c6ced8' : (coincide ? '#1f7a5e' : '#b4530a');
     const etiqueta = !d.elegida
       ? 'Sin respuesta'
-      : (coincide ? `Elegiste (${escaparHTML(d.elegida)})` : `Elegiste (${escaparHTML(d.elegida)}) · el test buscaba (${escaparHTML(d.correcta)})`);
+      : (coincide ? `Elegiste (${escaparHTML(d.elegida)})` : `Vos (${escaparHTML(d.elegida)}) · el test (${escaparHTML(d.correcta)})`);
 
     return `
       <details style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:0;overflow:hidden">
-        <summary style="list-style:none;cursor:pointer;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:1rem">
-          <span style="font-family:'Montserrat',sans-serif;font-size:13.5px;font-weight:700;color:var(--navy)">Pregunta ${escaparHTML(String(d.n))}</span>
+        <summary style="list-style:none;cursor:pointer;padding:.9rem 1.15rem;display:flex;justify-content:space-between;align-items:center;gap:1rem">
+          <span style="display:flex;align-items:center;gap:.6rem;font-family:'Montserrat',sans-serif;font-size:13.5px;font-weight:700;color:var(--navy)">
+            <span style="color:${colorMarca};font-size:15px">${marca}</span>Pregunta ${escaparHTML(String(d.n))}
+          </span>
           <span style="font-size:11.5px;color:var(--gray);text-align:right">${etiqueta}</span>
         </summary>
-        <div style="padding:0 1.25rem 1.25rem;border-top:1px solid var(--border)">
+        <div style="padding:0 1.15rem 1.15rem;border-top:1px solid var(--border)">
           ${d.situacion ? `
-            <p style="font-size:12.5px;line-height:1.65;color:var(--gray);margin:.9rem 0 0">
+            <p class="medida" style="font-size:12.5px;line-height:1.65;color:var(--gray);margin:.9rem 0 0">
               <span style="color:var(--navy);font-weight:700">La situación:</span> ${escaparHTML(d.situacion)}
             </p>` : ''}
           ${d.porQueLaCorrecta ? `
-            <p style="font-size:13px;line-height:1.7;color:var(--gray);margin:.9rem 0 0;padding-left:.9rem;border-left:3px solid var(--navy)">
+            <p class="medida" style="font-size:13px;line-height:1.7;color:var(--gray);margin:.9rem 0 0;padding-left:.9rem;border-left:3px solid var(--navy)">
               <span style="color:var(--navy);font-weight:700">Por qué funciona la (${escaparHTML(d.correcta)}):</span> ${escaparHTML(d.porQueLaCorrecta)}
             </p>` : ''}
           ${!coincide && d.porQueTuOpcion ? `
-            <p style="font-size:13px;line-height:1.7;color:var(--gray);margin:.9rem 0 0;padding-left:.9rem;border-left:3px solid #d7ba7e">
+            <p class="medida" style="font-size:13px;line-height:1.7;color:var(--gray);margin:.9rem 0 0;padding-left:.9rem;border-left:3px solid #d7ba7e">
               <span style="color:var(--navy);font-weight:700">Qué pasa con la (${escaparHTML(d.elegida)}), la que elegiste:</span> ${escaparHTML(d.porQueTuOpcion)}
             </p>` : ''}
           ${d.razonamiento ? `
-            <p style="font-size:12.5px;line-height:1.65;color:var(--gray);margin:.9rem 0 0;font-style:italic">
+            <p class="medida" style="font-size:12.5px;line-height:1.65;color:var(--gray);margin:.9rem 0 0;font-style:italic">
               ${escaparHTML(d.razonamiento)}
             </p>` : ''}
         </div>
       </details>`;
   }).join('');
 
-  return `
-    <div style="margin-top:1.5rem">
-      <h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 .4rem">Pregunta por pregunta</h4>
-      <p style="font-size:12.5px;color:var(--gray);margin:0 0 .85rem;line-height:1.6">
-        Tocá cualquiera para ver el razonamiento detrás. No importa cuántas coincidieron: importa entender por qué.
-      </p>
-      <div style="display:grid;gap:.6rem">${items}</div>
-    </div>`;
+  return `<div style="display:grid;gap:.6rem">${items}</div>`;
 }
 
-// ── Panel TIPS Y HERRAMIENTAS: dos bloques que conviven ──
-function tarjetaTip(t){
+// ── Panel TIPS Y HERRAMIENTAS: bloques que conviven ──
+const EMOJIS_TIP = ['💡','🎧','✏️','⏱','🗂','🎯','🔁','📌'];
+
+function tarjetaTip(t, i){
   return `
     <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.4rem;text-align:left">
+      <div style="font-size:22px;line-height:1;margin-bottom:.6rem">${EMOJIS_TIP[i % EMOJIS_TIP.length]}</div>
       <h4 style="font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin:0 0 .5rem">${escaparHTML(t.titulo)}</h4>
-      <p style="font-size:13px;line-height:1.6;color:var(--gray);margin:0">${escaparHTML(t.detalle)}</p>
+      <p class="medida" style="font-size:13px;line-height:1.6;color:var(--gray);margin:0">${escaparHTML(t.detalle)}</p>
       ${t.herramienta && t.herramienta !== 'Ninguna'
         ? `<p style="font-size:12px;color:var(--navy);margin:.75rem 0 0;font-weight:600">🔧 ${escaparHTML(t.herramienta)}</p>` : ''}
     </div>
@@ -1756,33 +1836,74 @@ function tarjetaTip(t){
 }
 
 // ── Actividades ──
-// El agente devuelve 3 actividades junto con los tips. Vienen adentro de
-// 'contenido', que guarda la respuesta completa. Si n8n todavía no está
-// guardando ese campo, esto devuelve una lista vacía y no se rompe nada.
+// OJO: el texto de las tres actividades NO lo escribe el agente. Es fijo y vive acá,
+// justamente para que el modelo no las pueda acortar ni inventar. Lo único que devuelve
+// el agente es una 'sugerencia' por actividad, adentro de 'adaptaciones', para acercarla
+// a la forma de estudiar de ese alumno.
+const ACTIVIDADES_FIJAS = [
+  {
+    numero: 1,
+    titulo: 'Mapa del argumento',
+    objetivo: 'Ver cómo se conectan las ideas.',
+    instrucciones: 'Escribí la conclusión en el centro. Alrededor, las razones que la sostienen. Unilas con flechas.',
+    ejemplo: 'Centro: "hay que cerrar la plaza". Alrededor: "hubo robos", "no hay luz".',
+    entrega: 'Una foto del mapa.'
+  },
+  {
+    numero: 2,
+    titulo: 'Grabate explicando',
+    objetivo: 'Escuchar dónde se te traba.',
+    instrucciones: 'Grabate dos minutos contando el argumento con tus palabras, sin leer.',
+    ejemplo: 'Arrancá con "lo que dice el texto es que…" y seguí de memoria.',
+    entrega: 'El audio o el video.'
+  },
+  {
+    numero: 3,
+    titulo: 'Debatilo con alguien',
+    objetivo: 'Defender una postura con razones.',
+    instrucciones: 'Elegí a alguien, tomá la postura contraria a la tuya y grabá la charla.',
+    ejemplo: 'Si pensás que sí, defendé el no durante cinco minutos.',
+    entrega: 'La grabación de la charla.'
+  }
+];
+
+// Las actividades salen del texto fijo de arriba; del plan sólo viene la adaptación.
+// Si un día el agente pasa a devolver 'actividades' completas, también las tomamos.
 function actividadesDelPlan(plan){
   if(!plan) return [];
   const completo = comoObjeto(plan.contenido);
-  const lista = completo.actividades;
-  return Array.isArray(lista) ? lista.filter(a => a && (a.titulo || a.descripcion)) : [];
+
+  const propias = completo.actividades;
+  if(Array.isArray(propias) && propias.length){
+    return propias.filter(a => a && (a.titulo || a.descripcion));
+  }
+
+  const adaptaciones = Array.isArray(completo.adaptaciones) ? completo.adaptaciones : [];
+  if(!adaptaciones.length) return [];
+
+  return ACTIVIDADES_FIJAS.map((base, i) => {
+    const match = adaptaciones.find(ad => Number(ad.actividad) === base.numero) || adaptaciones[i] || {};
+    return { ...base, sugerencia: match.sugerencia || '' };
+  });
 }
 
-// Tres solapas con ícono arriba; abajo, la actividad elegida en detalle.
 let ACTIVIDADES_ACTUALES = [];
+let ACTIVIDAD_ELEGIDA = 0;
 
 const ICONOS_ACTIVIDAD = [
   // mapa conceptual
-  `<svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+  `<svg viewBox="0 0 48 48" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
      <circle cx="24" cy="24" r="5"/><circle cx="8" cy="12" r="3.4"/><circle cx="8" cy="36" r="3.4"/>
      <circle cx="40" cy="12" r="3.4"/><circle cx="40" cy="36" r="3.4"/>
      <path d="M19.6 21 11 13.8M19.6 27 11 34.2M28.4 21 37 13.8M28.4 27 37 34.2"/>
    </svg>`,
   // grabar / explicar paso a paso
-  `<svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+  `<svg viewBox="0 0 48 48" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
      <rect x="10" y="6" width="28" height="36" rx="2.5"/>
      <path d="M16 15h6M16 23h6M16 31h6M28 15h4M28 23h4M28 31h4"/>
    </svg>`,
   // debatir con alguien
-  `<svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+  `<svg viewBox="0 0 48 48" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
      <rect x="8" y="8" width="32" height="32" rx="2.5"/>
      <circle cx="19" cy="19" r="4"/>
      <path d="M12 33c1.5-4 4-6 7-6s5.5 2 7 6M28 16h8M28 22h8M28 28h6"/>
@@ -1792,7 +1913,7 @@ const ICONOS_ACTIVIDAD = [
 function campoActividad(etiqueta, texto){
   if(!texto) return '';
   return `
-    <p style="font-size:13px;line-height:1.7;color:var(--gray);margin:0 0 .7rem">
+    <p class="medida" style="font-size:13px;line-height:1.7;color:var(--gray);margin:0 0 .7rem">
       <span style="color:var(--navy);font-weight:700;border-bottom:1px solid var(--navy)">${escaparHTML(etiqueta)}:</span>
       ${escaparHTML(texto)}
     </p>`;
@@ -1801,12 +1922,14 @@ function campoActividad(etiqueta, texto){
 function seleccionarActividad(i){
   const a = ACTIVIDADES_ACTUALES[i];
   if(!a) return;
+  ACTIVIDAD_ELEGIDA = i;
 
   document.querySelectorAll('[data-act-tab]').forEach(b => {
     const activo = Number(b.dataset.actTab) === i;
     b.style.borderColor = activo ? 'var(--navy)' : 'var(--border)';
     b.style.background  = activo ? '#eef2f8' : '#fff';
     b.style.color       = activo ? 'var(--navy)' : '#9aa5b1';
+    b.style.borderWidth = activo ? '2px' : '1.5px';
   });
 
   const panel = document.getElementById('act-panel');
@@ -1815,7 +1938,9 @@ function seleccionarActividad(i){
   // Los nombres de los campos cambian según lo que devuelva el agente:
   // aceptamos las dos formas y mostramos sólo lo que exista.
   const instrucciones = a.instrucciones || a.descripcion || '';
-  const explicacion   = a.explicacion_corta || a.explicacion || a.adaptacion || '';
+  const explicacion   = a.explicacion_corta || a.explicacion || '';
+  // La adaptación del agente: lo único personalizado de esta actividad.
+  const sugerencia    = a.sugerencia || a.adaptacion || '';
 
   panel.innerHTML = `
     <div style="background:#fff;border:1.5px solid var(--navy);border-radius:var(--radius-lg);padding:1.6rem 1.75rem">
@@ -1823,27 +1948,190 @@ function seleccionarActividad(i){
         <span style="border-bottom:1px solid var(--navy)">${escaparHTML(String(a.numero || i + 1))}. ${escaparHTML(a.titulo || '')}</span>
       </h4>
       ${campoActividad('Objetivo', a.objetivo)}
-      ${campoActividad('Instrucciones', instrucciones)}
-      ${campoActividad('Explicación corta', explicacion)}
-      ${campoActividad('Entrega', a.entrega)}
+      ${campoActividad('Cómo se hace', instrucciones)}
+      ${a.ejemplo ? `
+        <p class="medida" style="background:#faf7f0;border-radius:8px;padding:.75rem .95rem;font-size:12.5px;line-height:1.6;color:var(--gray);margin:0 0 .9rem">
+          <span style="color:var(--navy);font-weight:700">Por ejemplo:</span> ${escaparHTML(a.ejemplo)}
+        </p>` : ''}
+      ${sugerencia ? `
+        <p class="medida" style="background:#eef2f8;border-left:3px solid var(--navy);border-radius:0 8px 8px 0;padding:.85rem 1rem;font-size:13px;line-height:1.65;color:var(--navy);margin:0 0 .9rem">
+          <span style="font-weight:700">Para vos:</span> ${escaparHTML(sugerencia)}
+        </p>` : ''}
+      ${explicacion ? `
+        <details style="margin:0 0 .7rem">
+          <summary style="list-style:none;cursor:pointer;font-size:12.5px;color:var(--navy);font-weight:600">¿Por qué esta actividad? ▾</summary>
+          <p style="font-size:13px;line-height:1.7;color:var(--gray);margin:.5rem 0 0">${escaparHTML(explicacion)}</p>
+        </details>` : ''}
+      ${campoActividad('Qué entregás', a.entrega)}
+      ${zonaDeEntrega(i)}
     </div>`;
+
+  cargarEntregas(i);
 }
 window.seleccionarActividad = seleccionarActividad;
+
+// ══════════════════════════════════════════════════════════════
+//  ENTREGAS: la alumna sube su actividad (foto, PDF, audio o video)
+//  Archivo → Supabase Storage (bucket 'entregas'), fila → tabla 'entregas'.
+//  La ruta siempre arranca con el user_id: así la policy de Storage puede
+//  dejar que cada una toque sólo su propia carpeta.
+// ══════════════════════════════════════════════════════════════
+const BUCKET_ENTREGAS = 'entregas';
+const MAX_ENTREGA_MB = 20;
+
+function zonaDeEntrega(i){
+  return `
+    <div style="margin-top:1.25rem;border-top:1px dashed var(--border);padding-top:1.25rem">
+      <h5 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin:0 0 .3rem">📤 Subí tu entrega</h5>
+      <p style="font-size:12.5px;color:var(--gray);margin:0 0 .9rem;line-height:1.6">
+        Una foto de la carpeta, un PDF, un audio o un video. Hasta ${MAX_ENTREGA_MB} MB.<br>
+        Queda guardado en tu cuenta de APRENDUX. Lo ve tu docente, nadie más.
+      </p>
+      <input type="file" id="entrega-archivo" style="display:none"
+             accept="image/*,application/pdf,audio/*,video/*,.doc,.docx,.txt"
+             onchange="subirEntrega(${i})">
+      <button type="button" id="btn-entrega" onclick="document.getElementById('entrega-archivo').click()"
+        style="background:#eef2f8;color:var(--navy);border:1.5px dashed var(--navy);border-radius:10px;padding:.8rem 1.4rem;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;cursor:pointer">
+        📎 Elegir archivo
+      </button>
+      <div id="entrega-estado" style="font-size:12.5px;margin-top:.7rem;line-height:1.6"></div>
+      <div id="entrega-lista" style="margin-top:.9rem;display:grid;gap:.5rem"></div>
+    </div>`;
+}
+
+function avisoEntrega(texto, color){
+  const caja = document.getElementById('entrega-estado');
+  if(caja){ caja.textContent = texto; caja.style.color = color || 'var(--gray)'; }
+}
+
+function pesoLegible(bytes){
+  if(!bytes && bytes !== 0) return '';
+  if(bytes < 1024 * 1024) return Math.max(1, Math.round(bytes / 1024)) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+async function subirEntrega(i){
+  const input = document.getElementById('entrega-archivo');
+  const archivo = input && input.files && input.files[0];
+  if(!archivo) return;
+
+  if(archivo.size > MAX_ENTREGA_MB * 1024 * 1024){
+    avisoEntrega(`Ese archivo pesa ${pesoLegible(archivo.size)} y el límite es ${MAX_ENTREGA_MB} MB. Probá con una foto más chica.`, '#c0392b');
+    input.value = '';
+    return;
+  }
+
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if(!user){ avisoEntrega('Volvé a iniciar sesión para poder subir.', '#c0392b'); return; }
+
+  avisoEntrega('Subiendo…');
+  const boton = document.getElementById('btn-entrega');
+  if(boton) boton.disabled = true;
+
+  const actividad = ACTIVIDADES_ACTUALES[i] || {};
+  const limpio = archivo.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(-80);
+  const ruta = `${user.id}/${Date.now()}_${limpio}`;
+
+  const { error: errArchivo } = await supabaseClient.storage
+    .from(BUCKET_ENTREGAS)
+    .upload(ruta, archivo, { upsert: false, contentType: archivo.type || 'application/octet-stream' });
+
+  if(errArchivo){
+    console.error('No se pudo subir el archivo:', errArchivo);
+    avisoEntrega('No se pudo subir. Probá de nuevo en un minuto.', '#c0392b');
+    if(boton) boton.disabled = false;
+    input.value = '';
+    return;
+  }
+
+  const { error: errFila } = await supabaseClient.from('entregas').insert({
+    user_id: user.id,
+    actividad_indice: i,
+    actividad_titulo: actividad.titulo || `Actividad ${i + 1}`,
+    archivo_ruta: ruta,
+    archivo_nombre: archivo.name,
+    archivo_tipo: archivo.type || null,
+    archivo_bytes: archivo.size
+  });
+
+  if(errFila){
+    console.error('El archivo subió pero no se pudo registrar:', errFila);
+    avisoEntrega('El archivo subió, pero no quedó registrado. Avisale a tu docente.', '#b4530a');
+  } else {
+    avisoEntrega('✓ Listo, quedó guardada.', '#1f7a5e');
+  }
+
+  if(boton) boton.disabled = false;
+  input.value = '';
+  cargarEntregas(i);
+}
+window.subirEntrega = subirEntrega;
+
+async function cargarEntregas(i){
+  const lista = document.getElementById('entrega-lista');
+  if(!lista) return;
+
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if(!user) return;
+
+  const { data: filas, error } = await supabaseClient
+    .from('entregas')
+    .select('id, archivo_ruta, archivo_nombre, archivo_bytes, created_at')
+    .eq('user_id', user.id)
+    .eq('actividad_indice', i)
+    .order('created_at', { ascending: false });
+
+  if(error){ console.warn('No se pudieron leer las entregas:', error); return; }
+  if(!filas || !filas.length){ lista.innerHTML = ''; return; }
+
+  // Los archivos son privados: hace falta un link firmado para poder verlos.
+  const { data: firmados } = await supabaseClient.storage
+    .from(BUCKET_ENTREGAS)
+    .createSignedUrls(filas.map(f => f.archivo_ruta), 3600);
+
+  const urlPorRuta = new Map((firmados || []).map(f => [f.path, f.signedUrl]));
+
+  lista.innerHTML = filas.map(f => {
+    const url = urlPorRuta.get(f.archivo_ruta);
+    const fecha = new Date(f.created_at).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' });
+    return `
+      <div style="display:flex;align-items:center;gap:.7rem;background:#f4f6f9;border-radius:8px;padding:.6rem .85rem">
+        <span style="font-size:15px">📄</span>
+        <span style="flex:1;min-width:0;font-size:12.5px;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+          ${escaparHTML(f.archivo_nombre)}
+          <span style="color:#9aa5b1"> · ${pesoLegible(f.archivo_bytes)} · ${escaparHTML(fecha)}</span>
+        </span>
+        ${url ? `<a href="${escaparHTML(url)}" target="_blank" rel="noopener" style="font-size:12px;color:var(--navy);font-weight:600;text-decoration:underline;white-space:nowrap">ver</a>` : ''}
+        <button type="button" onclick="borrarEntrega('${escaparHTML(f.id)}','${escaparHTML(f.archivo_ruta)}',${i})"
+          style="background:none;border:0;color:#9aa5b1;font-size:14px;cursor:pointer;line-height:1" title="Borrar">✕</button>
+      </div>`;
+  }).join('');
+}
+window.cargarEntregas = cargarEntregas;
+
+async function borrarEntrega(id, ruta, i){
+  if(!confirm('¿Borrar esta entrega?')) return;
+  await supabaseClient.storage.from(BUCKET_ENTREGAS).remove([ruta]);
+  const { error } = await supabaseClient.from('entregas').delete().eq('id', id);
+  if(error) console.warn('No se pudo borrar la fila:', error);
+  cargarEntregas(i);
+}
+window.borrarEntrega = borrarEntrega;
 
 function bloqueActividades(actividades){
   ACTIVIDADES_ACTUALES = actividades;
   return `
     <section>
-      ${encabezadoBloque('Actividades recomendadas para estudiar')}
-      <p style="font-size:13px;color:var(--gray);margin:0 0 1rem;line-height:1.6">
-        Elegí <strong style="color:var(--navy)">una</strong> de las tres. No hace falta que las hagas todas.
+      ${encabezadoBloque('Actividades para practicar')}
+      <p style="font-size:13px;color:var(--gray);margin:-.4rem 0 1rem;line-height:1.6">
+        Elegí <strong style="color:var(--navy)">una</strong>. No hace falta que las hagas todas.
       </p>
       <div style="display:flex;gap:.75rem;margin-bottom:1.1rem;flex-wrap:wrap">
         ${actividades.map((a, i) => `
           <button type="button" data-act-tab="${i}" onclick="seleccionarActividad(${i})"
-            title="${escaparHTML(a.titulo || '')}"
-            style="width:74px;height:64px;display:flex;align-items:center;justify-content:center;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);color:#9aa5b1;cursor:pointer;transition:all .15s">
+            style="flex:1 1 150px;min-width:130px;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.9rem .8rem;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);color:#9aa5b1;cursor:pointer;transition:all .15s;text-align:center">
             ${ICONOS_ACTIVIDAD[i % ICONOS_ACTIVIDAD.length]}
+            <span style="font-family:'Montserrat',sans-serif;font-size:11.5px;font-weight:700;line-height:1.3">${escaparHTML(a.titulo || ('Actividad ' + (i + 1)))}</span>
           </button>`).join('')}
       </div>
       <div id="act-panel"></div>
@@ -1876,7 +2164,7 @@ function pintarTips(plan, porTest){
   if(!tipsPerfil.length && !bloquesDeTest.length && !actividades.length){
     if(resumenBox) resumenBox.style.display = 'none';
     box.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px';
-    box.innerHTML = 'Estamos armando tus recomendaciones a partir de tus respuestas.<br>Aparecen acá en un par de minutos — podés cerrar y volver más tarde.';
+    box.innerHTML = '<div style="font-size:34px;margin-bottom:.6rem">⚙️</div>Estamos armando tus recomendaciones.<br>Aparecen acá en un par de minutos — podés cerrar y volver más tarde.';
     return;
   }
 
@@ -1884,7 +2172,7 @@ function pintarTips(plan, porTest){
   if(resumenBox && plan?.resumen){
     resumenBox.innerHTML = `
       <span style="display:block;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.6rem">Cómo aprendés</span>
-      <span style="display:block;font-size:16.5px;line-height:1.65">${escaparHTML(plan.resumen)}</span>`;
+      <span class="medida" style="display:block;font-size:16.5px;line-height:1.65">${escaparHTML(plan.resumen)}</span>`;
     resumenBox.style.display = 'block';
   } else if(resumenBox){
     resumenBox.style.display = 'none';
@@ -1898,7 +2186,7 @@ function pintarTips(plan, porTest){
   if(tipsPerfil.length){
     bloques.push(`
       <section>
-        ${encabezadoBloque('A partir del test de estilos de aprendizaje')}
+        ${encabezadoBloque('Tus tips para estudiar')}
         ${grillaDeTips(tipsPerfil)}
       </section>
     `);
@@ -1908,7 +2196,7 @@ function pintarTips(plan, porTest){
   bloquesDeTest.forEach(b => {
     bloques.push(`
       <section>
-        ${encabezadoBloque('A partir del ' + b.titulo)}
+        ${encabezadoBloque('Después de ' + b.titulo)}
         ${grillaDeTips(b.tips)}
       </section>
     `);
@@ -1925,7 +2213,7 @@ function pintarTips(plan, porTest){
 
 // Si ya había una sesión activa (Supabase la persiste sola en el navegador), restauramos el dashboard
 supabaseClient.auth.getSession().then(({ data: { session } }) => {
-  if(session) cargarPerfilEnDashboard();
+  if(session){ cargarPerfilEnDashboard(); refrescarCalendario(); }
 });
 </script>
 </body>
