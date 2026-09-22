@@ -1836,10 +1836,13 @@ function tarjetaTip(t, i){
 }
 
 // ── Actividades ──
-// OJO: el texto de las tres actividades NO lo escribe el agente. Es fijo y vive acá,
-// justamente para que el modelo no las pueda acortar ni inventar. Lo único que devuelve
-// el agente es una 'sugerencia' por actividad, adentro de 'adaptaciones', para acercarla
-// a la forma de estudiar de ese alumno.
+// El texto de las tres actividades es FIJO y vive acá. Es a propósito: así el modelo
+// no lo puede acortar, alterar ni inventar, y la redacción es siempre la misma.
+// Del agente tomamos SÓLO la línea personalizada de cada actividad. Puede llegar en
+// dos formas según cómo esté configurado el prompt:
+//   contenido.actividades[]  -> { numero, titulo, descripcion, adaptacion }
+//   contenido.adaptaciones[] -> { actividad, sugerencia }
+// Las dos se aceptan; de ambas usamos únicamente el texto personalizado.
 const ACTIVIDADES_FIJAS = [
   {
     numero: 1,
@@ -1867,24 +1870,54 @@ const ACTIVIDADES_FIJAS = [
   }
 ];
 
-// Las actividades salen del texto fijo de arriba; del plan sólo viene la adaptación.
-// Si un día el agente pasa a devolver 'actividades' completas, también las tomamos.
-function actividadesDelPlan(plan){
-  if(!plan) return [];
-  const completo = comoObjeto(plan.contenido);
+// Busca la línea personalizada de una actividad, en cualquiera de las dos formas.
+function adaptacionDeActividad(completo, numero, indice){
+  const porActividades = Array.isArray(completo.actividades) ? completo.actividades : [];
+  const desdeActividades = porActividades.find(a => Number(a.numero) === numero) || porActividades[indice];
+  if(desdeActividades && desdeActividades.adaptacion) return desdeActividades.adaptacion;
 
-  const propias = completo.actividades;
-  if(Array.isArray(propias) && propias.length){
-    return propias.filter(a => a && (a.titulo || a.descripcion));
-  }
+  const porAdaptaciones = Array.isArray(completo.adaptaciones) ? completo.adaptaciones : [];
+  const desdeAdaptaciones = porAdaptaciones.find(a => Number(a.actividad) === numero) || porAdaptaciones[indice];
+  if(desdeAdaptaciones) return desdeAdaptaciones.sugerencia || desdeAdaptaciones.adaptacion || '';
 
-  const adaptaciones = Array.isArray(completo.adaptaciones) ? completo.adaptaciones : [];
-  if(!adaptaciones.length) return [];
+  return '';
+}
 
-  return ACTIVIDADES_FIJAS.map((base, i) => {
-    const match = adaptaciones.find(ad => Number(ad.actividad) === base.numero) || adaptaciones[i] || {};
-    return { ...base, sugerencia: match.sugerencia || '' };
-  });
+// Las actividades cuelgan de Razonamiento Crítico 1, no del test de estilos:
+// aparecen recién cuando llegó la devolución de RC1, y la línea personalizada
+// ("Para vos:") la escribe el agente de RC1.
+// Si ese agente todavía no la manda, usamos como respaldo la del plan de estilos,
+// así la actividad nunca queda sin su línea mientras se ajusta el prompt en n8n.
+function actividadesParaMostrar(plan, porTest){
+  const devolucionRc1 = porTest && typeof porTest.get === 'function' ? porTest.get('rc1') : null;
+  if(!devolucionRc1) return [];
+
+  const desdeRc1  = comoObjeto(devolucionRc1.contenido);
+  const desdePlan = plan ? comoObjeto(plan.contenido) : {};
+
+  return ACTIVIDADES_FIJAS.map((base, i) => ({
+    ...base,
+    sugerencia: adaptacionDeActividad(desdeRc1, base.numero, i)
+             || adaptacionDeActividad(desdePlan, base.numero, i)
+  }));
+}
+
+// ── Autoevaluación: va después de la actividad ──
+const AUTOEVALUACION_URL = 'https://forms.gle/5XzSqSCfvxPqaPyAA';
+
+function bloqueAutoevaluacion(){
+  return `
+    <section>
+      ${encabezadoBloque('Para cerrar')}
+      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem 1.6rem">
+        <h4 style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:var(--navy);margin:0 0 .6rem">Contanos cómo te fue</h4>
+        <p class="medida" style="font-size:13px;line-height:1.65;color:var(--gray);margin:0 0 1.2rem">
+          Cuando termines la actividad, respondé esta autoevaluación. Lleva unos diez minutos
+          y nos sirve para entender qué te sirvió y qué no.
+        </p>
+        <a class="btn-primary" href="${AUTOEVALUACION_URL}" target="_blank" rel="noopener" style="text-decoration:none">Hacer la autoevaluación</a>
+      </div>
+    </section>`;
 }
 
 let ACTIVIDADES_ACTUALES = [];
@@ -2156,10 +2189,10 @@ function pintarTips(plan, porTest){
   // Un bloque por test que haya dejado tips, en el orden de la lista de tests
   const bloquesDeTest = TESTS
     .filter(t => porTest.has(t.id))
-    .map(t => ({ titulo: t.titulo, tips: comoLista(comoObjeto(porTest.get(t.id).contenido).tips) }))
+    .map(t => ({ id: t.id, titulo: t.titulo, tips: comoLista(comoObjeto(porTest.get(t.id).contenido).tips) }))
     .filter(b => b.tips.length);
 
-  const actividades = actividadesDelPlan(plan);
+  const actividades = actividadesParaMostrar(plan, porTest);
 
   if(!tipsPerfil.length && !bloquesDeTest.length && !actividades.length){
     if(resumenBox) resumenBox.style.display = 'none';
@@ -2192,7 +2225,9 @@ function pintarTips(plan, porTest){
     `);
   }
 
-  // Y debajo, un bloque por cada test que fue dejando tips nuevos
+  // Y debajo, un bloque por cada test que fue dejando tips nuevos.
+  // La actividad y la autoevaluación entran justo después del bloque de RC1:
+  // primero la devolución del test, después la práctica, después el cierre.
   bloquesDeTest.forEach(b => {
     bloques.push(`
       <section>
@@ -2200,10 +2235,18 @@ function pintarTips(plan, porTest){
         ${grillaDeTips(b.tips)}
       </section>
     `);
+    if(b.id === 'rc1' && actividades.length){
+      bloques.push(bloqueActividades(actividades));
+      bloques.push(bloqueAutoevaluacion());
+    }
   });
 
-  // Las actividades van al final: primero entender cómo aprende, después practicar.
-  if(actividades.length) bloques.push(bloqueActividades(actividades));
+  // Respaldo: si RC1 dejó devolución pero ningún tip, arriba no hay bloque de RC1
+  // donde colgarlas. En ese caso van al final, pero igual sólo existen con RC1 hecho.
+  if(actividades.length && !bloquesDeTest.some(b => b.id === 'rc1')){
+    bloques.push(bloqueActividades(actividades));
+    bloques.push(bloqueAutoevaluacion());
+  }
 
   box.innerHTML = bloques.join('');
 
