@@ -205,6 +205,11 @@ br.mobile-break{display:none}
 .dash-topbar-nav a.active{font-weight:700;text-decoration:underline}
 .dash-topbar-btn{background:var(--navy);color:#fff;padding:7px 18px;border-radius:6px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Open Sans',sans-serif}
 .dash-content{padding:2rem;flex:1}
+.nav-corto{display:none}
+.pass-wrap{position:relative}
+.pass-wrap .reg-input{padding-right:64px}
+.pass-ver{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--navy);font-size:12px;font-weight:600;text-decoration:underline;cursor:pointer;padding:8px}
+.ayuda-pass{font-size:11px;color:var(--gray);margin-top:4px}
 .content-tab{display:none}
 .content-tab.active{display:block}
 .dash-title-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 20px;margin-bottom:1.5rem;display:inline-block}
@@ -361,7 +366,7 @@ summary::-webkit-details-marker{display:none}
   .reg-hero h1{font-size:18px}
   .reg-body{padding:0 1.25rem 2.5rem;margin:1.25rem auto}
   .reg-body > div{grid-template-columns:1fr !important}
-  .reg-body > div > div:last-child{display:none} /* saca el emoji decorativo grande */
+  #reg-body-registro > div > div:last-child{display:none} /* saca el emoji decorativo grande */
   .reg-field{grid-template-columns:1fr !important;gap:4px;padding:10px 0}
   .radio-group{gap:0.75rem}
   .reg-actions{flex-direction:column;gap:12px;align-items:stretch}
@@ -377,6 +382,22 @@ summary::-webkit-details-marker{display:none}
   .dash-topbar{padding:0 1rem;flex-wrap:wrap;height:auto;min-height:54px;gap:8px 0}
   .dash-topbar-nav{gap:1rem}
   .dash-content{padding:1.25rem}
+
+  /* Celular: la navegación del panel pasa a una barra fija abajo, como una app */
+  .dash-sidebar{display:contents}
+  .dash-main{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  .dash-sidebar-top,.dash-recordatorios{display:none}
+  .dash-nav{position:fixed;left:0;right:0;bottom:0;z-index:500;flex-direction:row;flex-wrap:nowrap;gap:0;
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--border);
+    box-shadow:0 -2px 10px rgba(0,0,0,0.06)}
+  .dash-nav-item{flex:1 1 0;flex-direction:column;gap:3px;padding:6px 2px;font-size:11px;font-weight:600;border-radius:8px;min-height:52px}
+  .dash-nav-item-icon{width:22px;height:22px}
+  .nav-largo{display:none}
+  .nav-corto{display:inline}
+  .dash-title-box{display:block;padding:10px 14px}
+  /* 16px evita que el iPhone haga zoom al tocar un campo */
+  .reg-input{font-size:16px;padding:11px 14px}
+  .dash-topbar-nav a{padding:10px 0}
 
   .perfil-layout,.config-layout{grid-template-columns:1fr !important}
   .perfil-left-card{display:flex;align-items:center;gap:14px}
@@ -663,12 +684,14 @@ summary::-webkit-details-marker{display:none}
 </div>
 
 <div class="reg-body" style="max-width:420px">
-  <div class="reg-field" style="grid-template-columns:1fr"><label>Email</label><input id="login-email" class="reg-input" type="email"></div>
-  <div class="reg-field" style="grid-template-columns:1fr"><label>Contraseña</label><input id="login-password" class="reg-input" type="password"></div>
+  <div class="reg-field" style="grid-template-columns:1fr"><label>Email</label><input id="login-email" class="reg-input" type="email" autocomplete="username" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+  <div class="reg-field" style="grid-template-columns:1fr"><label>Contraseña</label><div class="pass-wrap"><input id="login-password" class="reg-input" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="pass-ver" onclick="verPass(this)">Ver</button></div></div>
   <div id="login-error" style="display:none;color:#c0392b;font-size:12px;margin-top:10px">Email o contraseña incorrectos.</div>
+  <div id="login-ok" style="display:none;color:#1e7d4f;font-size:12px;margin-top:10px"></div>
   <div class="reg-actions" style="justify-content:center;margin-top:2rem">
     <button class="btn-continuar" id="btn-login">Ingresar</button>
   </div>
+  <p style="text-align:center;margin-top:1.25rem;font-size:13px"><a href="#" onclick="olvideMiPass();return false;" style="color:var(--navy)">¿Olvidaste tu contraseña?</a></p>
 </div>
 
 <footer>
@@ -702,8 +725,8 @@ summary::-webkit-details-marker{display:none}
       <div class="reg-field"><label>Apellido</label><input id="apellido" class="reg-input" type="text" placeholder=""></div>
       <div class="reg-field"><label>Edad</label><input id="edad" class="reg-input" type="text" placeholder=""></div>
       <div class="reg-field"><label>Género</label><div class="radio-group"><label class="radio-opt"><input type="radio" name="gen" value="femenino"> Femenino</label><label class="radio-opt"><input type="radio" name="gen" value="masculino"> Masculino</label><label class="radio-opt"><input type="radio" name="gen" value="no_binario"> No binario</label><label class="radio-opt"><input type="radio" name="gen" value="prefiero_no_contestar"> Prefiero no contestar</label></div></div>
-      <div class="reg-field"><label>Email</label><input id="email" class="reg-input" type="email" placeholder=""></div>
-      <div class="reg-field"><label>Contraseña</label><input id="password" class="reg-input" type="password" placeholder=""></div>
+      <div class="reg-field"><label>Email</label><input id="email" class="reg-input" type="email" placeholder="" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="reg-field"><label>Contraseña</label><div><div class="pass-wrap"><input id="password" class="reg-input" type="password" placeholder="" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="button" class="pass-ver" onclick="verPass(this)">Ver</button></div><div class="ayuda-pass">Mínimo 6 caracteres. Tocá "Ver" para revisar que esté bien escrita.</div></div></div>
 
       <h2 class="reg-section-title">Datos Académicos</h2>
       <div class="reg-field"><label>Institución</label><input id="institucion" class="reg-input" type="text"></div>
@@ -751,21 +774,21 @@ summary::-webkit-details-marker{display:none}
       </div>
     </div>
     <div class="dash-nav">
-      <div class="dash-nav-item active" onclick="showTab('tips',this)">
+      <div class="dash-nav-item" onclick="showTab('tips',this)">
         <svg class="dash-nav-item-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M7 13l1 4h4l1-4" stroke="currentColor" stroke-width="1.5"/></svg>
-        TIPS Y HERRAMIENTAS
+        <span class="nav-largo">TIPS Y HERRAMIENTAS</span><span class="nav-corto">Tips</span>
       </div>
       <div class="dash-nav-item" onclick="showTab('calendario',this)">
         <svg class="dash-nav-item-icon" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="2" y1="8" x2="18" y2="8" stroke="currentColor" stroke-width="1.5"/><line x1="7" y1="2" x2="7" y2="6" stroke="currentColor" stroke-width="1.5"/><line x1="13" y1="2" x2="13" y2="6" stroke="currentColor" stroke-width="1.5"/></svg>
-        CALENDARIO
+        <span class="nav-largo">CALENDARIO</span><span class="nav-corto">Calendario</span>
       </div>
-      <div class="dash-nav-item" onclick="showTab('tests',this)">
+      <div class="dash-nav-item active" onclick="showTab('tests',this)">
         <svg class="dash-nav-item-icon" viewBox="0 0 20 20" fill="none"><rect x="3" y="2" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="7" x2="14" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="11" x2="14" y2="11" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="15" x2="10" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
-        TEST Y AUTOEVALUACIONES
+        <span class="nav-largo">TEST Y AUTOEVALUACIONES</span><span class="nav-corto">Tests</span>
       </div>
       <div class="dash-nav-item" onclick="showTab('rendimiento',this)">
         <svg class="dash-nav-item-icon" viewBox="0 0 20 20" fill="none"><polyline points="2,16 7,10 11,13 15,6 18,9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        RENDIMIENTO
+        <span class="nav-largo">RENDIMIENTO</span><span class="nav-corto">Progreso</span>
       </div>
       <div class="dash-recordatorios">
         <div class="dash-rec-title">RECORDATORIOS</div>
@@ -776,7 +799,7 @@ summary::-webkit-details-marker{display:none}
 
   <div class="dash-main">
     <div class="dash-topbar">
-      <div class="logo" onclick="showTab('tips',document.querySelector('.dash-nav-item'))" style="cursor:pointer">
+      <div class="logo" onclick="irATests()" style="cursor:pointer">
         <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LogoAprendux-02.png" alt="Aprendux" style="height:32px;width:auto">
       </div>
       <div class="dash-topbar-nav">
@@ -788,7 +811,7 @@ summary::-webkit-details-marker{display:none}
     <div class="dash-content">
 
       <!-- TIPS -->
-      <div id="tab-tips" class="content-tab active">
+      <div id="tab-tips" class="content-tab">
         <div class="dash-title-box"><h1>TIPS Y HERRAMIENTAS</h1></div>
         <div id="tips-resumen" style="display:none;background:var(--navy);color:#fff;border-radius:var(--radius-lg);padding:1.5rem 1.75rem;margin-bottom:1rem;font-size:14px;line-height:1.6"></div>
         <div id="tips-box" style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
@@ -856,7 +879,7 @@ summary::-webkit-details-marker{display:none}
       </div>
 
       <!-- TESTS -->
-      <div id="tab-tests" class="content-tab">
+      <div id="tab-tests" class="content-tab active">
         <div class="dash-title-box"><h1>TEST Y AUTOEVALUACIONES</h1></div>
         <div id="tests-box" style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;color:var(--gray);font-size:13px">
           Todavía no tenés tests ni autoevaluaciones cargados.<br>Van a aparecer acá a medida que tu institución o docente los vayan asignando.
@@ -940,6 +963,10 @@ function showPage(id){
   window.scrollTo(0,0);
 }
 
+function irATests(){
+  showTab('tests', document.querySelector('.dash-nav-item[onclick*="\'tests\'"]'));
+}
+
 function showTab(tab, navItem, title){
   document.querySelectorAll('.content-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.dash-nav-item').forEach(n=>n.classList.remove('active'));
@@ -949,6 +976,7 @@ function showTab(tab, navItem, title){
   const tb=document.querySelectorAll('.dash-topbar-nav a');
   tb.forEach(a=>a.classList.remove('active'));
   if(tab==='perfil' && tb[0])tb[0].classList.add('active');
+  window.scrollTo(0,0);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1257,6 +1285,13 @@ function mostrarErrorRegistro(msg){
 
 document.getElementById('btn-continuar-registro').addEventListener('click', async () => {
   if(!validarRegistro()) return;
+  const passReg = document.getElementById('password');
+  if(passReg.value.length < 6){
+    passReg.style.borderColor = '#c0392b';
+    passReg.scrollIntoView({behavior:'smooth', block:'center'});
+    mostrarErrorRegistro('La contraseña tiene que tener al menos 6 caracteres.');
+    return;
+  }
 
   const btn = document.getElementById('btn-continuar-registro');
   btn.disabled = true;
@@ -1268,7 +1303,7 @@ document.getElementById('btn-continuar-registro').addEventListener('click', asyn
     apellido: document.querySelector('#apellido')?.value.trim(),
     edad: document.querySelector('#edad')?.value.trim(),
     genero: document.querySelector('input[name="gen"]:checked')?.value,
-    email: document.querySelector('#email')?.value.trim(),
+    email: normalizarEmail(document.querySelector('#email')?.value),
     password: document.querySelector('#password')?.value,
     institucion: document.querySelector('#institucion')?.value.trim(),
     grado: document.querySelector('#grado')?.value.trim(),
@@ -1349,6 +1384,7 @@ document.getElementById('btn-continuar-registro').addEventListener('click', asyn
   window.open(linkDelTestDeEstilos(userId), '_blank');
 
   await cargarPerfilEnDashboard();
+  irATests();
   showPage('page-dashboard');
 });
 
@@ -1367,21 +1403,87 @@ async function iniciarSesion(email, password) {
   btn.textContent = textoOriginal;
 
   if(error){
-    errBox.textContent = error.message === 'Invalid login credentials'
-      ? 'Email o contraseña incorrectos.'
-      : 'No se pudo conectar. Intentá de nuevo.';
+    errBox.textContent = traducirErrorLogin(error);
     errBox.style.display = 'block';
     return;
   }
 
   await cargarPerfilEnDashboard();
+  irATests();
   showPage('page-dashboard');
 }
 
 document.getElementById('btn-login').addEventListener('click', () => {
-  const email = document.getElementById('login-email').value;
+  const email = normalizarEmail(document.getElementById('login-email').value);
   const password = document.getElementById('login-password').value;
   iniciarSesion(email, password);
+});
+
+// ── Helpers de contraseña ──
+function normalizarEmail(v){ return String(v || '').trim().toLowerCase(); }
+
+function verPass(btn){
+  const input = btn.parentElement.querySelector('input');
+  const mostrar = input.type === 'password';
+  input.type = mostrar ? 'text' : 'password';
+  btn.textContent = mostrar ? 'Ocultar' : 'Ver';
+}
+
+function traducirErrorLogin(error){
+  const m = (error && error.message || '').toLowerCase();
+  if(m.includes('invalid login credentials')) return 'Email o contraseña incorrectos. Revisá con "Ver" que esté bien escrita, o usá "¿Olvidaste tu contraseña?".';
+  if(m.includes('email not confirmed')) return 'Todavía no confirmaste tu mail. Buscá el mail de Aprendux (mirá también en spam) y tocá el link.';
+  if(m.includes('rate limit') || m.includes('too many')) return 'Hubo demasiados intentos. Esperá un minuto y probá de nuevo.';
+  if(m.includes('fetch') || m.includes('network')) return 'No hay conexión. Revisá el wifi o los datos y probá de nuevo.';
+  return 'No se pudo ingresar: ' + (error && error.message || 'error desconocido');
+}
+
+// Enter en el celular / compu = tocar "Ingresar"
+['login-email','login-password'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); document.getElementById('btn-login').click(); }
+  });
+});
+
+// ── Recuperar contraseña ──
+async function olvideMiPass(){
+  const email = normalizarEmail(document.getElementById('login-email').value);
+  const errBox = document.getElementById('login-error');
+  const okBox = document.getElementById('login-ok');
+  errBox.style.display = 'none'; okBox.style.display = 'none';
+  if(!email){
+    errBox.textContent = 'Escribí tu mail arriba y después tocá "¿Olvidaste tu contraseña?".';
+    errBox.style.display = 'block';
+    return;
+  }
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + window.location.pathname
+  });
+  if(error){
+    errBox.textContent = traducirErrorLogin(error);
+    errBox.style.display = 'block';
+    return;
+  }
+  okBox.textContent = 'Listo. Te mandamos un mail para crear una contraseña nueva (mirá también en spam).';
+  okBox.style.display = 'block';
+}
+
+// Cuando el alumno vuelve desde el link del mail, le pedimos la contraseña nueva
+supabaseClient.auth.onAuthStateChange(async (evento) => {
+  if(evento !== 'PASSWORD_RECOVERY') return;
+  let nueva = '';
+  while(true){
+    nueva = window.prompt('Escribí tu contraseña nueva (mínimo 6 caracteres):') || '';
+    if(!nueva) return;
+    if(nueva.length >= 6) break;
+    window.alert('Tiene que tener al menos 6 caracteres.');
+  }
+  const { error } = await supabaseClient.auth.updateUser({ password: nueva });
+  if(error){ window.alert('No se pudo cambiar: ' + error.message); return; }
+  window.alert('¡Listo! Tu contraseña nueva ya funciona.');
+  await cargarPerfilEnDashboard();
+  irATests();
+  showPage('page-dashboard');
 });
 
 function cerrarSesion(){
@@ -1848,7 +1950,7 @@ const ACTIVIDADES_FIJAS = [
     numero: 1,
     titulo: 'Mapa del argumento',
     objetivo: 'Ver cómo se conectan las ideas.',
-    instrucciones: 'Escribí la conclusión en el centro. Alrededor, las razones que la sostienen. Unilas con flechas.',
+    instrucciones: 'Volvé sobre una de las situaciones del test. Escribí en el centro qué quiere que creas, alrededor las razones que da, y unilas con flechas.',
     ejemplo: 'Centro: "hay que cerrar la plaza". Alrededor: "hubo robos", "no hay luz".',
     entrega: 'Una foto del mapa.'
   },
@@ -1856,16 +1958,16 @@ const ACTIVIDADES_FIJAS = [
     numero: 2,
     titulo: 'Grabate explicando',
     objetivo: 'Escuchar dónde se te traba.',
-    instrucciones: 'Grabate dos minutos contando el argumento con tus palabras, sin leer.',
-    ejemplo: 'Arrancá con "lo que dice el texto es que…" y seguí de memoria.',
+    instrucciones: 'Elegí una situación del test y grabate dos minutos contándola con tus palabras, sin leer. Al llegar a lo que quiere que creas, decí en voz alta qué hay que dar por cierto para que eso se sostenga.',
+    ejemplo: 'Arrancá con "acá lo que se quiere probar es que…" y seguí de memoria.',
     entrega: 'El audio o el video.'
   },
   {
     numero: 3,
     titulo: 'Debatilo con alguien',
     objetivo: 'Defender una postura con razones.',
-    instrucciones: 'Elegí a alguien, tomá la postura contraria a la tuya y grabá la charla.',
-    ejemplo: 'Si pensás que sí, defendé el no durante cinco minutos.',
+    instrucciones: 'Contale a alguien una situación del test y defendé la postura contraria a la que elegiste vos. Pedile que te frene cada vez que des algo por cierto sin haberlo dicho.',
+    ejemplo: 'Si te pareció que el plan iba a funcionar, sostené durante cinco minutos que no.',
     entrega: 'La grabación de la charla.'
   }
 ];
@@ -2256,7 +2358,10 @@ function pintarTips(plan, porTest){
 
 // Si ya había una sesión activa (Supabase la persiste sola en el navegador), restauramos el dashboard
 supabaseClient.auth.getSession().then(({ data: { session } }) => {
-  if(session){ cargarPerfilEnDashboard(); refrescarCalendario(); }
+  if(session){
+    cargarPerfilEnDashboard(); refrescarCalendario();
+    irATests(); showPage('page-dashboard');   // si ya estaba logueado, entra directo
+  }
 });
 </script>
 </body>
