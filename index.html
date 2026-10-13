@@ -866,6 +866,27 @@ a.poster-herr:hover{border-color:var(--navy)}
   #dev-modal{padding:1rem .6rem !important}
   #dev-modal-caja{padding:1.2rem 1rem 1.4rem !important}
 }
+
+/* v9.1 · plan a medida + contraseña */
+.plan-dia-tit{color:var(--navy)}
+.plan-dia-det{display:block;font-size:14px;color:var(--gray);line-height:1.5;margin-top:.2rem}
+.plan-dia-meta{display:block;font-size:13px;font-weight:700;color:var(--navy);margin-top:.3rem}
+.armando{padding:1rem 0 .5rem}
+.armando-cer{width:84px;margin:0 auto .6rem;animation:armando 1.2s ease-in-out infinite alternate}
+@keyframes armando{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-8px) rotate(4deg)}}
+.armando-barra{height:8px;border-radius:8px;background:var(--blue-bg);overflow:hidden;margin:1rem auto 0;max-width:260px}
+.armando-barra span{display:block;height:100%;width:40%;border-radius:8px;background:var(--orange);animation:barra 1.4s ease-in-out infinite}
+@keyframes barra{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+.pass-wrap{position:relative;display:block;width:100%}
+.pass-wrap .reg-input,.pass-wrap input{width:100%;padding-right:48px;box-sizing:border-box}
+.pass-ojo{position:absolute;right:4px;top:50%;transform:translateY(-50%);border:0;background:none;font-size:19px;line-height:1;cursor:pointer;padding:8px;border-radius:8px}
+.pass-ojo:focus-visible{outline:2px solid var(--navy)}
+#pass-nueva-overlay{display:none;position:fixed;inset:0;background:rgba(11,31,59,.55);z-index:9999;align-items:center;justify-content:center;padding:1rem}
+#pass-nueva-caja{background:#fff;border-radius:18px;max-width:400px;width:100%;padding:1.5rem 1.3rem}
+#pass-nueva-caja h2{font-family:'Montserrat',sans-serif;font-size:20px;color:var(--navy);margin:0 0 .4rem}
+#pass-nueva-caja p{font-size:14.5px;color:var(--gray);margin:0 0 1rem;line-height:1.5}
+#pass-nueva-caja .reg-input{font-size:16px;padding:12px 14px}
+@media (max-width: 860px){ .reg-input{font-size:16px} }
 </style>
 </head>
 <body>
@@ -2411,7 +2432,7 @@ async function calEditarEvento(ev, campos){
   const extra = {};
   if(error){
     const basico = { ...campos };
-    [...OPCIONALES_EVENTO, 'plan_hechos', 'nota'].forEach(k => { if(k in basico){ extra[k] = basico[k]; delete basico[k]; } });
+    [...OPCIONALES_EVENTO, 'plan_hechos', 'nota', 'plan_ia'].forEach(k => { if(k in basico){ extra[k] = basico[k]; delete basico[k]; } });
     error = null;
     if(Object.keys(basico).length){
       ({ error } = await supabaseClient.from('eventos_calendario').update(basico).eq('id', ev.id));
@@ -2754,32 +2775,196 @@ function fechaCreacion(ev){
 }
 function diasDeAnticipacion(ev){ return Math.round((deISO(ev.fecha) - fechaCreacion(ev)) / 86400000); }
 
+// ══════════════════════════════════════════════════════════════
+//  v9.1 · PLAN DE ESTUDIO CON IA
+//  Cuando anota un examen o un TP, le pedimos el plan a n8n (webhook plan-estudio):
+//  los temas, cómo aprende (sus claves y los niveles del radar) y lo que mostraron
+//  RC1 y RC2. Nunca viaja el cluster ni porcentajes.
+//  Si n8n no contesta (sin cuota, sin internet), queda el plan armado acá.
+// ══════════════════════════════════════════════════════════════
+const N8N_PLAN_URL = 'https://aprendux.app.n8n.cloud/webhook/plan-estudio';
+const PLAN_PIDIENDO = new Set();
+const PLAN_YA_INTENTADO = new Set();
+
+function temasDe(txt){
+  return String(txt || '').split(/[\n,;•·]+|\s+-\s+|\s+y\s+/i)
+    .map(t => t.replace(/^[\s\-\d.)]+/, '').trim()).filter(t => t.length > 1).slice(0, 12);
+}
+function clavesDelAlumno(){
+  if(!PLAN_ACTUAL) return [];
+  return comoLista(PLAN_ACTUAL.tips).slice(0, 3).map(t => { const k = claveDeTip(t); return { palabra: k.palabra, herramienta: k.herramienta || '' }; });
+}
+function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || ''].join('|'); }
+function planIA(ev){
+  const p = comoObjeto(ev && ev.plan_ia);
+  return Array.isArray(p.sesiones) && p.sesiones.length ? p : null;
+}
+function planIAAlDia(ev){ const p = planIA(ev); return !!p && p.firma === firmaPlan(ev); }
+
+// DEVOLUCIONES_ACTUALES se declara más abajo: al cargar la página todavía no existe
+function devs(){ try { return DEVOLUCIONES_ACTUALES; } catch(e){ return null; } }
+function resumenDeTest(id){
+  const m = devs();
+  const d = m && m.get ? m.get(id) : null;
+  if(!d) return null;
+  const c = comoObjeto(d.contenido);
+  const detalle = Array.isArray(c.detalle) ? c.detalle : [];
+  const total = detalle.length;
+  const coinciden = detalle.filter(x => x.elegida && x.correcta && x.elegida === x.correcta).length;
+  return {
+    hecho: true,
+    resultado: d.puntaje !== null && d.puntaje !== undefined ? `${d.puntaje}/10` : (total ? `${coinciden}/${total}` : ''),
+    resumen: typeof c.resumen === 'string' ? c.resumen.slice(0, 600) : '',
+    a_reforzar: detalle.filter(x => !(x.elegida && x.elegida === x.correcta))
+      .map(x => x.razonamiento || x.situacion || '').filter(Boolean).slice(0, 4).map(s => String(s).slice(0, 220)),
+    tips: comoLista(c.tips).map(t => (t && (t.titulo || t.texto)) || (typeof t === 'string' ? t : '')).filter(Boolean).slice(0, 4)
+  };
+}
+
+function fechasParaPlan(ev){
+  const examen = deISO(ev.fecha);
+  const out = [];
+  let d = deISO(hoyISO());
+  while(d < examen && out.length < 30){ out.push(iso(d)); d = sumarDias(d, 1); }
+  return out;
+}
+
+function leerRespuestaPlan(r){
+  let o = Array.isArray(r) ? r[0] : r;
+  if(o && o.output !== undefined) o = o.output;
+  if(typeof o === 'string'){ try { o = JSON.parse(o); } catch(e){ o = {}; } }
+  return o || {};
+}
+
+async function pedirPlanIA(ev){
+  if(!ev || PLAN_PIDIENDO.has(ev.id)) return false;
+  const fechas = fechasParaPlan(ev);
+  if(!fechas.length) return false;
+  PLAN_PIDIENDO.add(ev.id); PLAN_YA_INTENTADO.add(ev.id);
+  const ctrl = new AbortController();
+  const corte = setTimeout(() => ctrl.abort(), 45000);
+  try {
+    const niveles = nivelesDelPerfil(PLAN_ACTUAL);
+    const payload = {
+      user_id: USER_ID_ACTUAL || null,
+      evento_id: ev.id,
+      hoy: hoyISO(),
+      examen: { titulo: ev.titulo, tipo: nombreTipo(ev.tipo), materia: ev.materia || '', fecha: String(ev.fecha).slice(0, 10), temas: ev.contenidos || '' },
+      fechas_disponibles: fechas,
+      como_aprende: PLAN_ACTUAL ? {
+        resumen: String(PLAN_ACTUAL.resumen || '').slice(0, 700),
+        claves: clavesDelAlumno(),
+        niveles: niveles ? Object.fromEntries(EJES_PERFIL.map(([k], i) => [k, niveles[i]])) : null
+      } : null,
+      razonamiento_critico_1: resumenDeTest('rc1'),
+      razonamiento_critico_2: resumenDeTest('rc2')
+    };
+    const res = await fetch(N8N_PLAN_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload), signal: ctrl.signal
+    });
+    if(!res.ok) throw new Error('n8n respondió ' + res.status);
+    const o = leerRespuestaPlan(await res.json());
+    const validas = new Set(fechas);
+    const vistas = new Set();
+    const sesiones = (Array.isArray(o.sesiones) ? o.sesiones : [])
+      .map(s => ({
+        fecha: String(s.fecha || '').slice(0, 10),
+        titulo: String(s.titulo || '').trim().slice(0, 70),
+        que_hacer: String(s.que_hacer || s.detalle || '').trim().slice(0, 400),
+        tecnica: String(s.tecnica || '').trim().slice(0, 40),
+        herramienta: /^ninguna$/i.test(String(s.herramienta || '').trim()) ? '' : String(s.herramienta || '').trim().slice(0, 40),
+        minutos: Math.max(10, Math.min(120, parseInt(s.minutos, 10) || 30))
+      }))
+      .filter(s => validas.has(s.fecha) && s.titulo && !vistas.has(s.fecha) && vistas.add(s.fecha))
+      .sort((a, b) => a.fecha.localeCompare(b.fecha));
+    if(!sesiones.length) throw new Error('El plan vino vacío');
+    const plan_ia = { v: 1, creado: hoyISO(), firma: firmaPlan(ev), mensaje: String(o.mensaje || '').slice(0, 200), sesiones };
+    await calEditarEvento(ev, { plan_ia });
+    ev.plan_ia = plan_ia;
+    return true;
+  } catch(e){
+    console.warn('No se pudo armar el plan con n8n; queda el plan básico:', e);
+    return false;
+  } finally {
+    clearTimeout(corte);
+    PLAN_PIDIENDO.delete(ev.id);
+  }
+}
+
+function hojaArmandoPlan(ev){
+  hoja(`
+    <div class="armando">
+      <div class="armando-cer">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
+      <h2 class="hoja-tit" style="text-align:center">Armando tu plan… 🧠</h2>
+      <p class="hoja-p" style="text-align:center">Con tus temas${ev.materia ? ' de <strong>' + escaparHTML(ev.materia) + '</strong>' : ''} y con lo que mejor te funciona para estudiar.</p>
+      <div class="armando-barra"><span></span></div>
+    </div>`);
+}
+
+async function armarPlanConIA(id, aviso){
+  const ev = buscarEvento(id);
+  if(!ev) return;
+  hojaArmandoPlan(ev);
+  const ok = await pedirPlanIA(ev);
+  renderCalendario(); pintarCamino(); pintarProgreso();
+  abrirPlanExamen(id, ok ? (aviso || '¡Listo tu plan! 📖') : (aviso || ''));
+}
+window.armarPlanConIA = armarPlanConIA;
+
+// ── Plan de respaldo (sin IA): igual usa los temas y sus claves ──
+function planLocal(ev, n){
+  const temas = temasDe(ev.contenidos);
+  const claves = clavesDelAlumno();
+  const rcHecho = !!(devs() && devs().size);
+  const clave = i => claves.length ? claves[i % claves.length] : null;
+  const conClave = (i, base) => { const k = clave(i); return k ? `${base} con ${k.palabra.toLowerCase()}${k.herramienta ? ' (' + k.herramienta + ')' : ''}.` : base + '.'; };
+  const S = (k, txt, detalle) => ({ k, txt, detalle });
+  let slots;
+  if(n === 1) slots = [0];
+  else if(n <= 4){ slots = []; for(let k = 0; k < n; k++) slots.push(k); }
+  else {
+    slots = [0, 1];
+    const medio = [];
+    for(let k = 3; k < n - 1; k += 2) medio.push(k);
+    const paso = Math.max(1, Math.ceil(medio.length / 5));
+    slots.push(...medio.filter((_, i) => i % paso === 0), n - 1);
+  }
+  slots = [...new Set(slots)];
+  const l = [];
+  if(slots.length === 1) return [S(0, 'Repaso general', temas.length ? `Repasá ${temas.join(', ')}. Explicalo en voz alta como si se lo contaras a alguien.` : 'Repasá lo más importante y explicalo en voz alta.')];
+  slots.forEach((k, i) => {
+    const ultimo = i === slots.length - 1;
+    if(i === 0) l.push(S(k, 'Organizá los temas', temas.length ? `Hacé la lista de lo que entra: ${temas.join(', ')}. Marcá cuál te cuesta más.` : 'Anotá todo lo que entra y marcá lo que te cuesta más.'));
+    else if(ultimo) l.push(S(k, 'Repaso general', 'Repasá todo de punta a punta y explicalo en voz alta, sin mirar.'));
+    else if(rcHecho && i === slots.length - 2 && slots.length > 3) l.push(S(k, 'Preguntas tipo examen', 'Inventá 5 preguntas y respondelas sin mirar. En cada una, pensá el porqué de tu respuesta.'));
+    else {
+      const tema = temas.length ? temas[(i - 1) % temas.length] : '';
+      l.push(S(k, tema ? `Estudiá: ${tema}` : 'Practicá los temas difíciles', conClave(i - 1, tema ? `Pasá ${tema} a un resumen tuyo` : 'Elegí el tema que más te cuesta y trabajalo')));
+    }
+  });
+  return l;
+}
+
 function sesionesDelPlan(ev){
   if(!esEvaluacion(ev)) return [];
   const examen = deISO(ev.fecha);
   const inicio = fechaCreacion(ev);
+  const hechos = comoLista(ev.plan_hechos);
+  const ia = planIA(ev);
+  if(ia){
+    const tope = iso(sumarDias(examen, -1));
+    return ia.sesiones.filter(x => x.fecha <= tope).map(x => ({
+      fecha: x.fecha, txt: x.titulo, detalle: x.que_hacer, tecnica: x.tecnica, herramienta: x.herramienta, minutos: x.minutos,
+      examen: ev, materia: ev.materia, hecho: hechos.includes(x.fecha), ia: true
+    }));
+  }
   const n = Math.round((examen - inicio) / 86400000);
   if(n < 1) return [];
-  const S = (k, txt) => ({ k, txt });
-  let l;
-  if(n === 1) l = [S(0, 'Repaso general')];
-  else if(n <= 4){
-    l = [S(0, 'Organizá los temas')];
-    for(let k = 1; k < n - 1; k++) l.push(S(k, 'Practicá los temas difíciles'));
-    l.push(S(n - 1, 'Repaso general'));
-  } else {
-    l = [S(0, 'Organizá los temas'), S(1, 'Armá un resumen o un mapa')];
-    const medio = [];
-    for(let k = 3; k < n - 1; k += 2) medio.push(S(k, 'Practicá: explicalo en voz alta'));
-    const paso = Math.max(1, Math.ceil(medio.length / 4));
-    l.push(...medio.filter((_, i) => i % paso === 0));
-    l.push(S(n - 1, 'Repaso general'));
-  }
-  const hechos = comoLista(ev.plan_hechos);
   const vistos = new Set();
-  return l.filter(x => !vistos.has(x.k) && vistos.add(x.k)).map(x => {
+  return planLocal(ev, n).filter(x => !vistos.has(x.k) && vistos.add(x.k)).map(x => {
     const fecha = iso(sumarDias(inicio, x.k));
-    return { fecha, txt: x.txt, examen: ev, materia: ev.materia, hecho: hechos.includes(fecha) };
+    return { fecha, txt: x.txt, detalle: x.detalle, examen: ev, materia: ev.materia, hecho: hechos.includes(fecha) };
   });
 }
 
@@ -3010,29 +3195,33 @@ function abrirPlanExamen(id, aviso){
     <div class="hoja-tag" style="--c:${c}">${escaparHTML(nombreTipo(ev.tipo))}${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''} · ${textoFaltan(d)}</div>
     <h2 class="hoja-tit">${escaparHTML(ev.titulo)}</h2>
     <p class="hoja-fecha">📅 ${fechaLarga(ev.fecha)}${ev.hora ? ' · ' + escaparHTML(String(ev.hora).slice(0, 5)) : ''}</p>
-    <p class="hoja-motiva">${motivacion(d)}</p>
+    <p class="hoja-motiva">${(planIA(ev) && planIA(ev).mensaje) ? escaparHTML(planIA(ev).mensaje) : motivacion(d)}</p>
     ${ses.length ? `
       <h3 class="bloque-titulo" style="font-size:16px;margin-top:1rem">📖 Tu plan</h3>
       <div class="plan-dias">${ses.map(s => {
         const pasado = s.fecha < hoyISO();
         return `<div class="plan-dia${s.hecho ? ' hecho' : ''}${s.fecha === hoyISO() ? ' hoy' : ''}">
           <button type="button" class="ag-check" onclick="toggleSesion('${idSeguro(ev.id)}','${s.fecha}',true)" aria-label="${s.hecho ? 'Desmarcar' : 'Marcar como hecho'}">${s.hecho ? '✓' : ''}</button>
-          <span><strong>${s.fecha === hoyISO() ? 'Hoy' : escaparHTML(fechaLarga(s.fecha))}</strong><br>${escaparHTML(s.txt)}${pasado && !s.hecho ? ' <small>(ya pasó)</small>' : ''}</span>
+          <span><strong>${s.fecha === hoyISO() ? 'Hoy' : escaparHTML(fechaLarga(s.fecha))}</strong><br><b class="plan-dia-tit">${escaparHTML(s.txt)}</b>${pasado && !s.hecho ? ' <small>(ya pasó)</small>' : ''}
+            ${s.detalle ? `<span class="plan-dia-det">${escaparHTML(s.detalle)}</span>` : ''}
+            ${s.herramienta || s.minutos ? `<span class="plan-dia-meta">${s.herramienta ? '🔧 ' + escaparHTML(s.herramienta) : ''}${s.herramienta && s.minutos ? ' · ' : ''}${s.minutos ? '⏱ ' + s.minutos + ' min' : ''}</span>` : ''}</span>
         </div>`;
       }).join('')}</div>
       <p class="hoja-p" style="font-size:13.5px">Tildá lo que vas haciendo: <strong>le da energía a tu cerebrito ⚡</strong></p>` : ''}
     ${ev.contenidos ? `<p class="hoja-p"><strong>Temas:</strong> ${escaparHTML(ev.contenidos)}</p>` : ''}
     ${ev.foto_ruta ? `<div class="hoja-foto" style="display:none"><img id="hoja-img" alt="Foto de los temas"></div>` : ''}
-    <div class="hoja-pronto">
+    ${d >= 1 ? `<div class="hoja-pronto">
       <div style="width:44px;flex:none">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
-      <span><strong>Muy pronto:</strong> armá este plan charlando con Aprendux.</span>
-    </div>
+      <span>${planIAAlDia(ev) ? 'Este plan lo armamos con tus temas y con lo que mejor te funciona.' : 'Podemos armarte un plan a tu medida con tus temas.'}
+        <button type="button" class="link-sub" style="border:0;background:none;padding:0;cursor:pointer;font:inherit" onclick="armarPlanConIA('${idSeguro(ev.id)}')">${planIAAlDia(ev) ? '🔄 Armarlo de nuevo' : '✨ Armar mi plan'}</button></span>
+    </div>` : ''}
     <div class="hoja-botones">
       <button type="button" class="btn-primary" onclick="cerrarHoja()">¡Dale! 💪</button>
       <button type="button" class="btn-mini btn-mini-claro" onclick="abrirEditarEvento('${idSeguro(ev.id)}')">✏️ Editar</button>
       <button type="button" class="btn-mini btn-mini-claro" onclick="borrarEventoDesdePlan('${idSeguro(ev.id)}')">🗑 Borrar</button>
     </div>`);
   if(ev.foto_ruta) mostrarFoto(ev.foto_ruta, 'hoja-img');
+  if(d >= 1 && !planIAAlDia(ev) && !PLAN_YA_INTENTADO.has(ev.id)) armarPlanConIA(ev.id, aviso);
 }
 function cerrarPlanExamen(){ cerrarHoja(); }
 
@@ -3046,6 +3235,8 @@ function abrirDetalleSesion(exId, fecha){
     <div class="hoja-tag" style="--c:${colorMateria(ev.materia)}">📖 Plan de estudio${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''}</div>
     <h2 class="hoja-tit">${escaparHTML(s.txt)}</h2>
     <p class="hoja-fecha">${fecha === hoyISO() ? 'Hoy' : fechaLarga(fecha)} · para <strong>${escaparHTML(ev.titulo)}</strong> (${textoFaltan(Math.max(0, d))})</p>
+    ${s.detalle ? `<p class="hoja-p" style="font-size:16px;color:var(--navy)">${escaparHTML(s.detalle)}</p>` : ''}
+    ${s.herramienta || s.minutos ? `<p class="plan-dia-meta" style="margin:0 0 1rem">${s.herramienta ? '🔧 ' + escaparHTML(s.herramienta) : ''}${s.herramienta && s.minutos ? ' · ' : ''}${s.minutos ? '⏱ ' + s.minutos + ' min' : ''}</p>` : ''}
     <button type="button" class="sesion-grande${s.hecho ? ' hecho' : ''}" onclick="toggleSesion('${idSeguro(ev.id)}','${fecha}')">
       ${s.hecho ? '✓ ¡Lo hiciste!' : '✓ Lo hice'}</button>
     <p class="hoja-p" style="text-align:center;font-size:13.5px">${s.hecho ? 'Tocá de nuevo si no lo hiciste.' : 'Es opcional: si lo tildás, tu cerebrito gana energía ⚡'}</p>
@@ -3178,8 +3369,9 @@ async function guardarEvento(){
       const ev = (CAL_EVENTOS || []).filter(e => e.titulo === titulo && String(e.fecha).slice(0, 10) === fecha).pop();
       const d = diasHasta(fecha);
       const aviso = eraNuevo ? (d >= 5 ? '¡Bien! Lo anotaste con tiempo: tu cerebrito ganó energía extra ⚡'
-                                      : '¡Anotado! Te armamos un plan 📖') : '';
-      if(ev) abrirPlanExamen(ev.id, aviso);
+                                      : '¡Anotado! Acá tenés tu plan 📖') : '';
+      if(ev && d >= 1 && !planIAAlDia(ev)) armarPlanConIA(ev.id, aviso);
+      else if(ev) abrirPlanExamen(ev.id, aviso);
     }
   } catch(e){
     errorBox.textContent = e.message || 'No se pudo guardar. Probá de nuevo.';
@@ -3455,7 +3647,7 @@ async function iniciarSesion(email, password) {
 }
 
 document.getElementById('btn-login').addEventListener('click', () => {
-  const email = document.getElementById('login-email').value;
+  const email = document.getElementById('login-email').value.trim();
   const password = document.getElementById('login-password').value;
   iniciarSesion(email, password);
 });
@@ -3481,22 +3673,112 @@ async function recuperarContrasena(){
   const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
     redirectTo: window.location.origin + window.location.pathname
   });
+  const muchos = error && (error.status === 429 || /rate|seconds|segundos/i.test(error.message || ''));
   box.style.color = error ? '#c0392b' : '#1f7a5e';
   box.textContent = error
-    ? 'No pudimos mandar el mail. Probá de nuevo en un rato.'
-    : 'Listo: te mandamos un mail para crear una contraseña nueva. Mirá también en spam.';
+    ? (muchos ? 'Ya te mandamos un mail hace un ratito: buscalo (mirá en spam). Si no llega, esperá unos minutos y volvé a pedirlo.'
+              : 'No pudimos mandar el mail. Revisá que el email esté bien escrito y probá de nuevo.')
+    : 'Listo: te mandamos un mail para crear una contraseña nueva. Mirá también en spam 📩';
 }
 window.recuperarContrasena = recuperarContrasena;
 
 // Cuando vuelve desde el link del mail, Supabase avisa con PASSWORD_RECOVERY
-supabaseClient.auth.onAuthStateChange(async (evento) => {
-  if(evento !== 'PASSWORD_RECOVERY') return;
-  const nueva = prompt('Escribí tu contraseña nueva (mínimo 6 caracteres):');
-  if(!nueva || nueva.length < 6) return;
+// v9.1 · Ojito 👁 en todos los campos de contraseña
+function ponerOjitos(raiz){
+  (raiz || document).querySelectorAll('input[type="password"]:not([data-ojo])').forEach(inp => {
+    inp.dataset.ojo = '1';
+    const w = document.createElement('span');
+    w.className = 'pass-wrap';
+    inp.parentNode.insertBefore(w, inp);
+    w.appendChild(inp);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pass-ojo';
+    b.textContent = '👁';
+    b.setAttribute('aria-label', 'Mostrar contraseña');
+    b.addEventListener('click', () => {
+      const mostrar = inp.type === 'password';
+      inp.type = mostrar ? 'text' : 'password';
+      b.textContent = mostrar ? '🙈' : '👁';
+      b.setAttribute('aria-label', mostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    });
+    w.appendChild(b);
+  });
+}
+ponerOjitos();
+
+// v9.1 · Contraseña nueva: una ventana propia (antes era un prompt del navegador)
+function abrirNuevaContrasena(){
+  let o = document.getElementById('pass-nueva-overlay');
+  if(!o){
+    o = document.createElement('div');
+    o.id = 'pass-nueva-overlay';
+    o.innerHTML = `
+      <div id="pass-nueva-caja" role="dialog" aria-modal="true" aria-labelledby="pass-nueva-tit">
+        <h2 id="pass-nueva-tit">Creá tu contraseña nueva 🔑</h2>
+        <p>Mínimo 6 caracteres. Tocá el 👁 para ver lo que escribís.</p>
+        <input id="pass-nueva" class="reg-input" type="password" autocomplete="new-password">
+        <div id="pass-nueva-msg" style="display:none;font-size:14px;margin-top:.7rem;line-height:1.5"></div>
+        <button type="button" id="pass-nueva-btn" class="btn-primary" style="width:100%;margin-top:1rem">Guardar</button>
+      </div>`;
+    document.body.appendChild(o);
+    ponerOjitos(o);
+    document.getElementById('pass-nueva-btn').addEventListener('click', guardarNuevaContrasena);
+    document.getElementById('pass-nueva').addEventListener('keydown', e => { if(e.key === 'Enter') guardarNuevaContrasena(); });
+  }
+  o.style.display = 'flex';
+  setTimeout(() => document.getElementById('pass-nueva').focus(), 50);
+}
+async function guardarNuevaContrasena(){
+  const inp = document.getElementById('pass-nueva');
+  const msg = document.getElementById('pass-nueva-msg');
+  const btn = document.getElementById('pass-nueva-btn');
+  const nueva = inp.value;
+  msg.style.display = 'block';
+  if(nueva.length < 6){ msg.style.color = '#c0392b'; msg.textContent = 'Tiene que tener al menos 6 caracteres.'; return; }
+  btn.disabled = true; btn.textContent = 'Guardando…';
   const { error } = await supabaseClient.auth.updateUser({ password: nueva });
-  alert(error ? 'No se pudo cambiar. Probá de nuevo.' : 'Listo, tu contraseña quedó cambiada.');
-  if(!error){ await cargarPerfilEnDashboard(); showPage('page-dashboard'); }
+  btn.disabled = false; btn.textContent = 'Guardar';
+  if(error){
+    msg.style.color = '#c0392b';
+    msg.textContent = /different|same/i.test(error.message || '')
+      ? 'Tiene que ser distinta a la anterior.'
+      : 'No se pudo cambiar. Pedí otro mail desde "¿Olvidaste tu contraseña?" y probá de nuevo.';
+    return;
+  }
+  msg.style.color = '#1f7a5e';
+  msg.textContent = '¡Listo! Tu contraseña quedó cambiada ✅';
+  setTimeout(async () => {
+    document.getElementById('pass-nueva-overlay').style.display = 'none';
+    await cargarPerfilEnDashboard();
+    showPage('page-dashboard');
+  }, 1000);
+}
+window.abrirNuevaContrasena = abrirNuevaContrasena;
+
+// Cuando vuelve desde el link del mail, Supabase avisa con PASSWORD_RECOVERY
+supabaseClient.auth.onAuthStateChange((evento) => {
+  if(evento !== 'PASSWORD_RECOVERY') return;
+  setTimeout(abrirNuevaContrasena, 0);   // fuera del callback de Supabase, para no trabarlo
 });
+
+// Si el link del mail venció o ya se usó, Supabase vuelve con #error=... en la dirección
+(function(){
+  const h = window.location.hash || '';
+  if(!/error=|error_code=/.test(h)) return;
+  const vencido = /otp_expired|expired|invalid/i.test(decodeURIComponent(h));
+  try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch(e){}
+  setTimeout(() => {
+    showPage('page-login');
+    const box = document.getElementById('login-error');
+    if(!box) return;
+    box.style.display = 'block';
+    box.style.color = '#c0392b';
+    box.textContent = vencido
+      ? 'Ese link ya venció o ya se usó. Escribí tu email y tocá de nuevo "¿Olvidaste tu contraseña?" para que te llegue uno nuevo.'
+      : 'Algo falló con el link del mail. Pedí uno nuevo desde "¿Olvidaste tu contraseña?".';
+  }, 300);
+})();
 
 // ── Personalización del dashboard con los datos del alumno logueado (leídos de Supabase) ──
 async function cargarPerfilEnDashboard(){
