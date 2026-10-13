@@ -2481,6 +2481,9 @@ function pintarCerebrito(){
       </div>`;
   }
 
+  // El mismo cerebrito en todos lados: se redibuja cuando ya están todos los datos
+  document.querySelectorAll('.cer-sync').forEach(el => { el.innerHTML = svgCerebrito(c.acc, 'feliz'); });
+
   const mini = document.getElementById('cer-mini');
   if(mini) mini.innerHTML = `
     <button type="button" class="cer-mini" onclick="irA('camino')">
@@ -2790,7 +2793,7 @@ function pintarInfografia(plan){
   caja.innerHTML = `
     <div class="poster">
       <div class="poster-cab">
-        <div class="poster-cer">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
+        <div class="poster-cer cer-sync">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
         <div>
           <span class="poster-eyebrow">Así aprendés vos</span>
           <p class="poster-lead">${resaltarClaves(lead)}</p>
@@ -4766,7 +4769,8 @@ function pintarTips(plan, porTest){
 
 // Si ya había una sesión activa (Supabase la persiste sola en el navegador), restauramos el dashboard
 supabaseClient.auth.getSession().then(({ data: { session } }) => {
-  if(session){ cargarPerfilEnDashboard(); refrescarCalendario(); }
+  // v9.1: si ya estaba logueado, entra directo a su panel (no hace falta volver a iniciar sesión)
+  if(session){ showPage('page-dashboard'); cargarPerfilEnDashboard(); refrescarCalendario(); }
 });
 </script>
 </body>
