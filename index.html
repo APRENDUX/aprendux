@@ -887,6 +887,21 @@ a.poster-herr:hover{border-color:var(--navy)}
 #pass-nueva-caja p{font-size:14.5px;color:var(--gray);margin:0 0 1rem;line-height:1.5}
 #pass-nueva-caja .reg-input{font-size:16px;padding:12px 14px}
 @media (max-width: 860px){ .reg-input{font-size:16px} }
+
+/* v9.1 · cómo le va en cada materia */
+.nivel-chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.nivel-chip{border:1.5px solid var(--border);background:#fff;color:var(--navy);border-radius:20px;padding:7px 12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.nivel-chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.materia-nivel{display:flex;flex-direction:column;gap:.4rem;padding:.6rem 0;border-top:1px solid var(--border)}
+.materia-nivel strong{font-size:15px;color:var(--navy);padding-left:.55rem;border-left:4px solid var(--c)}
+
+/* v9.1 · colores del cerebrito */
+.cer-areas{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:.55rem 0 .1rem}
+.cer-area{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid var(--c);background:transparent;vertical-align:-2px}
+.cer-area.on{background:var(--c)}
+.cer-colores-lista li.hecho span::before{content:none}
+.cer-colores-lista li{align-items:center}
+.cer-areas small{font-size:13px;color:var(--gray);margin-left:4px}
 </style>
 </head>
 <body>
@@ -1362,6 +1377,7 @@ a.poster-herr:hover{border-color:var(--navy)}
             <select id="cal-evento-materia" class="reg-input"></select>
             <input id="cal-evento-materia-nueva" class="reg-input" type="text" placeholder="Escribí la materia (ej: Historia)" style="display:none;margin-top:8px">
           </div>
+          <div id="cal-evento-nivel-wrap" style="display:none;margin-bottom:14px"></div>
 
           <div id="cal-evento-contenidos-wrap" style="margin-bottom:18px">
             <label for="cal-evento-contenidos" style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:4px">¿Qué temas entran? <span style="font-weight:400;color:var(--gray)">(opcional)</span></label>
@@ -1428,6 +1444,10 @@ a.poster-herr:hover{border-color:var(--navy)}
               <div class="perfil-row"><strong>Institución:</strong> <span data-perfil-institucion>—</span></div>
               <div class="perfil-row"><strong>Grado/Nivel:</strong> <span data-perfil-grado>—</span></div>
               <div class="perfil-actions"><button class="btn-modificar">Modificar</button></div>
+            </div>
+            <div class="perfil-section-box">
+              <div class="perfil-section-h">Mis materias</div>
+              <div id="perfil-materias"></div>
             </div>
             <div class="perfil-section-box">
               <div class="perfil-section-h">Avisos</div>
@@ -1874,7 +1894,71 @@ function actualizarCamposEvento(){
   const t = document.getElementById('cal-evento-tipo');
   const w = document.getElementById('cal-evento-contenidos-wrap');
   if(t && w) w.style.display = (t.value === 'Examen' || t.value === 'Entrega') ? 'block' : 'none';
+  if(typeof pintarNivelModal === 'function') pintarNivelModal();
 }
+
+// ── v9.1 · Cómo le va en cada materia (lo usa el plan de estudio) ──
+const NIVELES_MATERIA = [
+  { v: 1, ic: '😎', txt: 'Me va bien' },
+  { v: 2, ic: '🤔', txt: 'Más o menos' },
+  { v: 3, ic: '😰', txt: 'Me cuesta' }
+];
+function nivelesMaterias(){ const o = comoObjeto(campoDePerfil('materias_nivel', {})); return o && typeof o === 'object' ? o : {}; }
+function nivelMateria(m){ return m ? (Number(nivelesMaterias()[String(m).toLowerCase()]) || 0) : 0; }
+function textoNivel(v){ const n = NIVELES_MATERIA.find(x => x.v === v); return n ? n.txt.toLowerCase() : ''; }
+async function guardarNivelMateria(m, v){
+  if(!m) return;
+  const o = { ...nivelesMaterias() };
+  if(v) o[String(m).toLowerCase()] = v; else delete o[String(m).toLowerCase()];
+  await guardarEnPerfil({ materias_nivel: o });
+  pintarMateriasPerfil();
+}
+function chipsNivel(sel, onclick){
+  return `<div class="nivel-chips">${NIVELES_MATERIA.map(n =>
+    `<button type="button" class="nivel-chip${sel === n.v ? ' on' : ''}" onclick="${onclick}(${n.v})">${n.ic} ${n.txt}</button>`).join('')}</div>`;
+}
+
+// En la ventana de anotar
+let CAL_NIVEL = 0;
+function materiaEnModal(){
+  const sel = document.getElementById('cal-evento-materia');
+  if(!sel) return '';
+  if(sel.value === '__otra') return (document.getElementById('cal-evento-materia-nueva').value || '').trim();
+  return sel.value;
+}
+function pintarNivelModal(){
+  const w = document.getElementById('cal-evento-nivel-wrap');
+  const t = document.getElementById('cal-evento-tipo');
+  if(!w || !t) return;
+  const m = materiaEnModal();
+  const ev = t.value === 'Examen' || t.value === 'Entrega';
+  if(!m || !ev){ w.style.display = 'none'; return; }
+  w.style.display = 'block';
+  w.innerHTML = `<label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px">¿Cómo te va en ${escaparHTML(m)}?</label>${chipsNivel(CAL_NIVEL, 'elegirNivelModal')}`;
+}
+function elegirNivelModal(v){ CAL_NIVEL = CAL_NIVEL === v ? 0 : v; pintarNivelModal(); }
+function cargarNivelModal(){ CAL_NIVEL = nivelMateria(materiaEnModal()); pintarNivelModal(); }
+window.elegirNivelModal = elegirNivelModal;
+
+// En Mi perfil
+function pintarMateriasPerfil(){
+  const c = document.getElementById('perfil-materias');
+  if(!c) return;
+  const l = misMaterias();
+  if(!l.length){
+    c.innerHTML = `<p style="font-size:14px;color:var(--gray);margin:.4rem 0 0">Se van sumando cuando anotás algo en el calendario 📅</p>`;
+    return;
+  }
+  c.innerHTML = `<p style="font-size:13.5px;color:var(--gray);margin:.3rem 0 .6rem">Contanos cómo te va: tu plan de estudio le da más tiempo a lo que te cuesta.</p>`
+    + l.map((m, i) => `<div class="materia-nivel"><strong style="--c:${colorMateria(m)}">${escaparHTML(m)}</strong>${chipsNivel(nivelMateria(m), `elegirNivelPerfil.bind(null,${i})`)}</div>`).join('');
+}
+async function elegirNivelPerfil(i, v){
+  const m = misMaterias()[i];
+  if(!m) return;
+  await guardarNivelMateria(m, nivelMateria(m) === v ? 0 : v);
+  pintarMateriasPerfil();
+}
+window.elegirNivelPerfil = elegirNivelPerfil;
 
 // ── Objetivos (Mi camino) ──
 const OBJETIVOS = ['Concentrarme más', 'Organizar mi tiempo', 'Tener más ganas de estudiar', 'Entender temas difíciles', 'Prepararme para exámenes'];
@@ -1929,6 +2013,7 @@ window.alternarObjetivo = alternarObjetivo;
 
 // ── Avisos por mail (los manda n8n, que lee esta preferencia) ──
 function pintarAvisos(){
+  pintarMateriasPerfil();
   const c = document.getElementById('perfil-avisos');
   if(!c) return;
   const on = campoDePerfil('avisos_mail', false) === true;
@@ -1993,6 +2078,7 @@ async function guardarNota(id, pref){
 window.guardarNota = guardarNota;
 
 function repintarTodo(){
+  try { pintarMateriasPerfil(); } catch(e){}
   renderCalendario();
   renderProximos();
   pintarRecordatorios(ESTADO_ACTUAL || {});
@@ -2176,8 +2262,64 @@ function estadoCerebrito(){
   return { e, acc: st.acc, animo, palabra, recienComio: ahora - st.comio < 8000, msjNuevo: ahora < st.msjHasta ? st.msj : '' };
 }
 
+// ── v9.1 · Las 5 áreas del cerebrito: cada una le suma un color ──
+// El cerebrito arranca de su color. Cada área que el alumno descubre pinta una parte.
+const AREAS_CEREBRITO = [
+  { k: 'autoconocimiento', nom: 'Autoconocimiento', color: '#f29ab4', ic: '🙋', como: 'Hacé el test de cómo aprendés',
+    zona: 'M55 54 L-58 119 L-71 88 L-75 54 L-71 20 L-58 -11 L-37 -38 L-10 -59 L0 -64Z' },
+  { k: 'comprension', nom: 'Comprensión', color: '#8ec5f0', ic: '💡', como: 'Hacé un test de razonamiento o subí una actividad',
+    zona: 'M55 54 L183 77 L173 109 L155 138 L130 160 L99 176Z' },
+  { k: 'habitos', nom: 'Hábitos', color: '#95d5a8', ic: '📅', como: 'Anotá un examen o TP en el calendario',
+    zona: 'M55 54 L99 176 L66 184 L32 182 L0 172 L-29 154 L-51 129 L-58 119Z' },
+  { k: 'estrategias', nom: 'Estrategias', color: '#c3a6ee', ic: '🧩', como: 'Mirá tus claves en "Cómo aprendo"',
+    zona: 'M55 54 L139 -46 L161 -21 L177 10 L185 43 L183 77Z' },
+  { k: 'progreso', nom: 'Progreso', color: '#f6c86a', ic: '📈', como: 'Cumplí un día de tu plan o cargá una nota',
+    zona: 'M55 54 L0 -64 L32 -74 L66 -76 L99 -68 L130 -52 L139 -46Z' }
+];
+function areasCerebrito(){
+  try {
+    const e = ESTADO_ACTUAL || {};
+    const evs = (typeof CAL_EVENTOS !== 'undefined' && CAL_EVENTOS) || [];
+    return {
+      autoconocimiento: !!e.estilos,
+      comprension: !!(e.rc1 || e.rc2 || ENTREGAS_TOTAL > 0),
+      habitos: evs.some(ev => esEvaluacion(ev)),
+      estrategias: !!(e.estilos && marcaLocal('visto_perfil')) || marcaLocal('autoevaluacion'),
+      progreso: diasDePlanHechos() > 0 || evs.some(ev => ev.nota) || misObjetivos().length > 0
+    };
+  } catch(err){ return {}; }
+}
+let SVG_CER_N = 0;
+function capasDeAreas(areas){
+  const id = 'cerclip' + (++SVG_CER_N);
+  const on = AREAS_CEREBRITO.filter(a => areas && areas[a.k]);
+  if(!on.length) return { defs: '', capas: '' };
+  return {
+    defs: `<defs><clipPath id="${id}"><path d="${CONTORNO_CEREBRITO}"/></clipPath></defs>`,
+    capas: `<g clip-path="url(#${id})">${on.map(a => `<path d="${a.zona}" fill="${a.color}"/>`).join('')}
+      <ellipse cx="55" cy="60" rx="21" ry="16" fill="#fff" opacity=".35"/></g>`
+  };
+}
+function puntitosAreas(areas){
+  const n = AREAS_CEREBRITO.filter(a => areas[a.k]).length;
+  return `<div class="cer-areas" aria-label="${n} de 5 colores descubiertos">
+      ${AREAS_CEREBRITO.map(a => `<span class="cer-area${areas[a.k] ? ' on' : ''}" style="--c:${a.color}" title="${escaparHTML(a.nom)}"></span>`).join('')}
+      <small>${n === 5 ? '¡Descubriste todos los colores! 🌈' : `${n} de 5 colores descubiertos`}</small>
+    </div>`;
+}
+function listaAreas(areas){
+  return `<details class="cerebrito-como cer-colores-lista">
+      <summary>¿Qué significa cada color?</summary>
+      <ul>${AREAS_CEREBRITO.map(a => `<li class="${areas[a.k] ? 'hecho' : ''}">
+          <span><span class="cer-area${areas[a.k] ? ' on' : ''}" style="--c:${a.color}"></span> <strong>${a.nom}</strong>${areas[a.k] ? '' : ` · <small>${escaparHTML(a.como)}</small>`}</span>
+          <span>${areas[a.k] ? '✓' : ''}</span></li>`).join('')}</ul>
+    </details>`;
+}
+const CONTORNO_CEREBRITO = 'M55 24c-5-9-19-11-26-3-10-1-18 8-15 17-9 5-10 17-3 23-2 10 6 19 16 18 5 8 17 9 23 2 3 3 7 3 10 0 6 7 18 6 23-2 10 1 18-8 16-18 7-6 6-18-3-23 3-9-5-18-15-17-7-8-21-6-26 3z';
+
 // El dibujo: un cerebro con cara. Le van apareciendo cosas (estrella, anteojos, brillos, birrete).
-function svgCerebrito(acc, animo, color){
+function svgCerebrito(acc, animo, color, areas){
+  const capa = capasDeAreas(areas || areasCerebrito());
   const ojos = animo === 'cansado'
     ? '<path d="M39 55q5-4 10 0M61 55q5-4 10 0" stroke="#1e3a5f" stroke-width="3" fill="none" stroke-linecap="round"/>'
     : '<circle cx="44" cy="54" r="5" fill="#1e3a5f"/><circle cx="66" cy="54" r="5" fill="#1e3a5f"/>'
@@ -2195,8 +2337,10 @@ function svgCerebrito(acc, animo, color){
   if(acc >= 3) extra += brillo(14, 30, 6) + brillo(100, 62, 5);
   if(acc >= 4) extra += birrete;
   return `<svg viewBox="0 0 110 100" width="100%" role="img" aria-label="Tu cerebrito" style="display:block;overflow:visible">
-    <path d="M55 24c-5-9-19-11-26-3-10-1-18 8-15 17-9 5-10 17-3 23-2 10 6 19 16 18 5 8 17 9 23 2 3 3 7 3 10 0 6 7 18 6 23-2 10 1 18-8 16-18 7-6 6-18-3-23 3-9-5-18-15-17-7-8-21-6-26 3z"
-      fill="${color || colorCerebrito()}" stroke="#1e3a5f" stroke-width="2.5" stroke-linejoin="round"/>
+    ${capa.defs}
+    <path d="M55 24c-5-9-19-11-26-3-10-1-18 8-15 17-9 5-10 17-3 23-2 10 6 19 16 18 5 8 17 9 23 2 3 3 7 3 10 0 6 7 18 6 23-2 10 1 18-8 16-18 7-6 6-18-3-23 3-9-5-18-15-17-7-8-21-6-26 3z" fill="${color || colorCerebrito()}"/>
+    ${capa.capas}
+    <path d="M55 24c-5-9-19-11-26-3-10-1-18 8-15 17-9 5-10 17-3 23-2 10 6 19 16 18 5 8 17 9 23 2 3 3 7 3 10 0 6 7 18 6 23-2 10 1 18-8 16-18 7-6 6-18-3-23 3-9-5-18-15-17-7-8-21-6-26 3z" fill="none" stroke="#1e3a5f" stroke-width="2.5" stroke-linejoin="round"/>
     <path d="M55 25v14M33 33q7 4 3 11M77 33q-7 4-3 11M21 52q7-1 9 6M89 52q-7-1-9 6M40 80q3-5 9-4M70 80q-3-5-9-4"
       stroke="#1e3a5f" stroke-width="2" fill="none" stroke-linecap="round" opacity=".3"/>
     <ellipse cx="35" cy="64" rx="5.5" ry="3.2" fill="#fff" opacity=".5"/><ellipse cx="75" cy="64" rx="5.5" ry="3.2" fill="#fff" opacity=".5"/>
@@ -2228,6 +2372,7 @@ function panelPersonalizar(c, esIntro){
           <ul class="cer-intro-lista">
             <li>⚡ <strong>Cada cosa que hacés</strong> en Aprendux me da energía.</li>
             <li>😴 Si pasan días sin que hagas nada, <strong>me quedo sin energía</strong>.</li>
+            <li>🎨 Cada cosa nueva que descubrís <strong>me suma un color</strong>.</li>
             <li>🎓 Si me cuidás, <strong>me aparecen cosas nuevas</strong>.</li>
           </ul>` : '<h3 class="cer-intro-tit">Personalizá tu cerebrito</h3>'}
         <label class="cer-lbl" for="cer-nombre">¿Cómo me llamo?</label>
@@ -2280,7 +2425,13 @@ function pintarCerebrito(){
     // La primera vez se presenta y le elegís nombre y color. Después, con ✏️.
     card.innerHTML = panelPersonalizar(c, !cerebritoPresentado());
   } else if(card){
-    const mensaje = c.msjNuevo ? c.msjNuevo
+    const areas = areasCerebrito();
+    const nAreas = AREAS_CEREBRITO.filter(a => areas[a.k]).length;
+    const vistas = Number(leerLocal('cer_areas_vistas', 0)) || 0;
+    const colorNuevo = nAreas > vistas;
+    if(colorNuevo) guardarLocal('cer_areas_vistas', nAreas);
+    const mensaje = colorNuevo && vistas > 0 ? '¡Me apareció un color nuevo! 🎨'
+      : c.msjNuevo ? c.msjNuevo
       : c.recienComio ? '¡Gracias! Me cargaste energía ⚡'
       : c.animo === 'cansado' ? 'Me estoy quedando sin energía 😴 Hacé tu próximo paso.'
       : '';
@@ -2298,7 +2449,9 @@ function pintarCerebrito(){
             <span class="cerebrito-nivel"><strong>${c.palabra}</strong></span>
           </div>
           <div class="cerebrito-barra" role="img" aria-label="Energía: ${c.palabra}"><div style="width:${Math.max(6, Math.round(c.e))}%;background:${colorBarra}"></div></div>
+          ${puntitosAreas(areas)}
           ${mensaje ? `<p class="cerebrito-msj-c">${mensaje}</p>` : ''}
+          ${listaAreas(areas)}
           <details class="cerebrito-como">
             <summary>¿Cómo le doy energía?</summary>
             <ul>${fuentesDeEnergia().map(f => {
@@ -2794,7 +2947,7 @@ function clavesDelAlumno(){
   if(!PLAN_ACTUAL) return [];
   return comoLista(PLAN_ACTUAL.tips).slice(0, 3).map(t => { const k = claveDeTip(t); return { palabra: k.palabra, herramienta: k.herramienta || '' }; });
 }
-function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || ''].join('|'); }
+function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || '', nivelMateria(ev.materia)].join('|'); }
 function planIA(ev){
   const p = comoObjeto(ev && ev.plan_ia);
   return Array.isArray(p.sesiones) && p.sesiones.length ? p : null;
@@ -2842,14 +2995,15 @@ async function pedirPlanIA(ev){
   if(!fechas.length) return false;
   PLAN_PIDIENDO.add(ev.id); PLAN_YA_INTENTADO.add(ev.id);
   const ctrl = new AbortController();
-  const corte = setTimeout(() => ctrl.abort(), 45000);
+  const corte = setTimeout(() => ctrl.abort(), 60000);
   try {
     const niveles = nivelesDelPerfil(PLAN_ACTUAL);
     const payload = {
       user_id: USER_ID_ACTUAL || null,
       evento_id: ev.id,
       hoy: hoyISO(),
-      examen: { titulo: ev.titulo, tipo: nombreTipo(ev.tipo), materia: ev.materia || '', fecha: String(ev.fecha).slice(0, 10), temas: ev.contenidos || '' },
+      examen: { titulo: ev.titulo, tipo: nombreTipo(ev.tipo), materia: ev.materia || '', fecha: String(ev.fecha).slice(0, 10), temas: ev.contenidos || '',
+                cuanto_le_cuesta: textoNivel(nivelMateria(ev.materia)) || 'no lo dijo' },
       fechas_disponibles: fechas,
       como_aprende: PLAN_ACTUAL ? {
         resumen: String(PLAN_ACTUAL.resumen || '').slice(0, 700),
@@ -2859,10 +3013,15 @@ async function pedirPlanIA(ev){
       razonamiento_critico_1: resumenDeTest('rc1'),
       razonamiento_critico_2: resumenDeTest('rc2')
     };
-    const res = await fetch(N8N_PLAN_URL, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload), signal: ctrl.signal
-    });
+    let res;
+    for(let intento = 0; intento < 2; intento++){
+      res = await fetch(N8N_PLAN_URL, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload), signal: ctrl.signal
+      });
+      if(res.ok) break;
+      await new Promise(r => setTimeout(r, 2500));   // si la IA está saturada, reintentamos una vez
+    }
     if(!res.ok) throw new Error('n8n respondió ' + res.status);
     const o = leerRespuestaPlan(await res.json());
     const validas = new Set(fechas);
@@ -2927,7 +3086,8 @@ function planLocal(ev, n){
     slots = [0, 1];
     const medio = [];
     for(let k = 3; k < n - 1; k += 2) medio.push(k);
-    const paso = Math.max(1, Math.ceil(medio.length / 5));
+    const dif = nivelMateria(ev.materia);
+    const paso = Math.max(1, Math.ceil(medio.length / (dif === 3 ? 8 : dif === 1 ? 3 : 5)));
     slots.push(...medio.filter((_, i) => i % paso === 0), n - 1);
   }
   slots = [...new Set(slots)];
@@ -2935,7 +3095,7 @@ function planLocal(ev, n){
   if(slots.length === 1) return [S(0, 'Repaso general', temas.length ? `Repasá ${temas.join(', ')}. Explicalo en voz alta como si se lo contaras a alguien.` : 'Repasá lo más importante y explicalo en voz alta.')];
   slots.forEach((k, i) => {
     const ultimo = i === slots.length - 1;
-    if(i === 0) l.push(S(k, 'Organizá los temas', temas.length ? `Hacé la lista de lo que entra: ${temas.join(', ')}. Marcá cuál te cuesta más.` : 'Anotá todo lo que entra y marcá lo que te cuesta más.'));
+    if(i === 0) l.push(S(k, 'Organizá los temas', (temas.length ? `Hacé la lista de lo que entra: ${temas.join(', ')}. Marcá cuál te cuesta más.` : 'Anotá todo lo que entra y marcá lo que te cuesta más.') + (nivelMateria(ev.materia) === 3 ? ' Arrancá por lo más difícil, en ratitos cortos.' : '')));
     else if(ultimo) l.push(S(k, 'Repaso general', 'Repasá todo de punta a punta y explicalo en voz alta, sin mirar.'));
     else if(rcHecho && i === slots.length - 2 && slots.length > 3) l.push(S(k, 'Preguntas tipo examen', 'Inventá 5 preguntas y respondelas sin mirar. En cada una, pensá el porqué de tu respuesta.'));
     else {
@@ -3210,11 +3370,6 @@ function abrirPlanExamen(id, aviso){
       <p class="hoja-p" style="font-size:13.5px">Tildá lo que vas haciendo: <strong>le da energía a tu cerebrito ⚡</strong></p>` : ''}
     ${ev.contenidos ? `<p class="hoja-p"><strong>Temas:</strong> ${escaparHTML(ev.contenidos)}</p>` : ''}
     ${ev.foto_ruta ? `<div class="hoja-foto" style="display:none"><img id="hoja-img" alt="Foto de los temas"></div>` : ''}
-    ${d >= 1 ? `<div class="hoja-pronto">
-      <div style="width:44px;flex:none">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
-      <span>${planIAAlDia(ev) ? 'Este plan lo armamos con tus temas y con lo que mejor te funciona.' : 'Podemos armarte un plan a tu medida con tus temas.'}
-        <button type="button" class="link-sub" style="border:0;background:none;padding:0;cursor:pointer;font:inherit" onclick="armarPlanConIA('${idSeguro(ev.id)}')">${planIAAlDia(ev) ? '🔄 Armarlo de nuevo' : '✨ Armar mi plan'}</button></span>
-    </div>` : ''}
     <div class="hoja-botones">
       <button type="button" class="btn-primary" onclick="cerrarHoja()">¡Dale! 💪</button>
       <button type="button" class="btn-mini btn-mini-claro" onclick="abrirEditarEvento('${idSeguro(ev.id)}')">✏️ Editar</button>
@@ -3286,6 +3441,7 @@ function abrirNuevoEvento(fecha){
   document.getElementById('cal-foto-actual').textContent = '';
   document.getElementById('cal-evento-error').style.display = 'none';
   llenarSelectMaterias();
+  CAL_NIVEL = 0;
   actualizarCamposEvento();
   document.getElementById('cal-modal-overlay').style.display = 'flex';
   if(!fecha) document.getElementById('cal-evento-titulo').focus();
@@ -3307,6 +3463,7 @@ function abrirEditarEvento(id){
   }
   actualizarCampoMateriaNueva();
   actualizarCamposEvento();
+  cargarNivelModal();
   if(ev.foto_ruta) document.getElementById('cal-foto-actual').textContent = '📷 Ya subiste una foto. Si elegís otra, se reemplaza.';
 }
 function cerrarModalEvento(){ document.getElementById('cal-modal-overlay').style.display = 'none'; }
@@ -3341,6 +3498,7 @@ async function guardarEvento(){
   btn.textContent = 'Guardando…';
   try {
     const materia = await materiaDelModal();
+    if(materia && CAL_NIVEL && CAL_NIVEL !== nivelMateria(materia)) await guardarNivelMateria(materia, CAL_NIVEL);
     const evaluacion = tipo === 'Examen' || tipo === 'Entrega';
     const contenidos = evaluacion ? document.getElementById('cal-evento-contenidos').value.trim() : '';
     const archivo = evaluacion ? document.getElementById('cal-evento-foto').files[0] : null;
@@ -3390,8 +3548,10 @@ window.guardarEvento = guardarEvento;
   document.getElementById('btn-cancelar-evento').addEventListener('click', cerrarModalEvento);
   overlay.addEventListener('click', e => { if(e.target === overlay) cerrarModalEvento(); });
   document.getElementById('cal-evento-tipo').addEventListener('change', actualizarCamposEvento);
+  document.getElementById('cal-evento-materia-nueva').addEventListener('input', () => cargarNivelModal());
   document.getElementById('cal-evento-materia').addEventListener('change', () => {
     actualizarCampoMateriaNueva();
+    cargarNivelModal();
     const nueva = document.getElementById('cal-evento-materia-nueva');
     if(nueva.style.display === 'block') nueva.focus();
   });
