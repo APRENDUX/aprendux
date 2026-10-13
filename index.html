@@ -1371,6 +1371,7 @@ a.poster-herr:hover{border-color:var(--navy)}
               <option value="Otro">Otro</option>
             </select>
           </div>
+          <div id="cal-evento-modalidad-wrap" style="display:none;margin-bottom:14px"></div>
 
           <div style="margin-bottom:12px">
             <label for="cal-evento-materia" style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:4px">Materia</label>
@@ -1895,6 +1896,7 @@ function actualizarCamposEvento(){
   const w = document.getElementById('cal-evento-contenidos-wrap');
   if(t && w) w.style.display = (t.value === 'Examen' || t.value === 'Entrega') ? 'block' : 'none';
   if(typeof pintarNivelModal === 'function') pintarNivelModal();
+  if(typeof pintarModalidadModal === 'function') pintarModalidadModal();
 }
 
 // ── v9.1 · Cómo le va en cada materia (lo usa el plan de estudio) ──
@@ -1917,6 +1919,21 @@ function chipsNivel(sel, onclick){
   return `<div class="nivel-chips">${NIVELES_MATERIA.map(n =>
     `<button type="button" class="nivel-chip${sel === n.v ? ' on' : ''}" onclick="${onclick}(${n.v})">${n.ic} ${n.txt}</button>`).join('')}</div>`;
 }
+
+// Escrito u oral
+const MODALIDADES = [{ v: 'escrito', ic: '✍️', txt: 'Escrito' }, { v: 'oral', ic: '🗣️', txt: 'Oral' }];
+let CAL_MODALIDAD = '';
+function pintarModalidadModal(){
+  const w = document.getElementById('cal-evento-modalidad-wrap');
+  const t = document.getElementById('cal-evento-tipo');
+  if(!w || !t) return;
+  if(!(t.value === 'Examen' || t.value === 'Entrega')){ w.style.display = 'none'; return; }
+  w.style.display = 'block';
+  w.innerHTML = `<label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px">¿Es escrito u oral?</label>
+    <div class="nivel-chips">${MODALIDADES.map(m => `<button type="button" class="nivel-chip${CAL_MODALIDAD === m.v ? ' on' : ''}" onclick="elegirModalidad('${m.v}')">${m.ic} ${m.txt}</button>`).join('')}</div>`;
+}
+function elegirModalidad(v){ CAL_MODALIDAD = CAL_MODALIDAD === v ? '' : v; pintarModalidadModal(); }
+window.elegirModalidad = elegirModalidad;
 
 // En la ventana de anotar
 let CAL_NIVEL = 0;
@@ -2882,7 +2899,7 @@ const COLOR_SIN_MATERIA = '#7b8794';
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const DIAS_CORTOS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-const OPCIONALES_EVENTO = ['materia', 'contenidos', 'hora', 'foto_ruta'];
+const OPCIONALES_EVENTO = ['materia', 'contenidos', 'hora', 'foto_ruta', 'modalidad'];
 
 const esCelu = () => window.innerWidth <= 860;
 let CAL_VISTA = esCelu() ? 'agenda' : 'mes';
@@ -2947,7 +2964,7 @@ function clavesDelAlumno(){
   if(!PLAN_ACTUAL) return [];
   return comoLista(PLAN_ACTUAL.tips).slice(0, 3).map(t => { const k = claveDeTip(t); return { palabra: k.palabra, herramienta: k.herramienta || '' }; });
 }
-function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || '', nivelMateria(ev.materia)].join('|'); }
+function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || '', nivelMateria(ev.materia), ev.modalidad || ''].join('|'); }
 function planIA(ev){
   const p = comoObjeto(ev && ev.plan_ia);
   return Array.isArray(p.sesiones) && p.sesiones.length ? p : null;
@@ -3003,7 +3020,8 @@ async function pedirPlanIA(ev){
       evento_id: ev.id,
       hoy: hoyISO(),
       examen: { titulo: ev.titulo, tipo: nombreTipo(ev.tipo), materia: ev.materia || '', fecha: String(ev.fecha).slice(0, 10), temas: ev.contenidos || '',
-                cuanto_le_cuesta: textoNivel(nivelMateria(ev.materia)) || 'no lo dijo' },
+                cuanto_le_cuesta: textoNivel(nivelMateria(ev.materia)) || 'no lo dijo',
+                modalidad: ev.modalidad || 'no lo dijo' },
       fechas_disponibles: fechas,
       como_aprende: PLAN_ACTUAL ? {
         resumen: String(PLAN_ACTUAL.resumen || '').slice(0, 700),
@@ -3096,7 +3114,7 @@ function planLocal(ev, n){
   slots.forEach((k, i) => {
     const ultimo = i === slots.length - 1;
     if(i === 0) l.push(S(k, 'Organizá los temas', (temas.length ? `Hacé la lista de lo que entra: ${temas.join(', ')}. Marcá cuál te cuesta más.` : 'Anotá todo lo que entra y marcá lo que te cuesta más.') + (nivelMateria(ev.materia) === 3 ? ' Arrancá por lo más difícil, en ratitos cortos.' : '')));
-    else if(ultimo) l.push(S(k, 'Repaso general', 'Repasá todo de punta a punta y explicalo en voz alta, sin mirar.'));
+    else if(ultimo) l.push(S(k, 'Repaso general', ev.modalidad === 'oral' ? 'Simulá el oral: explicá cada tema en voz alta, sin mirar, como si te lo preguntaran. Grabate con el celu y escuchate.' : ev.modalidad === 'escrito' ? 'Simulá la prueba: escribí las respuestas sin mirar y después corregilas con tus apuntes.' : 'Repasá todo de punta a punta y explicalo en voz alta, sin mirar.'));
     else if(rcHecho && i === slots.length - 2 && slots.length > 3) l.push(S(k, 'Preguntas tipo examen', 'Inventá 5 preguntas y respondelas sin mirar. En cada una, pensá el porqué de tu respuesta.'));
     else {
       const tema = temas.length ? temas[(i - 1) % temas.length] : '';
@@ -3352,7 +3370,7 @@ function abrirPlanExamen(id, aviso){
   const ses = sesionesDelPlan(ev);
   hoja(`
     ${aviso ? `<div class="hoja-aviso">${aviso}</div>` : ''}
-    <div class="hoja-tag" style="--c:${c}">${escaparHTML(nombreTipo(ev.tipo))}${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''} · ${textoFaltan(d)}</div>
+    <div class="hoja-tag" style="--c:${c}">${escaparHTML(nombreTipo(ev.tipo))}${ev.modalidad ? ' ' + escaparHTML(ev.modalidad) : ''}${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''} · ${textoFaltan(d)}</div>
     <h2 class="hoja-tit">${escaparHTML(ev.titulo)}</h2>
     <p class="hoja-fecha">📅 ${fechaLarga(ev.fecha)}${ev.hora ? ' · ' + escaparHTML(String(ev.hora).slice(0, 5)) : ''}</p>
     <p class="hoja-motiva">${(planIA(ev) && planIA(ev).mensaje) ? escaparHTML(planIA(ev).mensaje) : motivacion(d)}</p>
@@ -3442,6 +3460,7 @@ function abrirNuevoEvento(fecha){
   document.getElementById('cal-evento-error').style.display = 'none';
   llenarSelectMaterias();
   CAL_NIVEL = 0;
+  CAL_MODALIDAD = '';
   actualizarCamposEvento();
   document.getElementById('cal-modal-overlay').style.display = 'flex';
   if(!fecha) document.getElementById('cal-evento-titulo').focus();
@@ -3455,6 +3474,7 @@ function abrirEditarEvento(id){
   document.getElementById('cal-evento-titulo').value = ev.titulo || '';
   document.getElementById('cal-evento-hora').value = ev.hora ? String(ev.hora).slice(0, 5) : '';
   document.getElementById('cal-evento-tipo').value = ev.tipo || 'Otro';
+  CAL_MODALIDAD = ev.modalidad || '';
   document.getElementById('cal-evento-contenidos').value = ev.contenidos || '';
   const sel = document.getElementById('cal-evento-materia');
   if(ev.materia){
@@ -3508,6 +3528,7 @@ async function guardarEvento(){
     if(materia || CAL_EDITANDO) datos.materia = materia || null;
     if(contenidos || CAL_EDITANDO) datos.contenidos = contenidos || null;
     if(hora || CAL_EDITANDO) datos.hora = hora || null;
+    if(evaluacion && (CAL_MODALIDAD || CAL_EDITANDO)) datos.modalidad = CAL_MODALIDAD || null;
     if(foto_ruta) datos.foto_ruta = foto_ruta;
 
     let res;
