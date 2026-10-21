@@ -902,34 +902,6 @@ a.poster-herr:hover{border-color:var(--navy)}
 .cer-colores-lista li.hecho span::before{content:none}
 .cer-colores-lista li{align-items:center}
 .cer-areas small{font-size:13px;color:var(--gray);margin-left:4px}
-
-/* v9.1 · plan en tira horizontal */
-.plan-cab{display:flex;justify-content:space-between;align-items:baseline;margin-top:1rem}
-.plan-cuenta{font-size:13.5px;color:var(--gray)}
-.plan-cuenta b{color:var(--navy)}
-.plan-tira{display:flex;gap:.45rem;overflow-x:auto;padding:.6rem .1rem .5rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-.plan-chip{flex:none;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:52px;padding:.45rem .3rem;border:1.5px solid var(--border);border-radius:14px;background:#fff;color:var(--navy);cursor:pointer;font-family:inherit}
-.plan-chip small{font-size:12px;color:var(--gray);font-weight:600}
-.plan-chip b{font-family:'Montserrat',sans-serif;font-size:18px;line-height:1.1}
-.plan-chip.hoy{border-color:var(--orange)}
-.plan-chip.hecho{background:var(--teal-bg);border-color:var(--teal-bg);color:var(--teal)}
-.plan-chip.sel{background:var(--navy);border-color:var(--navy);color:#fff}
-.plan-chip.sel small{color:rgba(255,255,255,.8)}
-.plan-card{background:var(--blue-bg);border-radius:16px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem}
-.plan-card.hecho{background:var(--teal-bg)}
-.plan-card-dia{font-size:13px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
-.plan-card-dia small{color:#c0392b;text-transform:none}
-.plan-card-tit{font-family:'Montserrat',sans-serif;font-size:18px;color:var(--navy);line-height:1.3}
-.plan-card-det{font-size:15px;color:var(--navy);line-height:1.55;margin:0}
-
-/* v9.2 · días, autoevaluación y ayuda en actividades */
-.dias-chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:12px}
-.dia-chip{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--border);background:#fff;color:var(--navy);font-weight:800;font-size:14px;cursor:pointer;font-family:'Montserrat',sans-serif}
-.dia-chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
-.auto-q{font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:var(--navy);margin:1.1rem 0 .5rem}
-.act-ayuda-btns{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 .8rem}
-.act-ayuda{background:var(--blue-bg);border-radius:12px;padding:.9rem 1.1rem;margin:0 0 1rem;font-size:15px;line-height:1.6;color:var(--navy)}
-.act-ayuda strong{display:block;font-family:'Montserrat',sans-serif;margin-bottom:.3rem}
 </style>
 </head>
 <body>
@@ -1407,7 +1379,6 @@ a.poster-herr:hover{border-color:var(--navy)}
             <input id="cal-evento-materia-nueva" class="reg-input" type="text" placeholder="Escribí la materia (ej: Historia)" style="display:none;margin-top:8px">
           </div>
           <div id="cal-evento-nivel-wrap" style="display:none;margin-bottom:14px"></div>
-          <div id="cal-evento-disp-wrap" style="display:none;margin-bottom:14px"></div>
 
           <div id="cal-evento-contenidos-wrap" style="margin-bottom:18px">
             <label for="cal-evento-contenidos" style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:4px">¿Qué temas entran? <span style="font-weight:400;color:var(--gray)">(opcional)</span></label>
@@ -1631,8 +1602,8 @@ function siguientePaso(){
   // v9: si ya pasó un examen o TP y no cargó la nota, eso va primero
   const pendienteNota = e.estilos ? examenSinNota() : null;
   if(pendienteNota) return { paso: 0, eyebrow: 'Después de tu examen', titulo: `¿Cómo te fue en ${pendienteNota.titulo}?`,
-    texto: '<strong>Contanos en 3 toques</strong> cómo te sentiste.',
-    boton: 'Contar cómo me fue →', accion: `abrirAutoeval('${idSeguro(pendienteNota.id)}')` };
+    texto: '<strong>Autoevaluate y cargá tu nota.</strong>',
+    boton: 'Cargar mi nota →', tab: 'rendimiento' };
 
   if(!e.estilos) return { paso: 1, titulo: 'Hacé tu test de estilos',
     texto: '⏱ <strong>5 minutos</strong>. No hay respuestas incorrectas.',
@@ -1659,7 +1630,7 @@ function siguientePaso(){
 }
 
 function tarjetaSiguiente(s, compacta){
-  const accion = s.accion ? `<button type="button" class="siguiente-btn" onclick="${s.accion}">${escaparHTML(s.boton)}</button>` : s.href
+  const accion = s.href
     ? `<a class="siguiente-btn" href="${escaparHTML(s.href)}" target="_blank" rel="noopener"${s.marca ? ` onclick="marcarYSeguir('${s.marca}')"` : ''}>${escaparHTML(s.boton)}</a>`
     : `<button type="button" class="siguiente-btn" onclick="irA('${s.tab}')">${escaparHTML(s.boton)}</button>`;
   const eyebrow = s.eyebrow || (s.paso <= 6 ? (compacta ? 'Ahora te toca · paso ' + s.paso + ' de 6' : 'Tu próximo paso · ' + s.paso + ' de 6') : 'Tu camino');
@@ -1927,7 +1898,6 @@ function actualizarCamposEvento(){
   if(t && w) w.style.display = (t.value === 'Examen' || t.value === 'Entrega') ? 'block' : 'none';
   if(typeof pintarNivelModal === 'function') pintarNivelModal();
   if(typeof pintarModalidadModal === 'function') pintarModalidadModal();
-  if(typeof pintarDispModal === 'function') pintarDispModal();
 }
 
 // ── v9.1 · Cómo le va en cada materia (lo usa el plan de estudio) ──
@@ -2007,150 +1977,6 @@ async function elegirNivelPerfil(i, v){
   pintarMateriasPerfil();
 }
 window.elegirNivelPerfil = elegirNivelPerfil;
-
-// ── v9.2 · Días y tiempo para estudiar (feedback del 14/10) ──
-// Cada chico elige qué días puede estudiar y cuánto tiempo por día. El plan usa sólo eso.
-// En los TPs, además, si lo quiere hacer en un día o repartido.
-const DIAS_SEM = [[1, 'L'], [2, 'M'], [3, 'Mi'], [4, 'J'], [5, 'V'], [6, 'S'], [0, 'D']];
-const MINUTOS_OPC = [15, 30, 45, 60];
-let CAL_DISP = null;
-function dispPorDefecto(){
-  const d = comoObjeto(campoDePerfil('disponibilidad', {}));
-  return { dias: Array.isArray(d.dias) && d.dias.length ? d.dias.map(Number) : [1, 2, 3, 4, 5], min: Number(d.min) || 30, modo: 'varios' };
-}
-function dispDe(ev){
-  const d = comoObjeto(ev && ev.disponibilidad);
-  return Array.isArray(d.dias) && d.dias.length ? { dias: d.dias.map(Number), min: Number(d.min) || 30, modo: d.modo || 'varios' } : null;
-}
-function pintarDispModal(){
-  const w = document.getElementById('cal-evento-disp-wrap');
-  const t = document.getElementById('cal-evento-tipo');
-  if(!w || !t) return;
-  if(!(t.value === 'Examen' || t.value === 'Entrega')){ w.style.display = 'none'; return; }
-  if(!CAL_DISP) CAL_DISP = dispPorDefecto();
-  const lbl = txt => `<label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin:0 0 6px">${txt}</label>`;
-  w.style.display = 'block';
-  w.innerHTML = `
-    ${t.value === 'Entrega' ? `${lbl('¿Cómo lo querés hacer?')}
-      <div class="nivel-chips" style="margin-bottom:12px">
-        <button type="button" class="nivel-chip${CAL_DISP.modo === 'un_dia' ? ' on' : ''}" onclick="elegirModoDisp('un_dia')">🏃 En un día</button>
-        <button type="button" class="nivel-chip${CAL_DISP.modo !== 'un_dia' ? ' on' : ''}" onclick="elegirModoDisp('varios')">📆 Repartido en varios días</button>
-      </div>` : ''}
-    ${lbl(CAL_DISP.modo === 'un_dia' ? '¿Qué días podrías hacerlo?' : '¿Qué días podés estudiar?')}
-    <div class="dias-chips">${DIAS_SEM.map(([v, l]) => `<button type="button" class="dia-chip${CAL_DISP.dias.includes(v) ? ' on' : ''}" aria-pressed="${CAL_DISP.dias.includes(v)}" onclick="toggleDiaDisp(${v})">${l}</button>`).join('')}</div>
-    ${lbl(CAL_DISP.modo === 'un_dia' ? '¿Cuánto tiempo le podés dedicar ese día?' : '¿Cuánto tiempo por día?')}
-    <div class="nivel-chips">${(CAL_DISP.modo === 'un_dia' ? [60, 90, 120, 180] : MINUTOS_OPC).map(m => `<button type="button" class="nivel-chip${CAL_DISP.min === m ? ' on' : ''}" onclick="elegirMinDisp(${m})">⏱ ${m >= 60 && m % 60 === 0 ? (m / 60) + ' h' : m >= 60 ? '1 h ' + (m - 60) + ' min' : m + ' min'}</button>`).join('')}</div>`;
-}
-function toggleDiaDisp(v){
-  const on = CAL_DISP.dias.includes(v);
-  if(on && CAL_DISP.dias.length === 1) return;   // al menos un día
-  CAL_DISP.dias = on ? CAL_DISP.dias.filter(x => x !== v) : [...CAL_DISP.dias, v];
-  pintarDispModal();
-}
-function elegirMinDisp(m){ CAL_DISP.min = m; pintarDispModal(); }
-function elegirModoDisp(m){
-  CAL_DISP.modo = m;
-  if(m === 'un_dia' && CAL_DISP.min < 60) CAL_DISP.min = 90;
-  if(m !== 'un_dia' && CAL_DISP.min > 60) CAL_DISP.min = 30;
-  pintarDispModal();
-}
-Object.assign(window, { toggleDiaDisp, elegirMinDisp, elegirModoDisp });
-
-// ── v9.2 · Autoevaluación después del examen, adentro de Aprendux (sin Google Form) ──
-const SENTIR = [['bien', '😊', 'Tranqui'], ['regular', '😐', 'Más o menos'], ['mal', '😟', 'Nervioso/a']];
-const SUFICIENTE = [['si', '💪', 'Sí'], ['masomenos', '🤏', 'Más o menos'], ['no', '😅', 'No']];
-let AUTOEVAL_TMP = {};
-function abrirAutoeval(id){
-  const ev = buscarEvento(id);
-  if(!ev) return;
-  AUTOEVAL_TMP = { ...comoObjeto(ev.autoeval), nota: ev.nota || '' };
-  pintarAutoeval(id);
-}
-function pintarAutoeval(id){
-  const ev = buscarEvento(id);
-  if(!ev) return;
-  const chips = (campo, lista) => `<div class="nivel-chips">${lista.map(([v, ic, t]) =>
-    `<button type="button" class="nivel-chip${AUTOEVAL_TMP[campo] === v ? ' on' : ''}" onclick="elegirAutoeval('${idSeguro(ev.id)}','${campo}','${v}')">${ic} ${t}</button>`).join('')}</div>`;
-  hoja(`
-    <div class="hoja-tag" style="--c:${colorMateria(ev.materia)}">¿Cómo te fue?${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''}</div>
-    <h2 class="hoja-tit">${escaparHTML(ev.titulo)}</h2>
-    <p class="hoja-p">Contanos en 3 toques. Sirve para que tu próximo plan te quede mejor 🙂</p>
-    <p class="auto-q">1. ¿Cómo te sentiste en el examen?</p>${chips('sentir', SENTIR)}
-    <p class="auto-q">2. ¿Sentiste que estudiaste lo suficiente?</p>${chips('suficiente', SUFICIENTE)}
-    <p class="auto-q">3. ¿Qué te sirvió más para estudiar? <span style="font-weight:400;color:var(--gray)">(opcional)</span></p>
-    <input class="reg-input" maxlength="120" placeholder="Ej: hacer el mapa, explicarlo en voz alta" value="${escaparHTML(AUTOEVAL_TMP.ayudo || '')}" oninput="AUTOEVAL_TMP.ayudo=this.value">
-    <p class="auto-q">4. ¿Te sacaste nota? <span style="font-weight:400;color:var(--gray)">(opcional, si ya la sabés)</span></p>
-    <input class="reg-input" style="max-width:120px" inputmode="decimal" placeholder="Ej: 8" value="${escaparHTML(AUTOEVAL_TMP.nota || '')}" oninput="AUTOEVAL_TMP.nota=this.value">
-    <p id="auto-error" style="color:#c0392b;font-size:14px;margin:.6rem 0 0;display:none">Respondé las preguntas 1 y 2 😉</p>
-    <div class="hoja-botones"><button type="button" class="btn-primary" onclick="guardarAutoeval('${idSeguro(ev.id)}')">Guardar</button></div>`);
-}
-function elegirAutoeval(id, campo, v){ AUTOEVAL_TMP[campo] = v; pintarAutoeval(id); }
-async function guardarAutoeval(id){
-  const ev = buscarEvento(id);
-  if(!ev) return;
-  if(!AUTOEVAL_TMP.sentir || !AUTOEVAL_TMP.suficiente){ document.getElementById('auto-error').style.display = 'block'; return; }
-  const campos = { autoeval: { sentir: AUTOEVAL_TMP.sentir, suficiente: AUTOEVAL_TMP.suficiente, ayudo: (AUTOEVAL_TMP.ayudo || '').trim(), fecha: hoyISO() } };
-  const nota = String(AUTOEVAL_TMP.nota || '').trim();
-  if(nota) campos.nota = nota;
-  await calEditarEvento(ev, campos);
-  repintarTodo();
-  const msj = AUTOEVAL_TMP.suficiente === 'no'
-    ? 'La próxima, anotá el examen apenas te lo den: con más días, tu plan te deja estudiar más tranqui 📅'
-    : AUTOEVAL_TMP.sentir === 'mal'
-      ? 'Los nervios son normales. Probá repasar el día anterior explicándolo en voz alta: ayuda a llegar más seguro 💪'
-      : '¡Bien ahí! Seguí así: anotá el próximo y te armamos el plan 🚀';
-  hoja(`<div style="text-align:center;padding:.5rem 0">
-      <div style="width:84px;margin:0 auto .6rem">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
-      <h2 class="hoja-tit" style="text-align:center">¡Gracias por contarnos!</h2>
-      <p class="hoja-p" style="text-align:center">${msj}</p>
-      <p class="hoja-p" style="text-align:center;font-size:13.5px"><strong>Tu cerebrito ganó energía ⚡</strong></p>
-      <div class="hoja-botones" style="justify-content:center"><button type="button" class="btn-primary" onclick="cerrarHoja()">¡Dale!</button></div></div>`);
-}
-Object.assign(window, { abrirAutoeval, elegirAutoeval, guardarAutoeval });
-function autoevalHechas(){ return (CAL_EVENTOS || []).filter(ev => comoObjeto(ev.autoeval).sentir).length; }
-
-// ── v9.2 · En cada actividad: "¿Por qué esta para mí?" y "Ver un ejemplo hecho" (los arma la IA) ──
-const N8N_AYUDA_URL = 'https://aprendux.app.n8n.cloud/webhook/ayuda-actividad';
-const AYUDA_CACHE = {};
-async function ayudaActividad(i, modo){
-  const a = ACTIVIDADES_ACTUALES[i];
-  const caja = document.getElementById('act-ayuda');
-  if(!a || !caja) return;
-  const titulo = modo === 'porque' ? '🤔 ¿Por qué esta actividad para vos?' : '✨ Un ejemplo hecho';
-  const mostrar = txt => {
-    caja.innerHTML = `<div class="act-ayuda"><strong>${titulo}</strong><div>${escaparHTML(txt).replace(/\n/g, '<br>')}</div></div>`;
-  };
-  const clave = i + '|' + modo;
-  if(AYUDA_CACHE[clave]){ mostrar(AYUDA_CACHE[clave]); return; }
-  caja.innerHTML = `<div class="act-ayuda"><strong>${titulo}</strong><div class="armando-barra" style="margin:.7rem 0 .2rem;max-width:220px"><span></span></div></div>`;
-  const sugerencia = a.sugerencia || a.adaptacion || '';
-  const proximo = (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && diasHasta(ev.fecha) >= 0).sort((x, y) => diasHasta(x.fecha) - diasHasta(y.fecha))[0];
-  try {
-    const niveles = nivelesDelPerfil(PLAN_ACTUAL);
-    const ctrl = new AbortController(); const corte = setTimeout(() => ctrl.abort(), 45000);
-    const res = await fetch(N8N_AYUDA_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal,
-      body: JSON.stringify({
-        modo,
-        actividad: { titulo: a.titulo || '', para_que: a.objetivo || '', instrucciones: a.instrucciones || a.descripcion || '', ejemplo_corto: a.ejemplo || '', en_tu_caso: sugerencia },
-        como_aprende: PLAN_ACTUAL ? { resumen: String(PLAN_ACTUAL.resumen || '').slice(0, 600), claves: clavesDelAlumno(),
-          niveles: niveles ? Object.fromEntries(EJES_PERFIL.map(([k], j) => [k, niveles[j]])) : null } : null,
-        tema_para_el_ejemplo: proximo ? { materia: proximo.materia || '', temas: proximo.contenidos || '' } : null
-      }) });
-    clearTimeout(corte);
-    if(!res.ok) throw new Error('n8n ' + res.status);
-    const o = leerRespuestaPlan(await res.json());
-    const txt = String(o.texto || '').trim();
-    if(!txt) throw new Error('vacío');
-    AYUDA_CACHE[clave] = txt;
-    mostrar(txt);
-  } catch(e){
-    console.warn('Ayuda de actividad sin IA:', e);
-    mostrar(modo === 'porque'
-      ? (sugerencia || a.explicacion_corta || a.explicacion || `Te ayuda a ${String(a.objetivo || 'practicar lo que aprendiste').toLowerCase()}`)
-      : (a.ejemplo ? a.ejemplo + '\n\n(En un ratito podés pedir un ejemplo más completo.)' : 'Ahora no pudimos armar el ejemplo. Probá de nuevo en un ratito.'));
-  }
-}
-window.ayudaActividad = ayudaActividad;
 
 // ── Objetivos (Mi camino) ──
 const OBJETIVOS = ['Concentrarme más', 'Organizar mi tiempo', 'Tener más ganas de estudiar', 'Entender temas difíciles', 'Prepararme para exámenes'];
@@ -2240,7 +2066,7 @@ function esEvaluacion(ev){ return !!ev && (ev.tipo === 'Examen' || ev.tipo === '
 function nombreTipo(t){ return t === 'Entrega' ? 'TP / entrega' : String(t || 'evento').toLowerCase(); }
 function textoFaltan(d){ return d === 0 ? 'es hoy' : (d === 1 ? 'es mañana' : `faltan ${d} días`); }
 function examenesSinNota(){
-  return (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && !comoObjeto(ev.autoeval).sentir && diasHasta(ev.fecha) < 0 && diasHasta(ev.fecha) >= -21);
+  return (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && !ev.nota && diasHasta(ev.fecha) < 0 && diasHasta(ev.fecha) >= -21);
 }
 function examenSinNota(){
   return examenesSinNota().sort((a, b) => diasHasta(b.fecha) - diasHasta(a.fecha))[0] || null;
@@ -2280,13 +2106,18 @@ function repintarTodo(){
 
 // Fila "¿Cómo te fue?": autoevaluación + nota. pref evita ids repetidos entre pantallas.
 function filaNota(ev, pref){
-  const id = idSeguro(ev.id);
+  const id = escaparHTML(String(ev.id));
   return `
     <div class="prox-fila">
       <span style="font-size:22px">📝</span>
       <span style="flex:1 1 180px;min-width:0"><strong>${escaparHTML(ev.titulo)}</strong><br>
         <span style="font-size:13px;color:var(--gray)">${escaparHTML(nombreTipo(ev.tipo))}${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''} · ya pasó</span></span>
-      <button type="button" class="btn-mini" onclick="abrirAutoeval('${id}')">¿Cómo te fue? →</button>
+      <a href="${AUTOEVAL_EXAMEN_URL}" target="_blank" rel="noopener" class="btn-mini btn-mini-claro">Autoevaluarme</a>
+      <span style="display:flex;gap:.35rem">
+        <input id="nota-${pref}-${id}" class="reg-input" type="text" inputmode="decimal" placeholder="Nota" aria-label="Tu nota" style="width:76px;padding:7px 9px"
+          onkeydown="if(event.key==='Enter')guardarNota('${id}','${pref}')">
+        <button type="button" class="btn-mini" onclick="guardarNota('${id}','${pref}')">Guardar</button>
+      </span>
     </div>`;
 }
 
@@ -2352,7 +2183,7 @@ function pintarRecordatorios(estado){
     }
   }
   examenesSinNota().slice(0, 2).forEach(ev => items.push({
-    t: `¿Cómo te fue en ${ev.titulo}?`, d: 'Contanos en 3 toques', a: `abrirAutoeval('${idSeguro(ev.id)}')`, l: 'Contar'
+    t: `¿Cómo te fue en ${ev.titulo}?`, d: 'Autoevaluate y cargá tu nota', a: "irA('rendimiento')", l: 'Cargar nota'
   }));
   proximosEventos(3).filter(ev => diasHasta(ev.fecha) <= 7).forEach(ev => items.push({
     t: ev.titulo, d: `${nombreTipo(ev.tipo)} · ${textoFaltan(diasHasta(ev.fecha))}`,
@@ -2398,17 +2229,17 @@ function fuentesDeEnergia(){
   const eventos = (CAL_EVENTOS || []).length;
   const notas = (CAL_EVENTOS || []).filter(ev => ev.nota).length;
   return [
-    { txt: 'Hacé el test de estilos',         pts: 30, hecho: !!e.estilos },
-    { txt: 'Mirá cómo aprendés',              pts: 10, hecho: !!e.estilos && marcaLocal('visto_perfil') },
-    { txt: 'Elegí qué querés mejorar',        pts: 10, hecho: misObjetivos().length > 0 },
-    { txt: 'Hacé Razonamiento Crítico',       pts: 30, hecho: !!e.rc1 },
-    { txt: 'Subí una actividad',              pts: 20, veces: Math.min(ENTREGAS_TOTAL, 5) },
-    { txt: 'Autoevaluate',                    pts: 20, hecho: marcaLocal('autoevaluacion') },
-    { txt: 'Hacé Razonamiento Crítico 2',     pts: 30, hecho: !!e.rc2 },
-    { txt: 'Anotá un examen o TP',            pts: 5,  veces: Math.min(eventos, 10) },
-    { txt: 'Contá cómo te fue en un examen',  pts: 15, veces: Math.min(autoevalHechas(), 10) },
-    { txt: 'Cumplí un día de tu plan',        pts: 10, veces: Math.min(diasDePlanHechos(), 20) },
-    { txt: 'Anotá un examen con 5 días o más de anticipación', pts: 15, veces: Math.min(examenesConTiempo(), 5) }
+    { txt: 'Hacer el test de estilos',        pts: 30, hecho: !!e.estilos },
+    { txt: 'Mirar cómo aprendés',             pts: 10, hecho: !!e.estilos && marcaLocal('visto_perfil') },
+    { txt: 'Elegir qué querés mejorar',       pts: 10, hecho: misObjetivos().length > 0 },
+    { txt: 'Hacer Razonamiento Crítico',      pts: 30, hecho: !!e.rc1 },
+    { txt: 'Subir una actividad',             pts: 20, veces: Math.min(ENTREGAS_TOTAL, 5) },
+    { txt: 'Autoevaluarte',                   pts: 20, hecho: marcaLocal('autoevaluacion') },
+    { txt: 'Hacer Razonamiento Crítico 2',    pts: 30, hecho: !!e.rc2 },
+    { txt: 'Anotar un examen o TP',           pts: 5,  veces: Math.min(eventos, 10) },
+    { txt: 'Cargar una nota',                 pts: 15, veces: Math.min(notas, 10) },
+    { txt: 'Cumplir un día de tu plan',       pts: 10, veces: Math.min(diasDePlanHechos(), 20) },
+    { txt: 'Anotar un examen con 5 días o más de anticipación', pts: 15, veces: Math.min(examenesConTiempo(), 5) }
   ];
 }
 function diasDePlanHechos(){
@@ -2775,7 +2606,7 @@ async function calEditarEvento(ev, campos){
   const extra = {};
   if(error){
     const basico = { ...campos };
-    [...OPCIONALES_EVENTO, 'plan_hechos', 'nota', 'plan_ia', 'autoeval'].forEach(k => { if(k in basico){ extra[k] = basico[k]; delete basico[k]; } });
+    [...OPCIONALES_EVENTO, 'plan_hechos', 'nota', 'plan_ia'].forEach(k => { if(k in basico){ extra[k] = basico[k]; delete basico[k]; } });
     error = null;
     if(Object.keys(basico).length){
       ({ error } = await supabaseClient.from('eventos_calendario').update(basico).eq('id', ev.id));
@@ -3072,7 +2903,7 @@ const COLOR_SIN_MATERIA = '#7b8794';
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const DIAS_CORTOS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-const OPCIONALES_EVENTO = ['materia', 'contenidos', 'hora', 'foto_ruta', 'modalidad', 'disponibilidad'];
+const OPCIONALES_EVENTO = ['materia', 'contenidos', 'hora', 'foto_ruta', 'modalidad'];
 
 const esCelu = () => window.innerWidth <= 860;
 let CAL_VISTA = esCelu() ? 'agenda' : 'mes';
@@ -3137,7 +2968,7 @@ function clavesDelAlumno(){
   if(!PLAN_ACTUAL) return [];
   return comoLista(PLAN_ACTUAL.tips).slice(0, 3).map(t => { const k = claveDeTip(t); return { palabra: k.palabra, herramienta: k.herramienta || '' }; });
 }
-function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || '', nivelMateria(ev.materia), ev.modalidad || '', JSON.stringify(dispDe(ev) || '')].join('|'); }
+function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || '', nivelMateria(ev.materia), ev.modalidad || ''].join('|'); }
 function planIA(ev){
   const p = comoObjeto(ev && ev.plan_ia);
   return Array.isArray(p.sesiones) && p.sesiones.length ? p : null;
@@ -3169,8 +3000,6 @@ function fechasParaPlan(ev){
   const out = [];
   let d = deISO(hoyISO());
   while(d < examen && out.length < 30){ out.push(iso(d)); d = sumarDias(d, 1); }
-  const disp = dispDe(ev);
-  if(disp){ const f = out.filter(x => disp.dias.includes(deISO(x).getDay())); if(f.length) return f; }
   return out;
 }
 
@@ -3196,9 +3025,7 @@ async function pedirPlanIA(ev){
       hoy: hoyISO(),
       examen: { titulo: ev.titulo, tipo: nombreTipo(ev.tipo), materia: ev.materia || '', fecha: String(ev.fecha).slice(0, 10), temas: ev.contenidos || '',
                 cuanto_le_cuesta: textoNivel(nivelMateria(ev.materia)) || 'no lo dijo',
-                modalidad: ev.modalidad || 'no lo dijo',
-                minutos_por_dia: dispDe(ev) ? dispDe(ev).min : null,
-                como_lo_hace: dispDe(ev) && dispDe(ev).modo === 'un_dia' ? 'en un solo día' : 'repartido en varios días' },
+                modalidad: ev.modalidad || 'no lo dijo' },
       fechas_disponibles: fechas,
       como_aprende: PLAN_ACTUAL ? {
         resumen: String(PLAN_ACTUAL.resumen || '').slice(0, 700),
@@ -3314,23 +3141,12 @@ function sesionesDelPlan(ev){
       examen: ev, materia: ev.materia, hecho: hechos.includes(x.fecha), ia: true
     }));
   }
-  const disp = dispDe(ev);
-  let fechas = [];
-  for(let d = new Date(inicio); d < examen; d = sumarDias(d, 1)) fechas.push(iso(d));
-  if(disp){ const f2 = fechas.filter(f => disp.dias.includes(deISO(f).getDay())); if(f2.length) fechas = f2; }
-  if(!fechas.length) return [];
-  const minutos = disp ? disp.min : undefined;
-  if(disp && disp.modo === 'un_dia'){
-    const f = fechas[fechas.length - 1];
-    const temas = temasDe(ev.contenidos);
-    return [{ fecha: f, txt: ev.tipo === 'Entrega' ? 'Hacé el TP' : 'Estudiá todo', minutos,
-      detalle: (temas.length ? `Arrancá por ${temas[0]}` : 'Arrancá por lo que más te cuesta') + '. Cada 25 minutos, hacé una pausa corta.',
-      examen: ev, materia: ev.materia, hecho: hechos.includes(f) }];
-  }
+  const n = Math.round((examen - inicio) / 86400000);
+  if(n < 1) return [];
   const vistos = new Set();
-  return planLocal(ev, fechas.length).filter(x => !vistos.has(x.k) && vistos.add(x.k)).map(x => {
-    const fecha = fechas[x.k];
-    return { fecha, txt: x.txt, detalle: x.detalle, minutos, examen: ev, materia: ev.materia, hecho: hechos.includes(fecha) };
+  return planLocal(ev, n).filter(x => !vistos.has(x.k) && vistos.add(x.k)).map(x => {
+    const fecha = iso(sumarDias(inicio, x.k));
+    return { fecha, txt: x.txt, detalle: x.detalle, examen: ev, materia: ev.materia, hecho: hechos.includes(fecha) };
   });
 }
 
@@ -3544,62 +3360,12 @@ function abrirDetalleEvento(id){
     ${esEvaluacion(ev) && d < 0 ? (ev.nota
       ? `<p class="hoja-p"><strong>Tu nota:</strong> <span class="hoja-nota">${escaparHTML(ev.nota)}</span></p>`
       : `<div style="margin-top:1rem">${filaNota(ev, 'hoja')}</div>`) : ''}
-    ${esEvaluacion(ev) && d < 0 && comoObjeto(ev.autoeval).sentir ? `<p class="hoja-p">✓ Ya contaste cómo te fue. <a href="#" onclick="abrirAutoeval('${idSeguro(ev.id)}');return false;" style="color:var(--navy);font-weight:700">Cambiar</a></p>` : ''}
     <div class="hoja-botones">
       <button type="button" class="btn-mini btn-mini-claro" onclick="abrirEditarEvento('${idSeguro(ev.id)}')">✏️ Editar</button>
       <button type="button" class="btn-mini btn-mini-claro" onclick="borrarEventoDesdePlan('${idSeguro(ev.id)}')">🗑 Borrar</button>
     </div>`);
   if(ev.foto_ruta) mostrarFoto(ev.foto_ruta, 'hoja-img');
 }
-
-// v9.1 · El plan como tira de días (se desliza de costado) + la tarjeta del día elegido
-const PLAN_DIA_SEL = {};
-function diaPorDefecto(ses){
-  const h = hoyISO();
-  return (ses.find(s => s.fecha === h) || ses.find(s => s.fecha > h && !s.hecho) || ses.find(s => !s.hecho) || ses[ses.length - 1]).fecha;
-}
-function tarjetaDiaPlan(ev, s){
-  const pasado = s.fecha < hoyISO();
-  return `<div class="plan-card${s.hecho ? ' hecho' : ''}">
-      <span class="plan-card-dia">${s.fecha === hoyISO() ? 'Hoy' : escaparHTML(fechaLarga(s.fecha))}${pasado && !s.hecho ? ' · <small>ya pasó</small>' : ''}</span>
-      <strong class="plan-card-tit">${escaparHTML(s.txt)}</strong>
-      ${s.detalle ? `<p class="plan-card-det">${escaparHTML(s.detalle)}</p>` : ''}
-      ${s.herramienta || s.minutos ? `<span class="plan-dia-meta">${s.herramienta ? '🔧 ' + escaparHTML(s.herramienta) : ''}${s.herramienta && s.minutos ? ' · ' : ''}${s.minutos ? '⏱ ' + s.minutos + ' min' : ''}</span>` : ''}
-      <button type="button" class="sesion-grande${s.hecho ? ' hecho' : ''}" style="margin-top:.8rem" onclick="toggleSesion('${idSeguro(ev.id)}','${s.fecha}',true)">${s.hecho ? '✓ ¡Lo hiciste!' : '✓ Lo hice'}</button>
-    </div>`;
-}
-function tiraDelPlan(ev, ses){
-  const sel = ses.some(s => s.fecha === PLAN_DIA_SEL[ev.id]) ? PLAN_DIA_SEL[ev.id] : diaPorDefecto(ses);
-  PLAN_DIA_SEL[ev.id] = sel;
-  const hechos = ses.filter(s => s.hecho).length;
-  const elegido = ses.find(s => s.fecha === sel);
-  const D = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-  return `
-    <div class="plan-cab"><h3 class="bloque-titulo" style="font-size:16px;margin:0">📖 Tu plan</h3>
-      <span class="plan-cuenta"><b>${hechos}</b> de ${ses.length} hechos</span></div>
-    <div class="plan-tira" role="tablist" aria-label="Días del plan">
-      ${ses.map(s => { const d = deISO(s.fecha); return `<button type="button" role="tab" aria-selected="${s.fecha === sel}"
-          class="plan-chip${s.fecha === sel ? ' sel' : ''}${s.hecho ? ' hecho' : ''}${s.fecha === hoyISO() ? ' hoy' : ''}"
-          onclick="elegirDiaPlan('${idSeguro(ev.id)}','${s.fecha}')">
-          <small>${s.fecha === hoyISO() ? 'Hoy' : D[d.getDay()]}</small><b>${s.hecho ? '✓' : d.getDate()}</b></button>`; }).join('')}
-    </div>
-    <div id="plan-dia-card">${elegido ? tarjetaDiaPlan(ev, elegido) : ''}</div>
-    <p class="hoja-p" style="font-size:13px;margin-top:.5rem">Tocá un día para ver qué hacer. Tildar <strong>le da energía a tu cerebrito ⚡</strong></p>`;
-}
-function elegirDiaPlan(exId, fecha){
-  const ev = buscarEvento(exId);
-  if(!ev) return;
-  PLAN_DIA_SEL[ev.id] = fecha;
-  const ses = sesionesDelPlan(ev);
-  const s = ses.find(x => x.fecha === fecha);
-  const card = document.getElementById('plan-dia-card');
-  if(card && s) card.innerHTML = tarjetaDiaPlan(ev, s);
-  document.querySelectorAll('.plan-chip').forEach(b => {
-    const on = b.getAttribute('onclick').includes(`'${fecha}'`);
-    b.classList.toggle('sel', on); b.setAttribute('aria-selected', on);
-  });
-}
-window.elegirDiaPlan = elegirDiaPlan;
 
 function abrirPlanExamen(id, aviso){
   const ev = buscarEvento(id);
@@ -3613,8 +3379,17 @@ function abrirPlanExamen(id, aviso){
     <p class="hoja-fecha">📅 ${fechaLarga(ev.fecha)}${ev.hora ? ' · ' + escaparHTML(String(ev.hora).slice(0, 5)) : ''}</p>
     <p class="hoja-motiva">${(planIA(ev) && planIA(ev).mensaje) ? escaparHTML(planIA(ev).mensaje) : motivacion(d)}</p>
     ${ses.length ? `
-      ${tiraDelPlan(ev, ses)}
-` : ''}
+      <h3 class="bloque-titulo" style="font-size:16px;margin-top:1rem">📖 Tu plan</h3>
+      <div class="plan-dias">${ses.map(s => {
+        const pasado = s.fecha < hoyISO();
+        return `<div class="plan-dia${s.hecho ? ' hecho' : ''}${s.fecha === hoyISO() ? ' hoy' : ''}">
+          <button type="button" class="ag-check" onclick="toggleSesion('${idSeguro(ev.id)}','${s.fecha}',true)" aria-label="${s.hecho ? 'Desmarcar' : 'Marcar como hecho'}">${s.hecho ? '✓' : ''}</button>
+          <span><strong>${s.fecha === hoyISO() ? 'Hoy' : escaparHTML(fechaLarga(s.fecha))}</strong><br><b class="plan-dia-tit">${escaparHTML(s.txt)}</b>${pasado && !s.hecho ? ' <small>(ya pasó)</small>' : ''}
+            ${s.detalle ? `<span class="plan-dia-det">${escaparHTML(s.detalle)}</span>` : ''}
+            ${s.herramienta || s.minutos ? `<span class="plan-dia-meta">${s.herramienta ? '🔧 ' + escaparHTML(s.herramienta) : ''}${s.herramienta && s.minutos ? ' · ' : ''}${s.minutos ? '⏱ ' + s.minutos + ' min' : ''}</span>` : ''}</span>
+        </div>`;
+      }).join('')}</div>
+      <p class="hoja-p" style="font-size:13.5px">Tildá lo que vas haciendo: <strong>le da energía a tu cerebrito ⚡</strong></p>` : ''}
     ${ev.contenidos ? `<p class="hoja-p"><strong>Temas:</strong> ${escaparHTML(ev.contenidos)}</p>` : ''}
     ${ev.foto_ruta ? `<div class="hoja-foto" style="display:none"><img id="hoja-img" alt="Foto de los temas"></div>` : ''}
     <div class="hoja-botones">
@@ -3690,7 +3465,6 @@ function abrirNuevoEvento(fecha){
   llenarSelectMaterias();
   CAL_NIVEL = 0;
   CAL_MODALIDAD = '';
-  CAL_DISP = dispPorDefecto();
   actualizarCamposEvento();
   document.getElementById('cal-modal-overlay').style.display = 'flex';
   if(!fecha) document.getElementById('cal-evento-titulo').focus();
@@ -3705,7 +3479,6 @@ function abrirEditarEvento(id){
   document.getElementById('cal-evento-hora').value = ev.hora ? String(ev.hora).slice(0, 5) : '';
   document.getElementById('cal-evento-tipo').value = ev.tipo || 'Otro';
   CAL_MODALIDAD = ev.modalidad || '';
-  CAL_DISP = dispDe(ev) || dispPorDefecto();
   document.getElementById('cal-evento-contenidos').value = ev.contenidos || '';
   const sel = document.getElementById('cal-evento-materia');
   if(ev.materia){
@@ -3760,10 +3533,6 @@ async function guardarEvento(){
     if(contenidos || CAL_EDITANDO) datos.contenidos = contenidos || null;
     if(hora || CAL_EDITANDO) datos.hora = hora || null;
     if(evaluacion && (CAL_MODALIDAD || CAL_EDITANDO)) datos.modalidad = CAL_MODALIDAD || null;
-    if(evaluacion && CAL_DISP){
-      datos.disponibilidad = { dias: CAL_DISP.dias, min: CAL_DISP.min, modo: tipo === 'Entrega' ? CAL_DISP.modo : 'varios' };
-      if(datos.disponibilidad.modo === 'varios') guardarEnPerfil({ disponibilidad: { dias: CAL_DISP.dias, min: CAL_DISP.min } });
-    }
     if(foto_ruta) datos.foto_ruta = foto_ruta;
 
     let res;
@@ -4808,11 +4577,11 @@ function seleccionarActividad(i){
         <p class="medida" style="background:#f4f6f9;border-radius:8px;padding:.75rem .95rem;font-size:14px;line-height:1.6;color:var(--gray);margin:0 0 .9rem">
           <span style="color:var(--navy);font-weight:700">Por ejemplo:</span> ${escaparHTML(a.ejemplo)}
         </p>` : ''}
-      <div class="act-ayuda-btns">
-        <button type="button" class="btn-mini btn-mini-claro" onclick="ayudaActividad(${i},'porque')">🤔 ¿Por qué esta actividad para mí?</button>
-        <button type="button" class="btn-mini btn-mini-claro" onclick="ayudaActividad(${i},'ejemplo')">✨ Ver un ejemplo hecho</button>
-      </div>
-      <div id="act-ayuda"></div>
+      ${explicacion ? `
+        <details style="margin:0 0 .7rem">
+          <summary style="list-style:none;cursor:pointer;font-size:14px;color:var(--navy);font-weight:600;text-decoration:underline">¿Por qué esta actividad? ▾</summary>
+          <p style="font-size:14px;line-height:1.7;color:var(--gray);margin:.5rem 0 0">${escaparHTML(explicacion)}</p>
+        </details>` : ''}
       ${campoActividad('Qué subís', a.entrega)}
       ${zonaDeEntrega(i)}
     </div>`;
