@@ -902,6 +902,115 @@ a.poster-herr:hover{border-color:var(--navy)}
 .cer-colores-lista li.hecho span::before{content:none}
 .cer-colores-lista li{align-items:center}
 .cer-areas small{font-size:13px;color:var(--gray);margin-left:4px}
+
+/* v9.1 · plan en tira horizontal */
+.plan-cab{display:flex;justify-content:space-between;align-items:baseline;margin-top:1rem}
+.plan-cuenta{font-size:13.5px;color:var(--gray)}
+.plan-cuenta b{color:var(--navy)}
+.plan-tira{display:flex;gap:.45rem;overflow-x:auto;padding:.6rem .1rem .5rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.plan-chip{flex:none;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:52px;padding:.45rem .3rem;border:1.5px solid var(--border);border-radius:14px;background:#fff;color:var(--navy);cursor:pointer;font-family:inherit}
+.plan-chip small{font-size:12px;color:var(--gray);font-weight:600}
+.plan-chip b{font-family:'Montserrat',sans-serif;font-size:18px;line-height:1.1}
+.plan-chip.hoy{border-color:var(--orange)}
+.plan-chip.hecho{background:var(--teal-bg);border-color:var(--teal-bg);color:var(--teal)}
+.plan-chip.sel{background:var(--navy);border-color:var(--navy);color:#fff}
+.plan-chip.sel small{color:rgba(255,255,255,.8)}
+.plan-card{background:var(--blue-bg);border-radius:16px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem}
+.plan-card.hecho{background:var(--teal-bg)}
+.plan-card-dia{font-size:13px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
+.plan-card-dia small{color:#c0392b;text-transform:none}
+.plan-card-tit{font-family:'Montserrat',sans-serif;font-size:18px;color:var(--navy);line-height:1.3}
+.plan-card-det{font-size:15px;color:var(--navy);line-height:1.55;margin:0}
+
+/* v9.2 · días, autoevaluación y ayuda en actividades */
+.dias-chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:12px}
+.dia-chip{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--border);background:#fff;color:var(--navy);font-weight:800;font-size:14px;cursor:pointer;font-family:'Montserrat',sans-serif}
+.dia-chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.auto-q{font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:var(--navy);margin:1.1rem 0 .5rem}
+.act-ayuda-btns{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 .8rem}
+.act-ayuda{background:var(--blue-bg);border-radius:12px;padding:.9rem 1.1rem;margin:0 0 1rem;font-size:15px;line-height:1.6;color:var(--navy)}
+.act-ayuda strong{display:block;font-family:'Montserrat',sans-serif;margin-bottom:.3rem}
+
+/* v9.3 · horas, por qué, ejemplos visuales, barra de progreso y avisos */
+.disp-otro{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;font-size:14px;color:var(--navy);font-weight:600}
+.disp-otro input{border:1.5px solid var(--border);border-radius:10px;padding:.45rem .6rem;font-size:15px;font-family:inherit;color:var(--navy);width:90px}
+.disp-otro input[type=time]{width:auto}
+.nivel-chip small{font-weight:500;opacity:.75;margin-left:.2rem}
+.plan-porque{display:block;background:#fff8e8;border:1.5px dashed #f5c26b;border-radius:12px;padding:.7rem .85rem;margin-top:.8rem}
+.plan-porque-tit{display:block;font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;color:var(--navy);margin-bottom:.35rem}
+.plan-porque-chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.4rem}
+.plan-porque-chips span{background:#fff;border:1px solid #f5c26b;border-radius:999px;padding:.15rem .6rem;font-size:12.5px;font-weight:700;color:var(--navy)}
+.plan-porque-txt{display:block;font-size:14px;line-height:1.5;color:var(--navy)}
+.pbar{display:flex;flex-direction:column;gap:.3rem;margin:.6rem 0 .2rem;width:100%}
+.pbar-track{position:relative;height:12px;border-radius:999px;background:#e6edf5;overflow:visible}
+.pbar-track i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,#1baf7a,#3cc993);transition:width .4s}
+.pbar.atras .pbar-track i{background:linear-gradient(90deg,#f5a623,#eb6834)}
+.pbar-track b{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1.5px;border-radius:2px;background:var(--navy)}
+.pbar-txt{font-size:13px;font-weight:700;color:#1f7a5e}
+.pbar.atras .pbar-txt{color:#c25414}
+.pbar.chico{margin:.45rem 0 0}
+.pbar.chico .pbar-track{height:8px}
+.pbar.chico .pbar-txt{font-size:12px}
+.ag-txt .pbar{max-width:260px}
+.ej-caja{background:#f4f6f9;border-radius:14px;padding:.8rem .9rem 1rem;margin:0 0 .9rem}
+.ej-tit{display:block;font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;color:var(--navy);margin-bottom:.5rem}
+.ej-mapa{display:flex;flex-direction:column;align-items:center;max-width:460px;margin:0 auto}
+.ej-centro{background:var(--navy);color:#fff;font-weight:800;font-size:14.5px;padding:.65rem 1rem;border-radius:14px;text-align:center;max-width:260px;box-shadow:0 4px 12px rgba(30,58,95,.25);position:relative}
+.ej-centro::after{content:'';position:absolute;left:50%;bottom:-14px;width:2px;height:14px;background:#9fb3cc}
+.ej-ramas{position:relative;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:.45rem;width:100%;margin-top:14px;padding-top:14px}
+.ej-ramas::before{content:'';position:absolute;top:0;left:calc(50% / var(--n));right:calc(50% / var(--n));height:2px;background:#9fb3cc}
+.ej-rama{position:relative;background:#fff;border:2px solid var(--c);color:var(--navy);font-size:12.5px;font-weight:700;padding:.45rem .4rem;border-radius:10px;text-align:center;line-height:1.3}
+.ej-rama::before{content:'▲';position:absolute;top:-15px;left:50%;transform:translateX(-50%) rotate(180deg);font-size:9px;color:var(--c)}
+.ej-nota{font-size:13.5px;color:var(--navy);margin:.7rem 0 0;font-weight:600}
+.ej-pasos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.45rem}
+.ej-pasos li{position:relative;background:#fff;border-radius:12px;padding:.6rem .7rem;display:flex;align-items:center;gap:.6rem;font-size:13.5px;line-height:1.35;color:var(--navy);font-weight:600;box-shadow:0 1px 0 var(--border)}
+.ej-num{flex:none;width:22px;height:22px;border-radius:50%;background:var(--orange);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.ej-ic{font-size:22px;flex:none}
+.ej-charla{display:flex;flex-direction:column;gap:.45rem;max-width:460px}
+.ej-burbuja{max-width:85%;padding:.55rem .8rem;border-radius:14px;font-size:14px;line-height:1.4;color:var(--navy);background:#fff}
+.ej-burbuja small{display:block;font-size:11.5px;font-weight:800;opacity:.7;margin-bottom:.15rem}
+.ej-burbuja.vos{align-self:flex-end;background:#dcecff;border-bottom-right-radius:4px}
+.ej-burbuja.otro{align-self:flex-start;border-bottom-left-radius:4px;border:1px solid var(--border)}
+.avisos-top:empty{display:none}
+.avisos-top{display:flex;flex-direction:column;gap:.6rem;margin:0 0 1rem}
+.aviso-top{position:relative;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;border-radius:18px;padding:1rem 2.4rem 1rem 1rem;color:#fff;background:linear-gradient(135deg,#f5a623,#eb6834);box-shadow:0 6px 18px rgba(235,104,52,.28);animation:avisoEntra .45s ease-out}
+.aviso-top.rojo{background:linear-gradient(135deg,#ff6b6b,#d63031);box-shadow:0 6px 18px rgba(214,48,49,.28)}
+.aviso-top.azul{background:linear-gradient(135deg,#4f9df0,#2a63c9);box-shadow:0 6px 18px rgba(42,99,201,.25)}
+.aviso-top.violeta{background:linear-gradient(135deg,#a77bea,#7b4bb7);box-shadow:0 6px 18px rgba(123,75,183,.25)}
+.aviso-top.mail{background:#fff;color:var(--navy);border:2px solid #4f9df0;box-shadow:none}
+.aviso-ic{font-size:34px;line-height:1;animation:avisoLate 2.4s ease-in-out infinite}
+.aviso-txt{flex:1 1 180px;min-width:0}
+.aviso-txt strong{display:block;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;line-height:1.3}
+.aviso-txt small{display:block;font-size:13.5px;opacity:.92;margin-top:.15rem;line-height:1.4}
+.aviso-btn{background:#fff;color:var(--navy);border:none;border-radius:999px;padding:.55rem 1rem;font-weight:800;font-size:14px;cursor:pointer;font-family:'Montserrat',sans-serif;white-space:nowrap}
+.aviso-top.mail .aviso-btn{background:#2a63c9;color:#fff}
+.aviso-x{position:absolute;top:.45rem;right:.5rem;background:rgba(255,255,255,.22);color:inherit;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px}
+.aviso-top.mail .aviso-x{background:#eef3fa}
+@keyframes avisoEntra{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes avisoLate{0%,70%,100%{transform:scale(1)}80%{transform:scale(1.18) rotate(-6deg)}90%{transform:scale(1.05) rotate(4deg)}}
+@media (prefers-reduced-motion:reduce){.aviso-top,.aviso-ic{animation:none}}
+
+/* v9.4 · plan que se adapta */
+.opciones-plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.8rem;margin-top:1rem}
+.opcion-plan{display:flex;flex-direction:column;gap:.5rem;background:var(--blue-bg);border-radius:16px;padding:1rem 1.1rem;color:var(--navy)}
+.opcion-tag{font-family:'Montserrat',sans-serif;font-weight:800;font-size:16px}
+.opcion-num{font-size:22px;font-family:'Montserrat',sans-serif}
+.opcion-num small{font-size:14px;font-weight:600;color:var(--gray)}
+.opcion-dias{display:flex;flex-wrap:wrap;gap:.3rem}
+.opcion-dias span{background:#fff;border-radius:8px;padding:.15rem .45rem;font-size:12px;font-weight:700}
+.opcion-plan ul{margin:0;padding-left:1.1rem;font-size:14px;line-height:1.5}
+.opcion-plan li.mas{list-style:none;color:var(--gray);margin-left:-1.1rem}
+.opcion-msj{font-size:13.5px;color:var(--gray);margin:0}
+.opcion-plan .btn-primary{margin-top:auto}
+.ses-temas{display:flex;flex-wrap:wrap;gap:.3rem;margin:.2rem 0}
+.ses-temas span{background:#fff;border:1px solid var(--border);border-radius:999px;padding:.15rem .6rem;font-size:12.5px;font-weight:700;color:var(--navy)}
+.ses-como{background:#fff;border-radius:12px;padding:.7rem .85rem;margin-top:.5rem}
+.ses-como-tit{display:block;font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;color:var(--navy);margin-bottom:.3rem}
+.ses-como ol{margin:0;padding-left:1.2rem;font-size:14px;line-height:1.5;color:var(--navy)}
+.ses-como li{margin-bottom:.25rem}
+.ses-ejemplo{background:#fff;border-radius:12px;padding:.6rem .85rem;margin-top:.5rem}
+.ses-ejemplo summary{cursor:pointer;font-weight:800;font-size:13.5px;color:var(--navy);list-style:none}
+.ses-ejemplo[open] summary{margin-bottom:.6rem}
 </style>
 </head>
 <body>
@@ -1308,6 +1417,7 @@ a.poster-herr:hover{border-color:var(--navy)}
       <!-- MI CAMINO (home) -->
       <div id="tab-camino" class="content-tab active" style="--acento:var(--orange)">
         <div class="dash-title-box"><h1 id="camino-saludo">¡Hola! 👋</h1></div>
+        <div class="avisos-top"></div>
         <div id="camino-siguiente"></div>
         <div id="camino-hoy"></div>
         <div id="cerebrito-card" style="margin-top:1rem"></div>
@@ -1338,6 +1448,7 @@ a.poster-herr:hover{border-color:var(--navy)}
           <h1>📅 Calendario</h1>
           <p>¿Qué tenés para hoy? Anotá exámenes y TPs: <strong>te armamos un plan</strong>.</p>
         </div>
+        <div class="avisos-top"></div>
         <div id="cal-app"></div>
         <div id="cal-proximos"></div>
       </div>
@@ -1379,10 +1490,12 @@ a.poster-herr:hover{border-color:var(--navy)}
             <input id="cal-evento-materia-nueva" class="reg-input" type="text" placeholder="Escribí la materia (ej: Historia)" style="display:none;margin-top:8px">
           </div>
           <div id="cal-evento-nivel-wrap" style="display:none;margin-bottom:14px"></div>
+          <div id="cal-evento-disp-wrap" style="display:none;margin-bottom:14px"></div>
 
           <div id="cal-evento-contenidos-wrap" style="margin-bottom:18px">
             <label for="cal-evento-contenidos" style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:4px">¿Qué temas entran? <span style="font-weight:400;color:var(--gray)">(opcional)</span></label>
-            <textarea id="cal-evento-contenidos" class="reg-input" rows="3" placeholder="Ej: causas de la Revolución, Primera Junta" style="resize:vertical;font-family:inherit"></textarea>
+            <textarea id="cal-evento-contenidos" class="reg-input" rows="3" placeholder="Ej: causas de la Revolución, Primera Junta" style="resize:vertical;font-family:inherit" oninput="pintarDificiles()"></textarea>
+            <div id="cal-evento-dif-wrap"></div>
             <label for="cal-evento-foto" class="foto-btn">📷 Subir foto de los temas</label>
             <input id="cal-evento-foto" type="file" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0"
               onchange="document.getElementById('cal-foto-actual').textContent = this.files[0] ? '📷 ' + this.files[0].name : ''">
@@ -1602,8 +1715,8 @@ function siguientePaso(){
   // v9: si ya pasó un examen o TP y no cargó la nota, eso va primero
   const pendienteNota = e.estilos ? examenSinNota() : null;
   if(pendienteNota) return { paso: 0, eyebrow: 'Después de tu examen', titulo: `¿Cómo te fue en ${pendienteNota.titulo}?`,
-    texto: '<strong>Autoevaluate y cargá tu nota.</strong>',
-    boton: 'Cargar mi nota →', tab: 'rendimiento' };
+    texto: '<strong>Contanos en 3 toques</strong> cómo te sentiste.',
+    boton: 'Contar cómo me fue →', accion: `abrirAutoeval('${idSeguro(pendienteNota.id)}')` };
 
   if(!e.estilos) return { paso: 1, titulo: 'Hacé tu test de estilos',
     texto: '⏱ <strong>5 minutos</strong>. No hay respuestas incorrectas.',
@@ -1630,7 +1743,7 @@ function siguientePaso(){
 }
 
 function tarjetaSiguiente(s, compacta){
-  const accion = s.href
+  const accion = s.accion ? `<button type="button" class="siguiente-btn" onclick="${s.accion}">${escaparHTML(s.boton)}</button>` : s.href
     ? `<a class="siguiente-btn" href="${escaparHTML(s.href)}" target="_blank" rel="noopener"${s.marca ? ` onclick="marcarYSeguir('${s.marca}')"` : ''}>${escaparHTML(s.boton)}</a>`
     : `<button type="button" class="siguiente-btn" onclick="irA('${s.tab}')">${escaparHTML(s.boton)}</button>`;
   const eyebrow = s.eyebrow || (s.paso <= 6 ? (compacta ? 'Ahora te toca · paso ' + s.paso + ' de 6' : 'Tu próximo paso · ' + s.paso + ' de 6') : 'Tu camino');
@@ -1703,6 +1816,7 @@ function pintarCamino(){
 
   pintarObjetivos();
   pintarHoyDelPlan();
+  try { pintarAvisosTop(); } catch(e){}
   pintarCerebrito();
 }
 
@@ -1898,6 +2012,8 @@ function actualizarCamposEvento(){
   if(t && w) w.style.display = (t.value === 'Examen' || t.value === 'Entrega') ? 'block' : 'none';
   if(typeof pintarNivelModal === 'function') pintarNivelModal();
   if(typeof pintarModalidadModal === 'function') pintarModalidadModal();
+  if(typeof pintarDispModal === 'function') pintarDispModal();
+  if(typeof pintarDificiles === 'function') pintarDificiles();
 }
 
 // ── v9.1 · Cómo le va en cada materia (lo usa el plan de estudio) ──
@@ -1978,6 +2094,687 @@ async function elegirNivelPerfil(i, v){
 }
 window.elegirNivelPerfil = elegirNivelPerfil;
 
+// ── v9.2 · Días y tiempo para estudiar (feedback del 14/10) ──
+// Cada chico elige qué días puede estudiar y cuánto tiempo por día. El plan usa sólo eso.
+// En los TPs, además, si lo quiere hacer en un día o repartido.
+const DIAS_SEM = [[1, 'L'], [2, 'M'], [3, 'Mi'], [4, 'J'], [5, 'V'], [6, 'S'], [0, 'D']];
+let CAL_DISP = null;
+function dispPorDefecto(){
+  const d = comoObjeto(campoDePerfil('disponibilidad', {}));
+  return { dias: Array.isArray(d.dias) && d.dias.length ? d.dias.map(Number) : [1, 2, 3, 4, 5], min: Number(d.min) || 60,
+    rango: d.rango || '', desde: d.desde || '', hasta: d.hasta || '', modo: 'varios' };
+}
+function dispDe(ev){
+  const d = comoObjeto(ev && ev.disponibilidad);
+  return Array.isArray(d.dias) && d.dias.length ? { dias: d.dias.map(Number), min: Number(d.min) || 30, rango: d.rango || '',
+    desde: d.desde || '', hasta: d.hasta || '', modo: d.modo || 'varios' } : null;
+}
+function pintarDispModal(){
+  const w = document.getElementById('cal-evento-disp-wrap');
+  const t = document.getElementById('cal-evento-tipo');
+  if(!w || !t) return;
+  if(!(t.value === 'Examen' || t.value === 'Entrega')){ w.style.display = 'none'; return; }
+  if(!CAL_DISP) CAL_DISP = dispPorDefecto();
+  const lbl = (txt, op) => `<label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin:0 0 6px">${txt}${op ? ' <span style="font-weight:400;color:var(--gray)">(opcional)</span>' : ''}</label>`;
+  const opc = opcionesTiempo();
+  const esOtro = CAL_DISP.otro || !opc.some(([m, , r]) => m === CAL_DISP.min && (r || '') === (CAL_DISP.rango || ''));
+  const franja = FRANJAS.find(f => f[2] === CAL_DISP.desde && f[3] === CAL_DISP.hasta);
+  const propio = CAL_DISP_HORARIO_ABIERTO || (CAL_DISP.desde && !franja);
+  w.style.display = 'block';
+  w.innerHTML = `
+    ${t.value === 'Entrega' ? `${lbl('¿Cómo lo querés hacer?')}
+      <div class="nivel-chips" style="margin-bottom:12px">
+        <button type="button" class="nivel-chip${CAL_DISP.modo === 'un_dia' ? ' on' : ''}" onclick="elegirModoDisp('un_dia')">🏃 En un día</button>
+        <button type="button" class="nivel-chip${CAL_DISP.modo !== 'un_dia' ? ' on' : ''}" onclick="elegirModoDisp('varios')">📆 Repartido en varios días</button>
+      </div>` : ''}
+    ${lbl(CAL_DISP.modo === 'un_dia' ? '¿Qué días podrías hacerlo?' : '¿Qué días podés estudiar?')}
+    <div class="dias-chips">${DIAS_SEM.map(([v, l]) => `<button type="button" class="dia-chip${CAL_DISP.dias.includes(v) ? ' on' : ''}" aria-pressed="${CAL_DISP.dias.includes(v)}" onclick="toggleDiaDisp(${v})">${l}</button>`).join('')}</div>
+    ${lbl(CAL_DISP.modo === 'un_dia' ? '¿Cuánto tiempo le podés dedicar ese día?' : '¿Cuánto tiempo por día?')}
+    <div class="nivel-chips">${opc.map(([m, l, r]) => `<button type="button" class="nivel-chip${!esOtro && CAL_DISP.min === m && (CAL_DISP.rango || '') === (r || '') ? ' on' : ''}" onclick="elegirMinDisp(${m},'${r || ''}')">⏱ ${l}</button>`).join('')}
+      <button type="button" class="nivel-chip${esOtro ? ' on' : ''}" onclick="elegirOtroDisp()">✏️ Otro</button></div>
+    ${esOtro ? `<div class="disp-otro"><input id="disp-otro-h" type="number" inputmode="decimal" min="0.5" max="8" step="0.5" value="${CAL_DISP.min / 60}" oninput="horasOtroDisp(this.value)" aria-label="Horas por día"> <span>horas${CAL_DISP.modo === 'un_dia' ? '' : ' por día'}</span></div>` : ''}
+    <div style="margin-top:12px">${lbl('¿En qué horario?', true)}</div>
+    <div class="nivel-chips">${FRANJAS.map(([k, l, d, h]) => `<button type="button" class="nivel-chip${!propio && franja && franja[0] === k ? ' on' : ''}" onclick="elegirFranjaDisp('${k}')">${l} <small>${fmtHora(d)} a ${fmtHora(h)}</small></button>`).join('')}
+      <button type="button" class="nivel-chip${propio ? ' on' : ''}" onclick="abrirHorarioPropio()">🕐 Elegir</button></div>
+    ${propio ? `<div class="disp-otro">de <input id="disp-desde" type="time" value="${CAL_DISP.desde || '18:00'}" onchange="horarioPropio()" aria-label="Desde"> a <input id="disp-hasta" type="time" value="${CAL_DISP.hasta || '20:00'}" onchange="horarioPropio()" aria-label="Hasta"></div>` : ''}`;
+}
+function toggleDiaDisp(v){
+  const on = CAL_DISP.dias.includes(v);
+  if(on && CAL_DISP.dias.length === 1) return;   // al menos un día
+  CAL_DISP.dias = on ? CAL_DISP.dias.filter(x => x !== v) : [...CAL_DISP.dias, v];
+  pintarDispModal();
+}
+function elegirMinDisp(m, r){ CAL_DISP.min = m; CAL_DISP.rango = r || ''; CAL_DISP.otro = false; pintarDispModal(); }
+function elegirOtroDisp(){ CAL_DISP.otro = true; CAL_DISP.rango = ''; pintarDispModal(); const i = document.getElementById('disp-otro-h'); if(i) i.focus(); }
+function horasOtroDisp(v){
+  const h = Math.max(0.5, Math.min(8, Math.round((parseFloat(String(v).replace(',', '.')) || 1) * 2) / 2));
+  CAL_DISP.min = h * 60; CAL_DISP.rango = ''; CAL_DISP.otro = true;
+}
+function elegirFranjaDisp(k){
+  const f = FRANJAS.find(x => x[0] === k);
+  CAL_DISP_HORARIO_ABIERTO = false;
+  if(f && CAL_DISP.desde === f[2] && CAL_DISP.hasta === f[3]){ CAL_DISP.desde = ''; CAL_DISP.hasta = ''; }
+  else if(f){ CAL_DISP.desde = f[2]; CAL_DISP.hasta = f[3]; }
+  pintarDispModal();
+}
+function abrirHorarioPropio(){
+  CAL_DISP_HORARIO_ABIERTO = true;
+  if(!CAL_DISP.desde){ CAL_DISP.desde = '18:00'; CAL_DISP.hasta = '20:00'; }
+  pintarDispModal();
+}
+function horarioPropio(){
+  const d = (document.getElementById('disp-desde') || {}).value || '', h = (document.getElementById('disp-hasta') || {}).value || '';
+  CAL_DISP.desde = d; CAL_DISP.hasta = h && d && h <= d ? '' : h;
+}
+function elegirModoDisp(m){
+  CAL_DISP.modo = m; CAL_DISP.otro = false; CAL_DISP.rango = '';
+  if(m === 'un_dia' && CAL_DISP.min < 60) CAL_DISP.min = 120;
+  if(m !== 'un_dia' && CAL_DISP.min > 60) CAL_DISP.min = 60;
+  pintarDispModal();
+}
+Object.assign(window, { toggleDiaDisp, elegirMinDisp, elegirModoDisp, elegirOtroDisp, horasOtroDisp, elegirFranjaDisp, abrirHorarioPropio, horarioPropio });
+
+// ── v9.2 · Autoevaluación después del examen, adentro de Aprendux (sin Google Form) ──
+const SENTIR = [['bien', '😊', 'Tranqui'], ['regular', '😐', 'Más o menos'], ['mal', '😟', 'Nervioso/a']];
+const SUFICIENTE = [['si', '💪', 'Sí'], ['masomenos', '🤏', 'Más o menos'], ['no', '😅', 'No']];
+let AUTOEVAL_TMP = {};
+function abrirAutoeval(id){
+  const ev = buscarEvento(id);
+  if(!ev) return;
+  AUTOEVAL_TMP = { ...comoObjeto(ev.autoeval), nota: ev.nota || '' };
+  pintarAutoeval(id);
+}
+function pintarAutoeval(id){
+  const ev = buscarEvento(id);
+  if(!ev) return;
+  const chips = (campo, lista) => `<div class="nivel-chips">${lista.map(([v, ic, t]) =>
+    `<button type="button" class="nivel-chip${AUTOEVAL_TMP[campo] === v ? ' on' : ''}" onclick="elegirAutoeval('${idSeguro(ev.id)}','${campo}','${v}')">${ic} ${t}</button>`).join('')}</div>`;
+  hoja(`
+    <div class="hoja-tag" style="--c:${colorMateria(ev.materia)}">¿Cómo te fue?${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''}</div>
+    <h2 class="hoja-tit">${escaparHTML(ev.titulo)}</h2>
+    <p class="hoja-p">Contanos en 3 toques. Sirve para que tu próximo plan te quede mejor 🙂</p>
+    <p class="auto-q">1. ¿Cómo te sentiste en el examen?</p>${chips('sentir', SENTIR)}
+    <p class="auto-q">2. ¿Sentiste que estudiaste lo suficiente?</p>${chips('suficiente', SUFICIENTE)}
+    <p class="auto-q">3. ¿Qué te sirvió más para estudiar? <span style="font-weight:400;color:var(--gray)">(opcional)</span></p>
+    <input class="reg-input" maxlength="120" placeholder="Ej: hacer el mapa, explicarlo en voz alta" value="${escaparHTML(AUTOEVAL_TMP.ayudo || '')}" oninput="AUTOEVAL_TMP.ayudo=this.value">
+    <p class="auto-q">4. ¿Te sacaste nota? <span style="font-weight:400;color:var(--gray)">(opcional, si ya la sabés)</span></p>
+    <input class="reg-input" style="max-width:120px" inputmode="decimal" placeholder="Ej: 8" value="${escaparHTML(AUTOEVAL_TMP.nota || '')}" oninput="AUTOEVAL_TMP.nota=this.value">
+    <p id="auto-error" style="color:#c0392b;font-size:14px;margin:.6rem 0 0;display:none">Respondé las preguntas 1 y 2 😉</p>
+    <div class="hoja-botones"><button type="button" class="btn-primary" onclick="guardarAutoeval('${idSeguro(ev.id)}')">Guardar</button></div>`);
+}
+function elegirAutoeval(id, campo, v){ AUTOEVAL_TMP[campo] = v; pintarAutoeval(id); }
+async function guardarAutoeval(id){
+  const ev = buscarEvento(id);
+  if(!ev) return;
+  if(!AUTOEVAL_TMP.sentir || !AUTOEVAL_TMP.suficiente){ document.getElementById('auto-error').style.display = 'block'; return; }
+  const campos = { autoeval: { sentir: AUTOEVAL_TMP.sentir, suficiente: AUTOEVAL_TMP.suficiente, ayudo: (AUTOEVAL_TMP.ayudo || '').trim(), fecha: hoyISO() } };
+  const nota = String(AUTOEVAL_TMP.nota || '').trim();
+  if(nota) campos.nota = nota;
+  await calEditarEvento(ev, campos);
+  repintarTodo();
+  const msj = AUTOEVAL_TMP.suficiente === 'no'
+    ? 'La próxima, anotá el examen apenas te lo den: con más días, tu plan te deja estudiar más tranqui 📅'
+    : AUTOEVAL_TMP.sentir === 'mal'
+      ? 'Los nervios son normales. Probá repasar el día anterior explicándolo en voz alta: ayuda a llegar más seguro 💪'
+      : '¡Bien ahí! Seguí así: anotá el próximo y te armamos el plan 🚀';
+  hoja(`<div style="text-align:center;padding:.5rem 0">
+      <div style="width:84px;margin:0 auto .6rem">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
+      <h2 class="hoja-tit" style="text-align:center">¡Gracias por contarnos!</h2>
+      <p class="hoja-p" style="text-align:center">${msj}</p>
+      <p class="hoja-p" style="text-align:center;font-size:13.5px"><strong>Tu cerebrito ganó energía ⚡</strong></p>
+      <div class="hoja-botones" style="justify-content:center"><button type="button" class="btn-primary" onclick="cerrarHoja()">¡Dale!</button></div></div>`);
+}
+Object.assign(window, { abrirAutoeval, elegirAutoeval, guardarAutoeval });
+function autoevalHechas(){ return (CAL_EVENTOS || []).filter(ev => comoObjeto(ev.autoeval).sentir).length; }
+
+// ── v9.2 · En cada actividad: "¿Por qué esta para mí?" y "Ver un ejemplo hecho" (los arma la IA) ──
+const N8N_AYUDA_URL = 'https://aprendux.app.n8n.cloud/webhook/ayuda-actividad';
+const AYUDA_CACHE = {};
+async function ayudaActividad(i, modo){
+  const a = ACTIVIDADES_ACTUALES[i];
+  const caja = document.getElementById('act-ayuda');
+  if(!a || !caja) return;
+  const titulo = modo === 'porque' ? '🤔 ¿Por qué esta actividad para vos?' : '✨ Un ejemplo con tus temas';
+  const chips = () => {
+    const f = ejesFuertes().map(k => PORQUE_EJE[k]).filter(Boolean);
+    return f.length ? `<span class="plan-porque-chips" style="margin:.2rem 0 .5rem">${f.map(([ic, et]) => `<span>${ic} ${escaparHTML(et)}</span>`).join('')}</span>` : '';
+  };
+  const mostrar = r => {
+    const cuerpo = r.visual ? ejemploVisual(r.visual) + (r.texto ? `<p class="ej-nota" style="font-weight:500">${escaparHTML(r.texto)}</p>` : '')
+                            : `<div>${escaparHTML(r.texto || '').replace(/\n/g, '<br>')}</div>`;
+    caja.innerHTML = `<div class="act-ayuda"><strong>${titulo}</strong>${modo === 'porque' ? chips() : ''}${cuerpo}</div>`;
+  };
+  const clave = i + '|' + modo;
+  if(AYUDA_CACHE[clave]){ mostrar(AYUDA_CACHE[clave]); return; }
+  caja.innerHTML = `<div class="act-ayuda"><strong>${titulo}</strong><div class="armando-barra" style="margin:.7rem 0 .2rem;max-width:220px"><span></span></div></div>`;
+  const sugerencia = a.sugerencia || a.adaptacion || '';
+  const proximo = (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && diasHasta(ev.fecha) >= 0).sort((x, y) => diasHasta(x.fecha) - diasHasta(y.fecha))[0];
+  const formato = ({ 1: 'mapa', 2: 'pasos', 3: 'charla' })[a.numero] || 'pasos';
+  try {
+    const niveles = nivelesDelPerfil(PLAN_ACTUAL);
+    const ctrl = new AbortController(); const corte = setTimeout(() => ctrl.abort(), 45000);
+    const res = await fetch(N8N_AYUDA_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal,
+      body: JSON.stringify({
+        modo, formato,
+        actividad: { numero: a.numero || i + 1, titulo: a.titulo || '', para_que: a.objetivo || '', instrucciones: a.instrucciones || a.descripcion || '', ejemplo_corto: a.ejemplo || '', en_tu_caso: sugerencia },
+        como_aprende: PLAN_ACTUAL ? { resumen: String(PLAN_ACTUAL.resumen || '').slice(0, 600), claves: clavesDelAlumno(),
+          niveles: niveles ? Object.fromEntries(EJES_PERFIL.map(([k], j) => [k, niveles[j]])) : null } : null,
+        tema_para_el_ejemplo: proximo ? { materia: proximo.materia || '', temas: proximo.contenidos || '' } : null
+      }) });
+    clearTimeout(corte);
+    if(!res.ok) throw new Error('n8n ' + res.status);
+    const o = leerRespuestaPlan(await res.json());
+    const r = modo === 'ejemplo'
+      ? { visual: ejemploDeRespuesta(o, a.numero), texto: String(o.texto || '').trim().slice(0, 200) }
+      : { texto: String(o.texto || '').trim() };
+    if(modo === 'ejemplo' ? !r.visual : !r.texto) throw new Error('vacío');
+    AYUDA_CACHE[clave] = r;
+    mostrar(r);
+  } catch(e){
+    console.warn('Ayuda de actividad sin IA:', e);
+    mostrar(modo === 'porque'
+      ? { texto: sugerencia || a.explicacion_corta || a.explicacion || `Te ayuda a ${String(a.objetivo || 'practicar lo que aprendiste').toLowerCase()}` }
+      : EJEMPLOS_VISUALES[a.numero] ? { visual: EJEMPLOS_VISUALES[a.numero], texto: 'Probá de nuevo en un ratito para verlo con tus temas.' }
+      : { texto: 'Ahora no pudimos armar el ejemplo. Probá de nuevo en un ratito.' });
+  }
+}
+window.ayudaActividad = ayudaActividad;
+
+// ══════════════════════════════════════════════════════════════
+//  v9.3 · Feedback del 26/10
+//  - Tiempo en horas (½ h, 1 h, 1 a 3 h, Otro) + horario opcional
+//  - "¿Por qué así?" en cada día del plan (sin nombres técnicos)
+//  - Ejemplos más visuales (mapa, pasos, charla)
+//  - Barra de progreso por examen/TP
+//  - Avisos llamativos arriba + mail si se atrasan (lo manda n8n)
+// ══════════════════════════════════════════════════════════════
+
+// ── Tiempo y horario ──
+function fmtTiempo(min, rango){
+  if(rango === '1-3') return '1 a 3 h';
+  min = Number(min) || 0;
+  if(!min) return '';
+  if(min < 60) return min + ' min';
+  const h = Math.floor(min / 60), m = min % 60;
+  return m ? `${h} h ${m}` : `${h} h`;
+}
+function fmtHora(t){
+  const [h, m] = String(t || '').split(':').map(Number);
+  if(isNaN(h)) return '';
+  return m ? `${h}:${String(m).padStart(2, '0')}` : String(h);
+}
+function fmtHorario(d){ return d && d.desde && d.hasta ? `${fmtHora(d.desde)} a ${fmtHora(d.hasta)} h` : ''; }
+const FRANJAS = [['manana', '🌅 Mañana', '08:00', '12:00'], ['tarde', '☀️ Tarde', '14:00', '18:00'], ['noche', '🌙 Noche', '18:00', '21:00']];
+function opcionesTiempo(){
+  return CAL_DISP.modo === 'un_dia'
+    ? [[60, '1 h'], [120, '2 h'], [180, '3 h']]
+    : [[30, '½ h'], [60, '1 h'], [120, '1 a 3 h', '1-3']];
+}
+let CAL_DISP_HORARIO_ABIERTO = false;
+
+// ── Barra de progreso de un examen/TP ──
+function progresoPlan(ev){
+  const ses = sesionesDelPlan(ev);
+  const hoy = hoyISO();
+  const total = ses.length;
+  const hechos = ses.filter(s => s.hecho).length;
+  const tocaban = ses.filter(s => s.fecha <= hoy).length;
+  const atrasadas = ses.filter(s => s.fecha < hoy && !s.hecho);
+  return { ses, total, hechos, tocaban, atrasadas };
+}
+function barraPlan(ev, chico){
+  if(!esEvaluacion(ev) || diasHasta(ev.fecha) < 0) return '';
+  const p = progresoPlan(ev);
+  if(!p.total) return '';
+  const pct = Math.round(p.hechos / p.total * 100);
+  const marca = Math.round(p.tocaban / p.total * 100);
+  const atras = p.atrasadas.length;
+  const txt = p.hechos === p.total ? '🎉 ¡Completaste tu plan!'
+    : atras ? `⚠️ ${atras === 1 ? 'Te quedó 1 día sin hacer' : `Te quedaron ${atras} días sin hacer`}`
+    : p.hechos ? `✓ Vas al día · ${p.hechos} de ${p.total}` : `Arrancá: 0 de ${p.total} días`;
+  return `<div class="pbar${atras ? ' atras' : ''}${chico ? ' chico' : ''}" role="img" aria-label="Hiciste ${p.hechos} de ${p.total} días del plan">
+      <div class="pbar-track"><i style="width:${Math.max(p.hechos ? 6 : 0, pct)}%"></i>${marca > 0 && marca < 100 ? `<b style="left:${marca}%" title="Hoy"></b>` : ''}</div>
+      <span class="pbar-txt">${txt}</span>
+    </div>`;
+}
+
+// ── "¿Por qué así?" en cada día del plan ──
+// Se arma con su forma de aprender, pero NUNCA nombra perfiles, porcentajes ni tests.
+const PORQUE_EJE = {
+  ver:       ['👀', 'Lo ves', 'Entendés mejor cuando lo ves: pasarlo a un esquema hace que se te quede.'],
+  escuchar:  ['🎧', 'Lo escuchás', 'Te sirve escucharlo: decirlo en voz alta te ayuda a fijarlo.'],
+  hacer:     ['✋', 'Lo hacés', 'Aprendés haciendo: practicar te sirve más que releer.'],
+  leer:      ['✍️', 'Lo escribís', 'Te sirve escribirlo: armar tu propio resumen te ayuda a entenderlo.'],
+  ordenar:   ['🗂', 'Paso a paso', 'Rendís más con todo ordenado: ir paso a paso te saca la ansiedad.'],
+  con_otros: ['👥', 'Lo charlás', 'Te sirve charlarlo: contárselo a alguien te muestra qué te falta.']
+};
+function ejesFuertes(){
+  const n = nivelesDelPerfil(PLAN_ACTUAL);
+  if(!n) return [];
+  const max = Math.max(...n);
+  return EJES_PERFIL.map(([k], i) => ({ k, v: n[i] })).filter(x => x.v === max && max >= 2).map(x => x.k).slice(0, 2);
+}
+function porQueSesion(s, ev){
+  const fuertes = ejesFuertes();
+  const chips = fuertes.map(k => PORQUE_EJE[k]).filter(Boolean).map(([ic, et]) => ({ ic, et }));
+  if(s.por_que) return { txt: s.por_que, chips };
+  const t = String(s.txt || '').toLowerCase();
+  const cuesta = nivelMateria(ev.materia) === 3;
+  const eje = fuertes[0] && PORQUE_EJE[fuertes[0]] ? PORQUE_EJE[fuertes[0]][2] : '';
+  const clave = clavesDelAlumno()[0];
+  const deClave = clave ? `Usamos ${clave.palabra.toLowerCase()} porque es una de las cosas que mejor te funcionan.` : '';
+  let txt;
+  if(/organiz/.test(t)) txt = 'Saber todo lo que entra desde el primer día te deja repartir mejor el tiempo.' + (cuesta ? ` Como ${ev.materia} te cuesta, arrancás por lo difícil.` : '');
+  else if(/preguntas/.test(t)) txt = 'Responder sin mirar te muestra qué sabés de verdad y qué falta repasar.';
+  else if(/repaso|estudiá todo|hacé el tp/.test(t)) txt = ev.modalidad === 'oral' ? 'Como es oral, practicarlo hablando te prepara para el momento real.'
+    : ev.modalidad === 'escrito' ? 'Como es escrito, practicar escribiendo sin mirar es lo más parecido a la prueba.'
+    : (eje || deClave || 'Repasar todo junto te ayuda a ver cómo se conecta.');
+  else txt = (eje || deClave || 'Trabajar un tema por día te ayuda a no saturarte.') + (cuesta ? ' Le dimos más días porque te cuesta.' : '');
+  return { txt, chips };
+}
+function cajaPorQue(s, ev){
+  const p = porQueSesion(s, ev);
+  return `<div class="plan-porque">
+      <span class="plan-porque-tit">💡 ¿Por qué así?</span>
+      ${p.chips.length ? `<span class="plan-porque-chips">${p.chips.map(c => `<span>${c.ic} ${escaparHTML(c.et)}</span>`).join('')}</span>` : ''}
+      <span class="plan-porque-txt">${escaparHTML(p.txt)}</span>
+    </div>`;
+}
+
+// ── Ejemplos visuales ──
+// Según la actividad: 1 = mapa con flechas, 2 = pasos, 3 = una charla.
+const EJEMPLOS_VISUALES = {
+  1: { tipo: 'mapa', centro: 'Hay que cerrar la plaza', ramas: ['Hubo robos', 'No hay luz', 'Los vecinos se quejan'], nota: 'Lo que da por cierto: que cerrarla soluciona los robos.' },
+  2: { tipo: 'pasos', pasos: [
+       { ic: '🎙', texto: 'Arrancá: "Acá se quiere probar que…"' },
+       { ic: '🧠', texto: 'Contalo con tus palabras, sin leer' },
+       { ic: '🤔', texto: 'Decí qué hay que dar por cierto' },
+       { ic: '🔁', texto: 'Escuchate y marcá dónde te trabaste' }] },
+  3: { tipo: 'charla', charla: [
+       { quien: 'vos', texto: 'El plan no va a funcionar porque nadie lo va a cumplir.' },
+       { quien: 'otro', texto: '¡Frená! ¿Cómo sabés que nadie lo va a cumplir?' },
+       { quien: 'vos', texto: 'Tenés razón, lo di por cierto. Mi razón es…' }] }
+};
+const COLORES_RAMA = ['#2a78d6', '#eb6834', '#1baf7a', '#e87ba4'];
+function ejemploVisual(o){
+  if(!o) return '';
+  const lim = (x, n) => escaparHTML(String(x || '').slice(0, n));
+  if(o.tipo === 'mapa' && o.centro){
+    const ramas = (o.ramas || []).filter(Boolean).slice(0, 4);
+    return `<div class="ej-mapa" role="img" aria-label="Mapa: en el centro ${lim(o.centro, 80)}; alrededor ${ramas.map(r => lim(r, 60)).join(', ')}">
+        <span class="ej-centro">${lim(o.centro, 80)}</span>
+        <div class="ej-ramas" style="--n:${ramas.length}">${ramas.map((r, i) => `<span class="ej-rama" style="--c:${COLORES_RAMA[i]}">${lim(r, 60)}</span>`).join('')}</div>
+      </div>${o.nota ? `<p class="ej-nota">💭 ${lim(o.nota, 140)}</p>` : ''}`;
+  }
+  if(o.tipo === 'pasos' && (o.pasos || []).length){
+    return `<ol class="ej-pasos">${o.pasos.slice(0, 5).map((p, i) => `<li><span class="ej-num">${i + 1}</span><span class="ej-ic">${lim(p.ic || '✨', 4)}</span><span>${lim(p.texto, 90)}</span></li>`).join('')}</ol>`;
+  }
+  if(o.tipo === 'charla' && (o.charla || []).length){
+    return `<div class="ej-charla">${o.charla.slice(0, 5).map(c => `<div class="ej-burbuja ${c.quien === 'vos' ? 'vos' : 'otro'}"><small>${c.quien === 'vos' ? '🙋 Vos' : '🗣 La otra persona'}</small>${lim(c.texto, 140)}</div>`).join('')}</div>`;
+  }
+  return '';
+}
+// Lo que manda la IA se acomoda al formato de la actividad
+function ejemploDeRespuesta(o, numero){
+  const tipo = ({ 1: 'mapa', 2: 'pasos', 3: 'charla' })[numero] || o.tipo || 'pasos';
+  const pasos = Array.isArray(o.pasos) ? o.pasos.map(p => typeof p === 'string' ? { ic: '✨', texto: p } : p) : [];
+  const charla = Array.isArray(o.charla) ? o.charla : [];
+  const ramas = Array.isArray(o.ramas) ? o.ramas.map(r => typeof r === 'string' ? r : (r && r.texto) || '') : [];
+  const v = { tipo, centro: o.centro, ramas, nota: o.nota, pasos, charla };
+  return ejemploVisual(v) ? v : null;
+}
+
+// ── Avisos llamativos (arriba de "Mi camino" y del calendario) ──
+function avisoOculto(k){ return leerLocal('aviso_oculto_' + k, '') === hoyISO(); }
+function ocultarAviso(k){ guardarLocal('aviso_oculto_' + k, hoyISO()); pintarAvisosTop(); }
+function avisosImportantes(){
+  const l = [];
+  const evs = (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && diasHasta(ev.fecha) >= 0)
+    .sort((a, b) => diasHasta(a.fecha) - diasHasta(b.fecha));
+  evs.forEach(ev => {
+    const d = diasHasta(ev.fecha), id = idSeguro(ev.id);
+    if(planPorElegir(ev)) l.push({ k: 'eleg' + id, cls: 'azul', ic: '📖', t: `Elegí tu plan para ${ev.titulo}`, d: 'Te armamos dos: uno completo y uno resumido.', a: `abrirPlanExamen('${id}')`, l: 'Elegir', p: 0 });
+    if(d === 0) l.push({ k: 'hoy' + id, cls: 'rojo', ic: '🔥', t: `¡Hoy es ${ev.titulo}!`, d: 'Respirá hondo. Vos podés 💪', a: `abrirPlanExamen('${id}')`, l: 'Ver mi plan', p: 1 });
+    else if(d === 1) l.push({ k: 'man' + id, cls: 'rojo', ic: '⏰', t: `¡Mañana tenés ${ev.titulo}!`, d: 'Hoy toca el último repaso.', a: `abrirPlanExamen('${id}')`, l: 'Ver mi plan', p: 2 });
+    const atr = progresoPlan(ev).atrasadas.length;
+    if(atr && d >= 2) l.push({ k: 'atr' + id + atr, cls: 'naranja', ic: '🐢', t: `Te atrasaste con ${ev.titulo}`,
+      d: `${atr === 1 ? 'Te quedó 1 día' : `Te quedaron ${atr} días`} sin hacer. Con un ratito hoy te ponés al día.`, a: `abrirPlanExamen('${id}')`, l: 'Ponerme al día', p: 3 });
+  });
+  examenesSinNota().slice(0, 1).forEach(ev => l.push({ k: 'auto' + idSeguro(ev.id), cls: 'violeta', ic: '📝', t: `¿Cómo te fue en ${ev.titulo}?`, d: 'Contanos en 3 toques.', a: `abrirAutoeval('${idSeguro(ev.id)}')`, l: 'Contar', p: 4 }));
+  const e = ESTADO_ACTUAL;
+  if(e){
+    const pend = !e.estilos ? 1 : testsHabilitados(e).filter(t => !e[t.id]).length;
+    if(pend) l.push({ k: 'test' + pend, cls: 'azul', ic: '🧩', t: pend === 1 ? 'Tenés un test esperándote' : `Tenés ${pend} tests esperándote`, d: 'Son cortitos y le dan energía a tu cerebrito ⚡', a: "irA('tests')", l: 'Ir al test', p: 5 });
+  }
+  return l.filter(x => !avisoOculto(x.k)).sort((a, b) => a.p - b.p);
+}
+function pintarAvisosTop(){
+  const cajas = document.querySelectorAll('.avisos-top');
+  if(!cajas.length) return;
+  const todos = avisosImportantes();
+  const l = todos.slice(0, 2);
+  const hayEvaluaciones = (CAL_EVENTOS || []).some(ev => esEvaluacion(ev) && diasHasta(ev.fecha) >= 1);
+  const pedirMail = l.length < 2 && USER_ID_ACTUAL && hayEvaluaciones && campoDePerfil('avisos_mail', false) !== true && !avisoOculto('mail') && !leerLocal('mail_no', false);
+  const html = l.map(x => `
+      <div class="aviso-top ${x.cls}">
+        <span class="aviso-ic" aria-hidden="true">${x.ic}</span>
+        <span class="aviso-txt"><strong>${escaparHTML(x.t)}</strong><small>${escaparHTML(x.d)}</small></span>
+        <button type="button" class="aviso-btn" onclick="${x.a}">${escaparHTML(x.l)}</button>
+        <button type="button" class="aviso-x" aria-label="Ocultar por hoy" onclick="ocultarAviso('${x.k}')">✕</button>
+      </div>`).join('') + (pedirMail ? `
+      <div class="aviso-top mail">
+        <span class="aviso-ic" aria-hidden="true">📬</span>
+        <span class="aviso-txt"><strong>¿Te avisamos por mail si te atrasás?</strong><small>Un mail cortito, sólo si se te pasan días de tu plan.</small></span>
+        <button type="button" class="aviso-btn" onclick="activarMailAtraso(true)">Sí, avisame</button>
+        <button type="button" class="aviso-x" aria-label="No, gracias" onclick="activarMailAtraso(false)">✕</button>
+      </div>` : '');
+  cajas.forEach(c => c.innerHTML = html);
+  const navCal = document.querySelector('.dash-nav-item[data-tab="calendario"]');
+  if(navCal) navCal.classList.toggle('tiene-novedad', l.some(x => x.cls === 'naranja' || x.cls === 'rojo'));
+}
+async function activarMailAtraso(si){
+  if(si){ await guardarEnPerfil({ avisos_mail: true }); pintarAvisos(); }
+  else guardarLocal('mail_no', true);
+  pintarAvisosTop();
+  if(si) hoja(`<div style="text-align:center;padding:.5rem 0"><div style="font-size:48px">📬</div>
+      <h2 class="hoja-tit" style="text-align:center">¡Listo!</h2>
+      <p class="hoja-p" style="text-align:center">Si se te pasan días de tu plan, te mandamos un mail cortito. Lo podés apagar cuando quieras en <strong>Mi perfil</strong>.</p>
+      <div class="hoja-botones" style="justify-content:center"><button type="button" class="btn-primary" onclick="cerrarHoja()">¡Dale!</button></div></div>`);
+}
+Object.assign(window, { ocultarAviso, activarMailAtraso });
+
+// ── Para el mail de n8n: guarda en cada examen las fechas de su plan ──
+async function sincronizarFechasPlan(){
+  if(!USER_ID_ACTUAL) return;
+  for(const ev of (CAL_EVENTOS || [])){
+    if(!esEvaluacion(ev) || diasHasta(ev.fecha) < 0 || String(ev.id).startsWith('ev_')) continue;
+    const f = sesionesDelPlan(ev).map(s => s.fecha);
+    if(JSON.stringify(f) === JSON.stringify(comoLista(ev.plan_fechas))) continue;
+    try { await calEditarEvento(ev, { plan_fechas: f }); ev.plan_fechas = f; } catch(e){}
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  v9.4 · Plan que se adapta (feedback del 28/10)
+//  - Al anotar: "¿cuál te cuesta más?" en chips (temas_dificiles)
+//  - La IA recibe: cluster (interno, nunca se muestra), el resto del calendario,
+//    el tiempo libre real de cada día, la foto de los temas y cómo le fue antes
+//  - Dos versiones (completa y resumida) para elegir
+//  - Cada día: cómo hacerlo (pasos), un ejemplo hecho y el porqué
+//  - Después de cada día: ¿cómo te fue? → el plan se reacomoda
+// ══════════════════════════════════════════════════════════════
+
+// ── Temas que le cuestan (en la ventana de anotar) ──
+let CAL_DIF = [];
+function pintarDificiles(){
+  const w = document.getElementById('cal-evento-dif-wrap');
+  const ta = document.getElementById('cal-evento-contenidos');
+  if(!w || !ta) return;
+  const temas = temasDe(ta.value);
+  if(!temas.length){ w.innerHTML = ''; return; }
+  CAL_DIF = CAL_DIF.filter(t => temas.some(x => x.toLowerCase() === t.toLowerCase()));
+  w.innerHTML = `<label style="font-size:13px;font-weight:600;color:var(--navy);display:block;margin:10px 0 6px">¿Cuáles te cuestan más? <span style="font-weight:400;color:var(--gray)">(tocá los que quieras)</span></label>
+    <div class="nivel-chips">${temas.map((t, i) => `<button type="button" class="nivel-chip${CAL_DIF.some(x => x.toLowerCase() === t.toLowerCase()) ? ' on' : ''}" onclick="toggleDificil(${i})">${escaparHTML(t)}</button>`).join('')}</div>`;
+}
+function toggleDificil(i){
+  const t = temasDe(document.getElementById('cal-evento-contenidos').value)[i];
+  if(!t) return;
+  const ya = CAL_DIF.some(x => x.toLowerCase() === t.toLowerCase());
+  CAL_DIF = ya ? CAL_DIF.filter(x => x.toLowerCase() !== t.toLowerCase()) : [...CAL_DIF, t];
+  pintarDificiles();
+}
+window.toggleDificil = toggleDificil;
+window.pintarDificiles = pintarDificiles;
+
+// ── Planes con opciones (completo / resumido) ──
+function planPorElegir(ev){
+  const p = comoObjeto(ev && ev.plan_ia);
+  return !!(p.opciones && !p.elegido && comoLista((p.opciones.completo || {}).sesiones).length);
+}
+const DIAS_LARGOS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+// Días libres para este examen: sus días elegidos, sin el día antes de otro examen
+// y descontando el tiempo que ya usan los planes de los otros exámenes.
+function diasLibresPara(ev, desde){
+  const disp = dispDe(ev) || dispPorDefecto();
+  const tope = disp.rango === '1-3' ? 180 : disp.min;
+  let fechas = fechasParaPlan(ev).filter(f => !desde || f >= desde);
+  const otros = (CAL_EVENTOS || []).filter(o => String(o.id) !== String(ev.id) && diasHasta(o.fecha) >= 0);
+  const vispera = new Set(otros.filter(esEvaluacion).map(o => iso(sumarDias(deISO(String(o.fecha).slice(0, 10)), -1))));
+  const ocupado = {};
+  otros.filter(esEvaluacion).forEach(o => sesionesDelPlan(o).forEach(s => { ocupado[s.fecha] = (ocupado[s.fecha] || 0) + (Number(s.minutos) || 30); }));
+  let dias = fechas.filter(f => !vispera.has(f)).map(f => ({ fecha: f, dia: DIAS_LARGOS[deISO(f).getDay()], minutos_libres: Math.max(0, tope - (ocupado[f] || 0)) }));
+  if(dias.filter(d => d.minutos_libres >= 15).length) dias = dias.filter(d => d.minutos_libres >= 15);
+  else if(!dias.length) dias = fechas.map(f => ({ fecha: f, dia: DIAS_LARGOS[deISO(f).getDay()], minutos_libres: tope }));
+  return dias;
+}
+function contextoCalendario(ev){
+  return (CAL_EVENTOS || []).filter(o => String(o.id) !== String(ev.id) && diasHasta(o.fecha) >= 0 && diasHasta(o.fecha) <= 30)
+    .map(o => ({ titulo: o.titulo, tipo: nombreTipo(o.tipo), materia: o.materia || '', fecha: String(o.fecha).slice(0, 10),
+      dias_de_estudio: esEvaluacion(o) ? sesionesDelPlan(o).map(s => s.fecha) : [] }));
+}
+function historialAutoeval(){
+  return (CAL_EVENTOS || []).filter(o => esEvaluacion(o) && comoObjeto(o.autoeval).sentir)
+    .sort((a, b) => String(b.fecha).localeCompare(String(a.fecha))).slice(0, 3)
+    .map(o => { const a = comoObjeto(o.autoeval); return { examen: o.titulo, materia: o.materia || '', como_se_sintio: a.sentir, estudio_suficiente: a.suficiente, lo_que_le_sirvio: a.ayudo || '' }; });
+}
+function normSesion(s, validas){
+  const txt = (v, n) => String(v || '').trim().slice(0, n);
+  const ej = comoObjeto(s.ejemplo);
+  return {
+    fecha: txt(s.fecha, 10),
+    titulo: txt(s.titulo, 70),
+    temas: comoLista(s.temas).map(t => txt(t, 50)).filter(Boolean).slice(0, 4),
+    que_hacer: txt(s.que_hacer || s.detalle, 260),
+    pasos: comoLista(s.pasos).map(p => txt(typeof p === 'string' ? p : (p && p.texto), 180).replace(/^\s*\d+[.)]\s*/, '')).filter(Boolean).slice(0, 6),
+    ejemplo: ej && (ej.tipo || ej.texto) ? {
+      tipo: txt(ej.tipo, 10), texto: txt(ej.texto, 220), centro: txt(ej.centro, 80), nota: txt(ej.nota, 160),
+      ramas: comoLista(ej.ramas).map(r => txt(typeof r === 'string' ? r : (r && r.texto), 60)).filter(Boolean).slice(0, 4),
+      pasos: comoLista(ej.pasos).map(p => typeof p === 'string' ? { ic: '✨', texto: txt(p, 90) } : { ic: txt(p && p.ic, 4) || '✨', texto: txt(p && p.texto, 90) }).filter(p => p.texto).slice(0, 5),
+      charla: comoLista(ej.charla).map(c => ({ quien: c && c.quien === 'vos' ? 'vos' : 'otro', texto: txt(c && c.texto, 140) })).filter(c => c.texto).slice(0, 5)
+    } : null,
+    tecnica: txt(s.tecnica, 40),
+    herramienta: /^ninguna$/i.test(String(s.herramienta || '').trim()) ? '' : txt(s.herramienta, 40),
+    minutos: Math.max(10, Math.min(240, parseInt(s.minutos, 10) || 30)),
+    por_que: txt(s.por_que, 220)
+  };
+}
+function sesionesValidas(lista, validas){
+  const vistas = new Set();
+  return comoLista(lista).map(s => normSesion(s || {}, validas))
+    .filter(s => validas.has(s.fecha) && s.titulo && !vistas.has(s.fecha) && vistas.add(s.fecha))
+    .sort((a, b) => a.fecha.localeCompare(b.fecha));
+}
+async function fotoParaIA(ev){
+  if(!ev.foto_ruta) return null;
+  try { const { data } = await supabaseClient.storage.from(BUCKET_ENTREGAS).createSignedUrl(ev.foto_ruta, 900); return data && data.signedUrl || null; }
+  catch(e){ return null; }
+}
+
+// modo 'nuevo' arma las dos versiones; modo 'reajustar' rehace los días que faltan
+async function pedirPlanIA(ev, modo, feedback){
+  modo = modo || 'nuevo';
+  if(!ev || PLAN_PIDIENDO.has(ev.id)) return false;
+  const hoy = hoyISO();
+  const actual = planIA(ev);
+  const hechos = comoLista(ev.plan_hechos);
+  const fb = comoObjeto(ev.plan_feedback);
+  const desde = modo === 'reajustar' ? (hechos.includes(hoy) ? iso(sumarDias(deISO(hoy), 1)) : hoy) : null;
+  const dias = diasLibresPara(ev, desde);
+  if(!dias.length) return false;
+  PLAN_PIDIENDO.add(ev.id); PLAN_YA_INTENTADO.add(ev.id);
+  const ctrl = new AbortController();
+  const corte = setTimeout(() => ctrl.abort(), 90000);
+  try {
+    const niveles = nivelesDelPerfil(PLAN_ACTUAL);
+    const disp = dispDe(ev);
+    const payload = {
+      modo,
+      user_id: USER_ID_ACTUAL || null,
+      evento_id: ev.id,
+      hoy,
+      cluster: PLAN_ACTUAL && PLAN_ACTUAL.cluster_id !== undefined && PLAN_ACTUAL.cluster_id !== null ? Math.round(Number(PLAN_ACTUAL.cluster_id)) : null,
+      examen: { titulo: ev.titulo, tipo: nombreTipo(ev.tipo), materia: ev.materia || '', fecha: String(ev.fecha).slice(0, 10),
+                temas: ev.contenidos || '', temas_que_le_cuestan: comoLista(ev.temas_dificiles),
+                cuanto_le_cuesta_la_materia: textoNivel(nivelMateria(ev.materia)) || 'no lo dijo',
+                modalidad: ev.modalidad || 'no lo dijo',
+                tiempo_por_dia: disp ? fmtTiempo(disp.min, disp.rango) : null,
+                horario: disp && fmtHorario(disp) ? fmtHorario(disp) : 'no lo dijo',
+                como_lo_hace: disp && disp.modo === 'un_dia' ? 'en un solo día' : 'repartido en varios días',
+                hay_foto_de_los_temas: !!ev.foto_ruta },
+      foto_url: await fotoParaIA(ev),
+      dias_disponibles: dias,
+      otros_eventos: contextoCalendario(ev),
+      como_aprende: PLAN_ACTUAL ? {
+        resumen: String(PLAN_ACTUAL.resumen || '').slice(0, 700),
+        claves: clavesDelAlumno(),
+        niveles: niveles ? Object.fromEntries(EJES_PERFIL.map(([k], i) => [k, niveles[i]])) : null
+      } : null,
+      como_le_fue_antes: historialAutoeval(),
+      razonamiento_critico_1: resumenDeTest('rc1'),
+      razonamiento_critico_2: resumenDeTest('rc2'),
+      plan_actual: modo === 'reajustar' && actual ? actual.sesiones.map(s => ({ fecha: s.fecha, titulo: s.titulo, temas: s.temas || [],
+        minutos: s.minutos, lo_hizo: hechos.includes(s.fecha), como_le_fue: fb[s.fecha] || (s.fecha < hoy && !hechos.includes(s.fecha) ? 'no_llegue' : '') })) : null,
+      ultimo_feedback: feedback || null
+    };
+    let res;
+    for(let intento = 0; intento < 2; intento++){
+      res = await fetch(N8N_PLAN_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: ctrl.signal });
+      if(res.ok) break;
+      await new Promise(r => setTimeout(r, 2500));
+    }
+    if(!res.ok) throw new Error('n8n respondió ' + res.status);
+    const o = leerRespuestaPlan(await res.json());
+    const validas = new Set(dias.map(d => d.fecha));
+    const opcion = x => ({ mensaje: String((x || {}).mensaje || '').slice(0, 200), sesiones: sesionesValidas((x || {}).sesiones, validas) });
+    // Compatibilidad con la respuesta vieja ({ mensaje, sesiones })
+    const completo = opcion(o.completo || o);
+    const resumido = opcion(o.resumido);
+    if(!completo.sesiones.length) throw new Error('El plan vino vacío');
+    let plan_ia;
+    if(modo === 'reajustar' && actual){
+      const pasadas = actual.sesiones.filter(s => s.fecha < desde || (s.fecha === hoy && hechos.includes(hoy)));
+      const sesiones = [...pasadas, ...completo.sesiones.filter(s => s.fecha >= desde)];
+      const p = comoObjeto(ev.plan_ia);
+      plan_ia = { ...p, v: 2, firma: firmaPlan(ev), reajustado: hoy, mensaje: completo.mensaje || p.mensaje || '', sesiones };
+    } else {
+      const solo = !resumido.sesiones.length;
+      plan_ia = { v: 2, creado: hoy, firma: firmaPlan(ev), opciones: { completo, resumido },
+        elegido: solo ? 'completo' : null, mensaje: solo ? completo.mensaje : '', sesiones: solo ? completo.sesiones : [] };
+    }
+    await calEditarEvento(ev, { plan_ia });
+    ev.plan_ia = plan_ia;
+    return true;
+  } catch(e){
+    console.warn('No se pudo armar el plan con n8n; queda el plan básico:', e);
+    return false;
+  } finally {
+    clearTimeout(corte);
+    PLAN_PIDIENDO.delete(ev.id);
+  }
+}
+
+// ── Elegir entre la versión completa y la resumida ──
+function tarjetaOpcion(ev, cual, op){
+  const ses = op.sesiones;
+  const prom = Math.round(ses.reduce((n, s) => n + s.minutos, 0) / Math.max(1, ses.length));
+  const D = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+  return `<div class="opcion-plan">
+      <span class="opcion-tag">${cual === 'completo' ? '📚 Completo' : '⚡ Resumido'}</span>
+      <strong class="opcion-num">${ses.length} ${ses.length === 1 ? 'día' : 'días'} <small>· ${fmtTiempo(prom)} por día</small></strong>
+      <div class="opcion-dias">${ses.map(s => `<span>${D[deISO(s.fecha).getDay()]} ${deISO(s.fecha).getDate()}</span>`).join('')}</div>
+      <ul>${ses.slice(0, 4).map(s => `<li>${escaparHTML(s.titulo)}</li>`).join('')}${ses.length > 4 ? `<li class="mas">y ${ses.length - 4} más</li>` : ''}</ul>
+      ${op.mensaje ? `<p class="opcion-msj">${escaparHTML(op.mensaje)}</p>` : ''}
+      <button type="button" class="btn-primary" onclick="elegirPlan('${idSeguro(ev.id)}','${cual}')">Elijo este</button>
+    </div>`;
+}
+function hojaElegirPlan(ev, aviso){
+  const p = comoObjeto(ev.plan_ia);
+  hoja(`
+    ${aviso ? `<div class="hoja-aviso">${aviso}</div>` : ''}
+    <div class="hoja-tag" style="--c:${colorMateria(ev.materia)}">${escaparHTML(nombreTipo(ev.tipo))}${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''} · ${textoFaltan(Math.max(0, diasHasta(ev.fecha)))}</div>
+    <h2 class="hoja-tit">Elegí tu plan para ${escaparHTML(ev.titulo)}</h2>
+    <p class="hoja-p">Te armamos dos. Elegí el que te quede mejor: lo podés cambiar después.</p>
+    <div class="opciones-plan">${tarjetaOpcion(ev, 'completo', p.opciones.completo)}${tarjetaOpcion(ev, 'resumido', p.opciones.resumido)}</div>`);
+}
+async function elegirPlan(id, cual){
+  const ev = buscarEvento(id);
+  if(!ev) return;
+  const p = comoObjeto(ev.plan_ia);
+  const op = p.opciones && p.opciones[cual];
+  if(!op) return;
+  const plan_ia = { ...p, elegido: cual, mensaje: op.mensaje, sesiones: op.sesiones };
+  ev.plan_ia = plan_ia;
+  await calEditarEvento(ev, { plan_ia });
+  repintarTodo();
+  abrirPlanExamen(id, cual === 'completo' ? '¡Listo! Vas con el plan completo 📚' : '¡Listo! Vas con el plan resumido ⚡');
+}
+function otraVersion(ev){
+  const p = comoObjeto(ev.plan_ia);
+  if(!p.opciones || !p.elegido || p.reajustado) return '';
+  const otra = p.elegido === 'completo' ? 'resumido' : 'completo';
+  if(!comoLista((p.opciones[otra] || {}).sesiones).length) return '';
+  return `<a href="#" class="link-sub" style="font-size:13px" onclick="elegirPlan('${idSeguro(ev.id)}','${otra}');return false;">Cambiar al plan ${otra}</a>`;
+}
+Object.assign(window, { elegirPlan });
+
+// ── Un día del plan: cómo hacerlo, ejemplo, porqué y "¿cómo te fue?" ──
+const FEEDBACK_SESION = [['facil', '😊', 'Fácil'], ['bien', '🙂', 'Bien'], ['dificil', '😓', 'Difícil']];
+function cuerpoSesion(ev, s){
+  const ej = s.ejemplo ? (ejemploVisual(s.ejemplo) || (s.ejemplo.texto ? `<p class="hoja-p" style="margin:0">${escaparHTML(s.ejemplo.texto)}</p>` : '')) : '';
+  return `
+    ${(s.temas || []).length ? `<div class="ses-temas">${s.temas.map(t => `<span>${escaparHTML(t)}</span>`).join('')}</div>` : ''}
+    ${s.detalle ? `<p class="plan-card-det">${escaparHTML(s.detalle)}</p>` : ''}
+    ${(s.pasos || []).length ? `<div class="ses-como"><span class="ses-como-tit">✍️ Cómo hacerlo</span><ol>${s.pasos.map(p => `<li>${escaparHTML(p)}</li>`).join('')}</ol></div>` : ''}
+    ${ej ? `<details class="ses-ejemplo"><summary>👀 Ver un ejemplo hecho</summary>${s.ejemplo.texto && ejemploVisual(s.ejemplo) ? `<p class="ej-nota" style="margin:.2rem 0 .6rem;font-weight:500">${escaparHTML(s.ejemplo.texto)}</p>` : ''}${ej}</details>` : ''}`;
+}
+function botonesSesion(ev, s, volver){
+  const id = idSeguro(ev.id), fb = comoObjeto(ev.plan_feedback)[s.fecha];
+  const pasado = s.fecha < hoyISO();
+  if(s.hecho) return `
+    <button type="button" class="sesion-grande hecho" style="margin-top:.8rem" onclick="toggleSesion('${id}','${s.fecha}',${volver})">✓ ¡Lo hiciste!</button>
+    <p class="auto-q" style="margin:.8rem 0 .4rem;font-size:14px">¿Cómo te fue?</p>
+    <div class="nivel-chips">${FEEDBACK_SESION.map(([v, ic, t]) => `<button type="button" class="nivel-chip${fb === v ? ' on' : ''}" onclick="darFeedback('${id}','${s.fecha}','${v}')">${ic} ${t}</button>`).join('')}</div>`;
+  return `
+    <button type="button" class="sesion-grande" style="margin-top:.8rem" onclick="toggleSesion('${id}','${s.fecha}',${volver})">✓ Lo hice</button>
+    ${pasado ? `<button type="button" class="btn-mini btn-mini-claro" style="margin-top:.5rem;width:100%" onclick="darFeedback('${id}','${s.fecha}','no_llegue')">${fb === 'no_llegue' ? '⏭ No llegaste: lo reacomodamos' : '⏭ No llegué'}</button>` : ''}`;
+}
+const AVISO_REAJUSTE = {
+  facil: 'Como te resultó fácil, subimos un poco el ritmo 💪',
+  dificil: 'Lo dividimos en partes más chicas para que te salga 🙌',
+  no_llegue: 'Reacomodamos lo que faltó en los días que quedan 📆'
+};
+async function darFeedback(exId, fecha, valor){
+  const ev = buscarEvento(exId);
+  if(!ev) return;
+  const fb = { ...comoObjeto(ev.plan_feedback), [fecha]: valor };
+  ev.plan_feedback = fb;
+  await calEditarEvento(ev, { plan_feedback: fb });
+  const quedan = sesionesDelPlan(ev).some(s => s.fecha >= hoyISO() && !s.hecho);
+  if(valor === 'bien' || !quedan || !planIA(ev)){
+    abrirPlanExamen(exId, valor === 'bien' ? '¡Bien! Seguimos así 🙌' : '¡Gracias por contarnos! 🙌');
+    return;
+  }
+  await reacomodarPlan(exId, valor);
+}
+async function reacomodarPlan(exId, valor){
+  const ev = buscarEvento(exId);
+  if(!ev) return;
+  hoja(`<div class="armando"><div class="armando-cer">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
+      <h2 class="hoja-tit" style="text-align:center">Acomodando tu plan… 🧠</h2>
+      <p class="hoja-p" style="text-align:center">Con lo que nos contaste.</p><div class="armando-barra"><span></span></div></div>`);
+  const ok = await pedirPlanIA(ev, 'reajustar', valor || 'atrasado');
+  repintarTodo();
+  abrirPlanExamen(exId, ok ? (AVISO_REAJUSTE[valor] || 'Listo: tu plan quedó al día 📆') : 'Guardamos cómo te fue. Probá reacomodar en un ratito.');
+}
+Object.assign(window, { darFeedback, reacomodarPlan });
+function botonReacomodar(ev){
+  if(!planIA(ev) || diasHasta(ev.fecha) < 1) return '';
+  const atr = progresoPlan(ev).atrasadas.length;
+  if(!atr || comoObjeto(ev.plan_ia).reajustado === hoyISO()) return '';
+  return `<button type="button" class="btn-mini" style="margin:.4rem 0 .2rem" onclick="reacomodarPlan('${idSeguro(ev.id)}','no_llegue')">🔄 Reacomodar mi plan con los días que quedan</button>`;
+}
+
 // ── Objetivos (Mi camino) ──
 const OBJETIVOS = ['Concentrarme más', 'Organizar mi tiempo', 'Tener más ganas de estudiar', 'Entender temas difíciles', 'Prepararme para exámenes'];
 // El objetivo vale por una semana: el lunes se vuelve a preguntar.
@@ -2038,7 +2835,7 @@ function pintarAvisos(){
   c.innerHTML = `
     <label style="display:flex;gap:.6rem;align-items:flex-start;cursor:pointer;font-size:14.5px;color:var(--navy);line-height:1.5;margin-top:.6rem">
       <input type="checkbox" ${on ? 'checked' : ''} onchange="guardarEnPerfil({ avisos_mail: this.checked })" style="margin-top:4px;width:18px;height:18px;flex:none">
-      <span><strong>Avisame por mail</strong> antes de mis exámenes y cuando tenga un test nuevo.</span>
+      <span><strong>Avisame por mail</strong> si me atraso con mi plan de estudio.</span>
     </label>`;
 }
 
@@ -2066,7 +2863,7 @@ function esEvaluacion(ev){ return !!ev && (ev.tipo === 'Examen' || ev.tipo === '
 function nombreTipo(t){ return t === 'Entrega' ? 'TP / entrega' : String(t || 'evento').toLowerCase(); }
 function textoFaltan(d){ return d === 0 ? 'es hoy' : (d === 1 ? 'es mañana' : `faltan ${d} días`); }
 function examenesSinNota(){
-  return (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && !ev.nota && diasHasta(ev.fecha) < 0 && diasHasta(ev.fecha) >= -21);
+  return (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && !comoObjeto(ev.autoeval).sentir && diasHasta(ev.fecha) < 0 && diasHasta(ev.fecha) >= -21);
 }
 function examenSinNota(){
   return examenesSinNota().sort((a, b) => diasHasta(b.fecha) - diasHasta(a.fecha))[0] || null;
@@ -2102,22 +2899,18 @@ function repintarTodo(){
   pintarRecordatorios(ESTADO_ACTUAL || {});
   pintarProgreso();
   pintarCamino();
+  try { pintarAvisosTop(); } catch(e){ console.warn(e); }
 }
 
 // Fila "¿Cómo te fue?": autoevaluación + nota. pref evita ids repetidos entre pantallas.
 function filaNota(ev, pref){
-  const id = escaparHTML(String(ev.id));
+  const id = idSeguro(ev.id);
   return `
     <div class="prox-fila">
       <span style="font-size:22px">📝</span>
       <span style="flex:1 1 180px;min-width:0"><strong>${escaparHTML(ev.titulo)}</strong><br>
         <span style="font-size:13px;color:var(--gray)">${escaparHTML(nombreTipo(ev.tipo))}${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''} · ya pasó</span></span>
-      <a href="${AUTOEVAL_EXAMEN_URL}" target="_blank" rel="noopener" class="btn-mini btn-mini-claro">Autoevaluarme</a>
-      <span style="display:flex;gap:.35rem">
-        <input id="nota-${pref}-${id}" class="reg-input" type="text" inputmode="decimal" placeholder="Nota" aria-label="Tu nota" style="width:76px;padding:7px 9px"
-          onkeydown="if(event.key==='Enter')guardarNota('${id}','${pref}')">
-        <button type="button" class="btn-mini" onclick="guardarNota('${id}','${pref}')">Guardar</button>
-      </span>
+      <button type="button" class="btn-mini" onclick="abrirAutoeval('${id}')">¿Cómo te fue? →</button>
     </div>`;
 }
 
@@ -2182,8 +2975,11 @@ function pintarRecordatorios(estado){
       });
     }
   }
+  (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && diasHasta(ev.fecha) >= 1 && progresoPlan(ev).atrasadas.length).slice(0, 2).forEach(ev => items.push({
+    t: `🐢 Te atrasaste con ${ev.titulo}`, d: 'Con un ratito hoy te ponés al día', a: `abrirPlanExamen('${idSeguro(ev.id)}')`, l: 'Ponerme al día'
+  }));
   examenesSinNota().slice(0, 2).forEach(ev => items.push({
-    t: `¿Cómo te fue en ${ev.titulo}?`, d: 'Autoevaluate y cargá tu nota', a: "irA('rendimiento')", l: 'Cargar nota'
+    t: `¿Cómo te fue en ${ev.titulo}?`, d: 'Contanos en 3 toques', a: `abrirAutoeval('${idSeguro(ev.id)}')`, l: 'Contar'
   }));
   proximosEventos(3).filter(ev => diasHasta(ev.fecha) <= 7).forEach(ev => items.push({
     t: ev.titulo, d: `${nombreTipo(ev.tipo)} · ${textoFaltan(diasHasta(ev.fecha))}`,
@@ -2229,17 +3025,17 @@ function fuentesDeEnergia(){
   const eventos = (CAL_EVENTOS || []).length;
   const notas = (CAL_EVENTOS || []).filter(ev => ev.nota).length;
   return [
-    { txt: 'Hacer el test de estilos',        pts: 30, hecho: !!e.estilos },
-    { txt: 'Mirar cómo aprendés',             pts: 10, hecho: !!e.estilos && marcaLocal('visto_perfil') },
-    { txt: 'Elegir qué querés mejorar',       pts: 10, hecho: misObjetivos().length > 0 },
-    { txt: 'Hacer Razonamiento Crítico',      pts: 30, hecho: !!e.rc1 },
-    { txt: 'Subir una actividad',             pts: 20, veces: Math.min(ENTREGAS_TOTAL, 5) },
-    { txt: 'Autoevaluarte',                   pts: 20, hecho: marcaLocal('autoevaluacion') },
-    { txt: 'Hacer Razonamiento Crítico 2',    pts: 30, hecho: !!e.rc2 },
-    { txt: 'Anotar un examen o TP',           pts: 5,  veces: Math.min(eventos, 10) },
-    { txt: 'Cargar una nota',                 pts: 15, veces: Math.min(notas, 10) },
-    { txt: 'Cumplir un día de tu plan',       pts: 10, veces: Math.min(diasDePlanHechos(), 20) },
-    { txt: 'Anotar un examen con 5 días o más de anticipación', pts: 15, veces: Math.min(examenesConTiempo(), 5) }
+    { txt: 'Hacé el test de estilos',         pts: 30, hecho: !!e.estilos },
+    { txt: 'Mirá cómo aprendés',              pts: 10, hecho: !!e.estilos && marcaLocal('visto_perfil') },
+    { txt: 'Elegí qué querés mejorar',        pts: 10, hecho: misObjetivos().length > 0 },
+    { txt: 'Hacé Razonamiento Crítico',       pts: 30, hecho: !!e.rc1 },
+    { txt: 'Subí una actividad',              pts: 20, veces: Math.min(ENTREGAS_TOTAL, 5) },
+    { txt: 'Autoevaluate',                    pts: 20, hecho: marcaLocal('autoevaluacion') },
+    { txt: 'Hacé Razonamiento Crítico 2',     pts: 30, hecho: !!e.rc2 },
+    { txt: 'Anotá un examen o TP',            pts: 5,  veces: Math.min(eventos, 10) },
+    { txt: 'Contá cómo te fue en un examen',  pts: 15, veces: Math.min(autoevalHechas(), 10) },
+    { txt: 'Cumplí un día de tu plan',        pts: 10, veces: Math.min(diasDePlanHechos(), 20) },
+    { txt: 'Anotá un examen con 5 días o más de anticipación', pts: 15, veces: Math.min(examenesConTiempo(), 5) }
   ];
 }
 function diasDePlanHechos(){
@@ -2556,6 +3352,7 @@ async function refrescarCalendario(){
   }
   renderCalendario();
   repintarTodo();
+  sincronizarFechasPlan();
 }
 window.refrescarCalendario = refrescarCalendario;
 
@@ -2606,7 +3403,7 @@ async function calEditarEvento(ev, campos){
   const extra = {};
   if(error){
     const basico = { ...campos };
-    [...OPCIONALES_EVENTO, 'plan_hechos', 'nota', 'plan_ia'].forEach(k => { if(k in basico){ extra[k] = basico[k]; delete basico[k]; } });
+    [...OPCIONALES_EVENTO, 'plan_hechos', 'nota', 'plan_ia', 'autoeval', 'plan_fechas', 'plan_feedback'].forEach(k => { if(k in basico){ extra[k] = basico[k]; delete basico[k]; } });
     error = null;
     if(Object.keys(basico).length){
       ({ error } = await supabaseClient.from('eventos_calendario').update(basico).eq('id', ev.id));
@@ -2878,8 +3675,7 @@ function pintarPlanes(){
           <span class="plan-card-tag">${escaparHTML(ev.materia || nombreTipo(ev.tipo))} · ${textoFaltan(d)}</span>
           <strong class="plan-card-tit">${ev.tipo === 'Examen' ? '📝' : '📎'} ${escaparHTML(ev.titulo)}</strong>
           ${ses.length ? `
-            <span class="plan-card-barra"><i style="width:${Math.max(4, pct)}%"></i></span>
-            <span class="plan-card-sub"><b>${hechos} de ${ses.length}</b> días hechos</span>
+            ${barraPlan(ev, true)}
             ${prox ? `<span class="plan-card-prox">Próximo: <b>${prox.fecha === hoy ? 'hoy' : escaparHTML(fechaLarga(prox.fecha).toLowerCase())}</b> · ${escaparHTML(prox.txt)}</span>` : ''}`
           : `<span class="plan-card-sub">${escaparHTML(motivacion(d))}</span>`}
           <span class="plan-card-ver">Ver el plan →</span>
@@ -2903,7 +3699,7 @@ const COLOR_SIN_MATERIA = '#7b8794';
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const DIAS_CORTOS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-const OPCIONALES_EVENTO = ['materia', 'contenidos', 'hora', 'foto_ruta', 'modalidad'];
+const OPCIONALES_EVENTO = ['materia', 'contenidos', 'hora', 'foto_ruta', 'modalidad', 'disponibilidad', 'temas_dificiles'];
 
 const esCelu = () => window.innerWidth <= 860;
 let CAL_VISTA = esCelu() ? 'agenda' : 'mes';
@@ -2968,12 +3764,12 @@ function clavesDelAlumno(){
   if(!PLAN_ACTUAL) return [];
   return comoLista(PLAN_ACTUAL.tips).slice(0, 3).map(t => { const k = claveDeTip(t); return { palabra: k.palabra, herramienta: k.herramienta || '' }; });
 }
-function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || '', nivelMateria(ev.materia), ev.modalidad || ''].join('|'); }
+function firmaPlan(ev){ return [String(ev.fecha).slice(0, 10), ev.contenidos || '', ev.materia || '', ev.tipo || '', nivelMateria(ev.materia), ev.modalidad || '', JSON.stringify(dispDe(ev) || ''), comoLista(ev.temas_dificiles).join(',')].join('|'); }
 function planIA(ev){
   const p = comoObjeto(ev && ev.plan_ia);
   return Array.isArray(p.sesiones) && p.sesiones.length ? p : null;
 }
-function planIAAlDia(ev){ const p = planIA(ev); return !!p && p.firma === firmaPlan(ev); }
+function planIAAlDia(ev){ const p = comoObjeto(ev && ev.plan_ia); return (!!planIA(ev) || planPorElegir(ev)) && p.firma === firmaPlan(ev); }
 
 // DEVOLUCIONES_ACTUALES se declara más abajo: al cargar la página todavía no existe
 function devs(){ try { return DEVOLUCIONES_ACTUALES; } catch(e){ return null; } }
@@ -3000,6 +3796,8 @@ function fechasParaPlan(ev){
   const out = [];
   let d = deISO(hoyISO());
   while(d < examen && out.length < 30){ out.push(iso(d)); d = sumarDias(d, 1); }
+  const disp = dispDe(ev);
+  if(disp){ const f = out.filter(x => disp.dias.includes(deISO(x).getDay())); if(f.length) return f; }
   return out;
 }
 
@@ -3010,74 +3808,11 @@ function leerRespuestaPlan(r){
   return o || {};
 }
 
-async function pedirPlanIA(ev){
-  if(!ev || PLAN_PIDIENDO.has(ev.id)) return false;
-  const fechas = fechasParaPlan(ev);
-  if(!fechas.length) return false;
-  PLAN_PIDIENDO.add(ev.id); PLAN_YA_INTENTADO.add(ev.id);
-  const ctrl = new AbortController();
-  const corte = setTimeout(() => ctrl.abort(), 60000);
-  try {
-    const niveles = nivelesDelPerfil(PLAN_ACTUAL);
-    const payload = {
-      user_id: USER_ID_ACTUAL || null,
-      evento_id: ev.id,
-      hoy: hoyISO(),
-      examen: { titulo: ev.titulo, tipo: nombreTipo(ev.tipo), materia: ev.materia || '', fecha: String(ev.fecha).slice(0, 10), temas: ev.contenidos || '',
-                cuanto_le_cuesta: textoNivel(nivelMateria(ev.materia)) || 'no lo dijo',
-                modalidad: ev.modalidad || 'no lo dijo' },
-      fechas_disponibles: fechas,
-      como_aprende: PLAN_ACTUAL ? {
-        resumen: String(PLAN_ACTUAL.resumen || '').slice(0, 700),
-        claves: clavesDelAlumno(),
-        niveles: niveles ? Object.fromEntries(EJES_PERFIL.map(([k], i) => [k, niveles[i]])) : null
-      } : null,
-      razonamiento_critico_1: resumenDeTest('rc1'),
-      razonamiento_critico_2: resumenDeTest('rc2')
-    };
-    let res;
-    for(let intento = 0; intento < 2; intento++){
-      res = await fetch(N8N_PLAN_URL, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload), signal: ctrl.signal
-      });
-      if(res.ok) break;
-      await new Promise(r => setTimeout(r, 2500));   // si la IA está saturada, reintentamos una vez
-    }
-    if(!res.ok) throw new Error('n8n respondió ' + res.status);
-    const o = leerRespuestaPlan(await res.json());
-    const validas = new Set(fechas);
-    const vistas = new Set();
-    const sesiones = (Array.isArray(o.sesiones) ? o.sesiones : [])
-      .map(s => ({
-        fecha: String(s.fecha || '').slice(0, 10),
-        titulo: String(s.titulo || '').trim().slice(0, 70),
-        que_hacer: String(s.que_hacer || s.detalle || '').trim().slice(0, 400),
-        tecnica: String(s.tecnica || '').trim().slice(0, 40),
-        herramienta: /^ninguna$/i.test(String(s.herramienta || '').trim()) ? '' : String(s.herramienta || '').trim().slice(0, 40),
-        minutos: Math.max(10, Math.min(120, parseInt(s.minutos, 10) || 30))
-      }))
-      .filter(s => validas.has(s.fecha) && s.titulo && !vistas.has(s.fecha) && vistas.add(s.fecha))
-      .sort((a, b) => a.fecha.localeCompare(b.fecha));
-    if(!sesiones.length) throw new Error('El plan vino vacío');
-    const plan_ia = { v: 1, creado: hoyISO(), firma: firmaPlan(ev), mensaje: String(o.mensaje || '').slice(0, 200), sesiones };
-    await calEditarEvento(ev, { plan_ia });
-    ev.plan_ia = plan_ia;
-    return true;
-  } catch(e){
-    console.warn('No se pudo armar el plan con n8n; queda el plan básico:', e);
-    return false;
-  } finally {
-    clearTimeout(corte);
-    PLAN_PIDIENDO.delete(ev.id);
-  }
-}
-
 function hojaArmandoPlan(ev){
   hoja(`
     <div class="armando">
       <div class="armando-cer">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
-      <h2 class="hoja-tit" style="text-align:center">Armando tu plan… 🧠</h2>
+      <h2 class="hoja-tit" style="text-align:center">Armando tus planes… 🧠</h2>
       <p class="hoja-p" style="text-align:center">Con tus temas${ev.materia ? ' de <strong>' + escaparHTML(ev.materia) + '</strong>' : ''} y con lo que mejor te funciona para estudiar.</p>
       <div class="armando-barra"><span></span></div>
     </div>`);
@@ -3095,7 +3830,8 @@ window.armarPlanConIA = armarPlanConIA;
 
 // ── Plan de respaldo (sin IA): igual usa los temas y sus claves ──
 function planLocal(ev, n){
-  const temas = temasDe(ev.contenidos);
+  const dif = comoLista(ev.temas_dificiles).map(t => t.toLowerCase());
+  const temas = temasDe(ev.contenidos).sort((a, b) => dif.includes(b.toLowerCase()) - dif.includes(a.toLowerCase()));
   const claves = clavesDelAlumno();
   const rcHecho = !!(devs() && devs().size);
   const clave = i => claves.length ? claves[i % claves.length] : null;
@@ -3137,16 +3873,29 @@ function sesionesDelPlan(ev){
   if(ia){
     const tope = iso(sumarDias(examen, -1));
     return ia.sesiones.filter(x => x.fecha <= tope).map(x => ({
-      fecha: x.fecha, txt: x.titulo, detalle: x.que_hacer, tecnica: x.tecnica, herramienta: x.herramienta, minutos: x.minutos,
+      fecha: x.fecha, txt: x.titulo, detalle: x.que_hacer, tecnica: x.tecnica, herramienta: x.herramienta, minutos: x.minutos, por_que: x.por_que || '',
+      temas: x.temas || [], pasos: x.pasos || [], ejemplo: x.ejemplo || null,
       examen: ev, materia: ev.materia, hecho: hechos.includes(x.fecha), ia: true
     }));
   }
-  const n = Math.round((examen - inicio) / 86400000);
-  if(n < 1) return [];
+  if(planPorElegir(ev)) return [];
+  const disp = dispDe(ev);
+  let fechas = [];
+  for(let d = new Date(inicio); d < examen; d = sumarDias(d, 1)) fechas.push(iso(d));
+  if(disp){ const f2 = fechas.filter(f => disp.dias.includes(deISO(f).getDay())); if(f2.length) fechas = f2; }
+  if(!fechas.length) return [];
+  const minutos = disp ? disp.min : undefined;
+  if(disp && disp.modo === 'un_dia'){
+    const f = fechas[fechas.length - 1];
+    const temas = temasDe(ev.contenidos);
+    return [{ fecha: f, txt: ev.tipo === 'Entrega' ? 'Hacé el TP' : 'Estudiá todo', minutos,
+      detalle: (temas.length ? `Arrancá por ${temas[0]}` : 'Arrancá por lo que más te cuesta') + '. Cada 25 minutos, hacé una pausa corta.',
+      examen: ev, materia: ev.materia, hecho: hechos.includes(f) }];
+  }
   const vistos = new Set();
-  return planLocal(ev, n).filter(x => !vistos.has(x.k) && vistos.add(x.k)).map(x => {
-    const fecha = iso(sumarDias(inicio, x.k));
-    return { fecha, txt: x.txt, detalle: x.detalle, examen: ev, materia: ev.materia, hecho: hechos.includes(fecha) };
+  return planLocal(ev, fechas.length).filter(x => !vistos.has(x.k) && vistos.add(x.k)).map(x => {
+    const fecha = fechas[x.k];
+    return { fecha, txt: x.txt, detalle: x.detalle, minutos, examen: ev, materia: ev.materia, hecho: hechos.includes(fecha) };
   });
 }
 
@@ -3183,7 +3932,7 @@ function filaItem(it){
     const ic = ev.tipo === 'Examen' ? '📝' : (ev.tipo === 'Entrega' ? '📎' : '📌');
     const sub = [ev.materia, nombreTipo(ev.tipo), ev.hora ? String(ev.hora).slice(0, 5) : '', esEvaluacion(ev) && d >= 0 ? textoFaltan(d) : ''].filter(Boolean).map(escaparHTML).join(' · ');
     return `<button type="button" class="ag-item" style="--c:${colorMateria(ev.materia)}" onclick="abrirDetalleEvento('${idSeguro(ev.id)}')">
-      <span class="ag-ic">${ic}</span><span class="ag-txt"><strong>${escaparHTML(ev.titulo)}</strong><small>${sub}</small></span></button>`;
+      <span class="ag-ic">${ic}</span><span class="ag-txt"><strong>${escaparHTML(ev.titulo)}</strong><small>${sub}</small>${barraPlan(ev, true)}</span></button>`;
   }
   const s = it.s;
   return `<div class="ag-item sesion${s.hecho ? ' hecho' : ''}" style="--c:${colorMateria(s.materia)}">
@@ -3360,6 +4109,7 @@ function abrirDetalleEvento(id){
     ${esEvaluacion(ev) && d < 0 ? (ev.nota
       ? `<p class="hoja-p"><strong>Tu nota:</strong> <span class="hoja-nota">${escaparHTML(ev.nota)}</span></p>`
       : `<div style="margin-top:1rem">${filaNota(ev, 'hoja')}</div>`) : ''}
+    ${esEvaluacion(ev) && d < 0 && comoObjeto(ev.autoeval).sentir ? `<p class="hoja-p">✓ Ya contaste cómo te fue. <a href="#" onclick="abrirAutoeval('${idSeguro(ev.id)}');return false;" style="color:var(--navy);font-weight:700">Cambiar</a></p>` : ''}
     <div class="hoja-botones">
       <button type="button" class="btn-mini btn-mini-claro" onclick="abrirEditarEvento('${idSeguro(ev.id)}')">✏️ Editar</button>
       <button type="button" class="btn-mini btn-mini-claro" onclick="borrarEventoDesdePlan('${idSeguro(ev.id)}')">🗑 Borrar</button>
@@ -3367,9 +4117,67 @@ function abrirDetalleEvento(id){
   if(ev.foto_ruta) mostrarFoto(ev.foto_ruta, 'hoja-img');
 }
 
+// v9.1 · El plan como tira de días (se desliza de costado) + la tarjeta del día elegido
+const PLAN_DIA_SEL = {};
+function diaPorDefecto(ses){
+  const h = hoyISO();
+  return (ses.find(s => s.fecha === h) || ses.find(s => s.fecha > h && !s.hecho) || ses.find(s => !s.hecho) || ses[ses.length - 1]).fecha;
+}
+function metaSesion(s, ev){
+  const disp = dispDe(ev);
+  const t = fmtTiempo(s.minutos, disp && disp.rango && s.minutos === disp.min ? disp.rango : '');
+  const h = fmtHorario(disp);
+  return [s.herramienta ? '🔧 ' + escaparHTML(s.herramienta) : '', t ? '⏱ ' + t : '', h ? '🕕 ' + h : ''].filter(Boolean).join(' · ');
+}
+function tarjetaDiaPlan(ev, s){
+  const pasado = s.fecha < hoyISO();
+  return `<div class="plan-card${s.hecho ? ' hecho' : ''}">
+      <span class="plan-card-dia">${s.fecha === hoyISO() ? 'Hoy' : escaparHTML(fechaLarga(s.fecha))}${pasado && !s.hecho ? ' · <small>ya pasó</small>' : ''}</span>
+      <strong class="plan-card-tit">${escaparHTML(s.txt)}</strong>
+      ${metaSesion(s, ev) ? `<span class="plan-dia-meta">${metaSesion(s, ev)}</span>` : ''}
+      ${cuerpoSesion(ev, s)}
+      ${cajaPorQue(s, ev)}
+      ${botonesSesion(ev, s, true)}
+    </div>`;
+}
+function tiraDelPlan(ev, ses){
+  const sel = ses.some(s => s.fecha === PLAN_DIA_SEL[ev.id]) ? PLAN_DIA_SEL[ev.id] : diaPorDefecto(ses);
+  PLAN_DIA_SEL[ev.id] = sel;
+  const hechos = ses.filter(s => s.hecho).length;
+  const elegido = ses.find(s => s.fecha === sel);
+  const D = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  return `
+    <div class="plan-cab"><h3 class="bloque-titulo" style="font-size:16px;margin:0">📖 Tu plan</h3>
+      ${diasHasta(ev.fecha) < 0 ? `<span class="plan-cuenta"><b>${hechos}</b> de ${ses.length} hechos</span>` : ''}</div>
+    ${barraPlan(ev)}
+    <div class="plan-tira" role="tablist" aria-label="Días del plan">
+      ${ses.map(s => { const d = deISO(s.fecha); return `<button type="button" role="tab" aria-selected="${s.fecha === sel}"
+          class="plan-chip${s.fecha === sel ? ' sel' : ''}${s.hecho ? ' hecho' : ''}${s.fecha === hoyISO() ? ' hoy' : ''}"
+          onclick="elegirDiaPlan('${idSeguro(ev.id)}','${s.fecha}')">
+          <small>${s.fecha === hoyISO() ? 'Hoy' : D[d.getDay()]}</small><b>${s.hecho ? '✓' : d.getDate()}</b></button>`; }).join('')}
+    </div>
+    <div id="plan-dia-card">${elegido ? tarjetaDiaPlan(ev, elegido) : ''}</div>
+    <p class="hoja-p" style="font-size:13px;margin-top:.5rem">Tocá un día para ver qué hacer. Tildar <strong>le da energía a tu cerebrito ⚡</strong></p>`;
+}
+function elegirDiaPlan(exId, fecha){
+  const ev = buscarEvento(exId);
+  if(!ev) return;
+  PLAN_DIA_SEL[ev.id] = fecha;
+  const ses = sesionesDelPlan(ev);
+  const s = ses.find(x => x.fecha === fecha);
+  const card = document.getElementById('plan-dia-card');
+  if(card && s) card.innerHTML = tarjetaDiaPlan(ev, s);
+  document.querySelectorAll('.plan-chip').forEach(b => {
+    const on = b.getAttribute('onclick').includes(`'${fecha}'`);
+    b.classList.toggle('sel', on); b.setAttribute('aria-selected', on);
+  });
+}
+window.elegirDiaPlan = elegirDiaPlan;
+
 function abrirPlanExamen(id, aviso){
   const ev = buscarEvento(id);
   if(!ev) return;
+  if(planPorElegir(ev)){ hojaElegirPlan(ev, aviso); return; }
   const d = Math.max(0, diasHasta(ev.fecha)), c = colorMateria(ev.materia);
   const ses = sesionesDelPlan(ev);
   hoja(`
@@ -3379,17 +4187,10 @@ function abrirPlanExamen(id, aviso){
     <p class="hoja-fecha">📅 ${fechaLarga(ev.fecha)}${ev.hora ? ' · ' + escaparHTML(String(ev.hora).slice(0, 5)) : ''}</p>
     <p class="hoja-motiva">${(planIA(ev) && planIA(ev).mensaje) ? escaparHTML(planIA(ev).mensaje) : motivacion(d)}</p>
     ${ses.length ? `
-      <h3 class="bloque-titulo" style="font-size:16px;margin-top:1rem">📖 Tu plan</h3>
-      <div class="plan-dias">${ses.map(s => {
-        const pasado = s.fecha < hoyISO();
-        return `<div class="plan-dia${s.hecho ? ' hecho' : ''}${s.fecha === hoyISO() ? ' hoy' : ''}">
-          <button type="button" class="ag-check" onclick="toggleSesion('${idSeguro(ev.id)}','${s.fecha}',true)" aria-label="${s.hecho ? 'Desmarcar' : 'Marcar como hecho'}">${s.hecho ? '✓' : ''}</button>
-          <span><strong>${s.fecha === hoyISO() ? 'Hoy' : escaparHTML(fechaLarga(s.fecha))}</strong><br><b class="plan-dia-tit">${escaparHTML(s.txt)}</b>${pasado && !s.hecho ? ' <small>(ya pasó)</small>' : ''}
-            ${s.detalle ? `<span class="plan-dia-det">${escaparHTML(s.detalle)}</span>` : ''}
-            ${s.herramienta || s.minutos ? `<span class="plan-dia-meta">${s.herramienta ? '🔧 ' + escaparHTML(s.herramienta) : ''}${s.herramienta && s.minutos ? ' · ' : ''}${s.minutos ? '⏱ ' + s.minutos + ' min' : ''}</span>` : ''}</span>
-        </div>`;
-      }).join('')}</div>
-      <p class="hoja-p" style="font-size:13.5px">Tildá lo que vas haciendo: <strong>le da energía a tu cerebrito ⚡</strong></p>` : ''}
+      ${botonReacomodar(ev)}
+      ${tiraDelPlan(ev, ses)}
+      <p style="margin:.3rem 0 0">${otraVersion(ev)}</p>
+` : ''}
     ${ev.contenidos ? `<p class="hoja-p"><strong>Temas:</strong> ${escaparHTML(ev.contenidos)}</p>` : ''}
     ${ev.foto_ruta ? `<div class="hoja-foto" style="display:none"><img id="hoja-img" alt="Foto de los temas"></div>` : ''}
     <div class="hoja-botones">
@@ -3412,11 +4213,10 @@ function abrirDetalleSesion(exId, fecha){
     <div class="hoja-tag" style="--c:${colorMateria(ev.materia)}">📖 Plan de estudio${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''}</div>
     <h2 class="hoja-tit">${escaparHTML(s.txt)}</h2>
     <p class="hoja-fecha">${fecha === hoyISO() ? 'Hoy' : fechaLarga(fecha)} · para <strong>${escaparHTML(ev.titulo)}</strong> (${textoFaltan(Math.max(0, d))})</p>
-    ${s.detalle ? `<p class="hoja-p" style="font-size:16px;color:var(--navy)">${escaparHTML(s.detalle)}</p>` : ''}
-    ${s.herramienta || s.minutos ? `<p class="plan-dia-meta" style="margin:0 0 1rem">${s.herramienta ? '🔧 ' + escaparHTML(s.herramienta) : ''}${s.herramienta && s.minutos ? ' · ' : ''}${s.minutos ? '⏱ ' + s.minutos + ' min' : ''}</p>` : ''}
-    <button type="button" class="sesion-grande${s.hecho ? ' hecho' : ''}" onclick="toggleSesion('${idSeguro(ev.id)}','${fecha}')">
-      ${s.hecho ? '✓ ¡Lo hiciste!' : '✓ Lo hice'}</button>
-    <p class="hoja-p" style="text-align:center;font-size:13.5px">${s.hecho ? 'Tocá de nuevo si no lo hiciste.' : 'Es opcional: si lo tildás, tu cerebrito gana energía ⚡'}</p>
+    ${metaSesion(s, ev) ? `<p class="plan-dia-meta" style="margin:0 0 .6rem">${metaSesion(s, ev)}</p>` : ''}
+    ${cuerpoSesion(ev, s)}
+    ${cajaPorQue(s, ev)}
+    ${botonesSesion(ev, s, false)}
     <div class="hoja-botones"><button type="button" class="btn-mini btn-mini-claro" onclick="abrirPlanExamen('${idSeguro(ev.id)}')">Ver todo el plan</button></div>`);
 }
 Object.assign(window, { abrirDetalleEvento, abrirPlanExamen, cerrarPlanExamen, abrirDetalleSesion });
@@ -3465,6 +4265,7 @@ function abrirNuevoEvento(fecha){
   llenarSelectMaterias();
   CAL_NIVEL = 0;
   CAL_MODALIDAD = '';
+  CAL_DISP = dispPorDefecto(); CAL_DISP_HORARIO_ABIERTO = false; CAL_DIF = [];
   actualizarCamposEvento();
   document.getElementById('cal-modal-overlay').style.display = 'flex';
   if(!fecha) document.getElementById('cal-evento-titulo').focus();
@@ -3479,6 +4280,7 @@ function abrirEditarEvento(id){
   document.getElementById('cal-evento-hora').value = ev.hora ? String(ev.hora).slice(0, 5) : '';
   document.getElementById('cal-evento-tipo').value = ev.tipo || 'Otro';
   CAL_MODALIDAD = ev.modalidad || '';
+  CAL_DISP = dispDe(ev) || dispPorDefecto(); CAL_DISP_HORARIO_ABIERTO = false; CAL_DIF = comoLista(ev.temas_dificiles);
   document.getElementById('cal-evento-contenidos').value = ev.contenidos || '';
   const sel = document.getElementById('cal-evento-materia');
   if(ev.materia){
@@ -3531,8 +4333,20 @@ async function guardarEvento(){
     const datos = { titulo, fecha, tipo };
     if(materia || CAL_EDITANDO) datos.materia = materia || null;
     if(contenidos || CAL_EDITANDO) datos.contenidos = contenidos || null;
+    if(evaluacion){
+      const temasOk = temasDe(contenidos).map(t => t.toLowerCase());
+      const dif = CAL_DIF.filter(t => temasOk.includes(t.toLowerCase()));
+      if(dif.length || CAL_EDITANDO) datos.temas_dificiles = dif;
+    }
     if(hora || CAL_EDITANDO) datos.hora = hora || null;
     if(evaluacion && (CAL_MODALIDAD || CAL_EDITANDO)) datos.modalidad = CAL_MODALIDAD || null;
+    if(evaluacion && CAL_DISP){
+      const o = document.getElementById('disp-otro-h'); if(o) horasOtroDisp(o.value);
+      if(document.getElementById('disp-desde')) horarioPropio();
+      const hor = CAL_DISP.desde && CAL_DISP.hasta ? { desde: CAL_DISP.desde, hasta: CAL_DISP.hasta } : { desde: '', hasta: '' };
+      datos.disponibilidad = { dias: CAL_DISP.dias, min: CAL_DISP.min, rango: CAL_DISP.rango || '', ...hor, modo: tipo === 'Entrega' ? CAL_DISP.modo : 'varios' };
+      if(datos.disponibilidad.modo === 'varios') guardarEnPerfil({ disponibilidad: { dias: CAL_DISP.dias, min: CAL_DISP.min, rango: CAL_DISP.rango || '', ...hor } });
+    }
     if(foto_ruta) datos.foto_ruta = foto_ruta;
 
     let res;
@@ -4001,6 +4815,9 @@ async function cargarPerfilEnDashboard(){
     console.warn('No hay fila en profiles para este usuario. El panel sigue funcionando igual.');
   }
 
+  if(perfil && user.email && perfil.email !== user.email){
+    supabaseClient.from('profiles').update({ email: user.email }).eq('id', user.id).then(({ error }) => { if(error) console.warn('Falta la columna profiles.email (supabase_v9_3.sql)'); });
+  }
   pintarAvisos();
   refrescarCalendario();
 
@@ -4088,7 +4905,7 @@ async function cargarPanelesDelAlumno(intento = 0){
   // no existe en Supabase, se vuelve a pedir sin ella y el radar no aparece.
   const leerPlanes = async () => {
     let r = await supabaseClient.from('study_plans')
-      .select('resumen, tips, contenido, perfil_grafico, created_at')
+      .select('resumen, tips, contenido, perfil_grafico, cluster_id, created_at')
       .eq('user_id', user.id).order('created_at', { ascending: false }).limit(10);
     if(r.error){
       r = await supabaseClient.from('study_plans')
@@ -4573,15 +5390,17 @@ function seleccionarActividad(i){
           <span style="font-size:15.5px;line-height:1.6;color:var(--navy)">${escaparHTML(sugerencia)}</span>
         </div>` : ''}
       ${comoPasos(instrucciones)}
-      ${a.ejemplo ? `
+      ${EJEMPLOS_VISUALES[a.numero] ? `
+        <div class="ej-caja"><span class="ej-tit">👀 Así se ve</span>${ejemploVisual(EJEMPLOS_VISUALES[a.numero])}</div>`
+      : a.ejemplo ? `
         <p class="medida" style="background:#f4f6f9;border-radius:8px;padding:.75rem .95rem;font-size:14px;line-height:1.6;color:var(--gray);margin:0 0 .9rem">
           <span style="color:var(--navy);font-weight:700">Por ejemplo:</span> ${escaparHTML(a.ejemplo)}
         </p>` : ''}
-      ${explicacion ? `
-        <details style="margin:0 0 .7rem">
-          <summary style="list-style:none;cursor:pointer;font-size:14px;color:var(--navy);font-weight:600;text-decoration:underline">¿Por qué esta actividad? ▾</summary>
-          <p style="font-size:14px;line-height:1.7;color:var(--gray);margin:.5rem 0 0">${escaparHTML(explicacion)}</p>
-        </details>` : ''}
+      <div class="act-ayuda-btns">
+        <button type="button" class="btn-mini btn-mini-claro" onclick="ayudaActividad(${i},'porque')">🤔 ¿Por qué esta actividad para mí?</button>
+        <button type="button" class="btn-mini btn-mini-claro" onclick="ayudaActividad(${i},'ejemplo')">✨ Ver un ejemplo con mis temas</button>
+      </div>
+      <div id="act-ayuda"></div>
       ${campoActividad('Qué subís', a.entrega)}
       ${zonaDeEntrega(i)}
     </div>`;
