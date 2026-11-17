@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aprendux · Panel institucional</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1e3a5f; --navy2:#2d5882; --blue-bg:#eef2f7; --orange:#f5a623; --white:#fff;
+  --gray:#6b7a8d; --gray-light:#f8f9fb; --border:#d8e3ef; --teal:#1f7a5e; --teal-bg:#e2f2ef;
+  --amber-bg:#faf1e2; --radius:10px; --radius-lg:16px; --shadow:0 2px 12px rgba(30,58,95,.09);
+  /* formas de aprender (paleta categórica validada, orden fijo) */
+  --f-visual:#2a78d6; --f-oral:#eb6834; --f-practica:#1baf7a; --f-lectura:#eda100; --f-otros:#e87ba4; --f-ordenar:#7a5af8;
+  /* estado */
+  --st-critico:#d03b3b; --st-serio:#ec835a; --st-aviso:#fab219; --st-ok:#0ca30c;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Open Sans',sans-serif;color:var(--navy);background:var(--blue-bg);font-size:15px}
+h1,h2,h3{font-family:'Montserrat',sans-serif;margin:0}
+button{font-family:inherit}
+.proto{background:var(--amber-bg);color:#8a5a00;text-align:center;font-size:13px;padding:6px 12px;font-weight:600}
+
+/* barra de arriba */
+.top{display:flex;align-items:center;gap:1rem;background:#fff;border-bottom:1px solid var(--border);padding:.6rem 1.4rem;position:sticky;top:0;z-index:20}
+.top img{height:34px}
+.top .inst{font-size:13px;color:var(--gray);line-height:1.2}
+.top .inst b{display:block;color:var(--navy);font-size:14.5px}
+.rol{margin-left:auto;display:flex;background:var(--blue-bg);border-radius:12px;padding:3px}
+.rol button{border:0;background:none;padding:7px 14px;border-radius:9px;font-weight:700;font-size:14px;color:var(--gray);cursor:pointer}
+.rol button.on{background:#fff;color:var(--navy);box-shadow:var(--shadow)}
+
+/* layout */
+.wrap{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 90px)}
+.side{background:#fff;border-right:1px solid var(--border);padding:1rem .7rem;display:flex;flex-direction:column;gap:.25rem}
+.side button{display:flex;align-items:center;gap:.6rem;border:0;background:none;text-align:left;padding:.7rem .8rem;border-radius:10px;font-size:15px;font-weight:700;color:var(--navy);cursor:pointer}
+.side button.on{background:var(--navy);color:#fff}
+.side .badge{margin-left:auto;background:var(--st-critico);color:#fff;font-size:12px;border-radius:20px;padding:1px 8px}
+.main{padding:1.4rem 1.8rem 5rem;max-width:1180px;width:100%}
+.titulo{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.titulo h1{font-size:26px}
+.titulo p{margin:.25rem 0 0;color:var(--gray)}
+.cursos{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.cursos button{border:1.5px solid var(--border);background:#fff;border-radius:20px;padding:7px 14px;font-weight:700;color:var(--navy);cursor:pointer;font-size:14px}
+.cursos button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* tarjetas */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.2rem 1.3rem}
+.card h3{font-size:16.5px;margin-bottom:.2rem}
+.card .sub{font-size:13.5px;color:var(--gray);margin:0 0 .9rem}
+.grid{display:grid;gap:1rem}
+.g2{grid-template-columns:1fr 1fr}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;margin-bottom:1rem}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.1rem}
+.kpi small{display:block;font-size:12.5px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
+.kpi b{display:block;font-family:'Montserrat',sans-serif;font-size:30px;margin:.2rem 0 .1rem}
+.kpi span{font-size:13px;color:var(--gray)}
+
+/* barra 100% (cómo aprende el curso) */
+.apilada{display:flex;height:34px;border-radius:8px;overflow:hidden;gap:2px;background:#fff}
+.apilada div{height:100%;position:relative;cursor:default}
+.leyenda{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.7rem;font-size:13.5px}
+.leyenda span{display:inline-flex;align-items:center;gap:.4rem}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none}
+.frase{background:var(--blue-bg);border-radius:12px;padding:.8rem 1rem;margin-top:1rem;font-size:15px;line-height:1.5}
+.frase b{font-family:'Montserrat',sans-serif}
+
+/* barras horizontales */
+.hbar{display:grid;grid-template-columns:150px 1fr 48px;align-items:center;gap:.7rem;margin:.45rem 0;font-size:14px}
+.hbar .pista{height:14px;background:var(--blue-bg);border-radius:4px;overflow:hidden}
+.hbar .val{height:100%;border-radius:0 4px 4px 0}
+.hbar b{text-align:right;font-variant-numeric:tabular-nums}
+
+/* tooltip */
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:12.5px;font-weight:600;padding:5px 9px;border-radius:7px;white-space:nowrap;z-index:30;pointer-events:none}
+
+/* tabla de alumnos */
+.buscar{width:100%;max-width:340px;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:15px;font-family:inherit}
+.tabla{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.tabla th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--gray);text-align:left;padding:.7rem .9rem;background:var(--gray-light);border-bottom:1px solid var(--border)}
+.tabla td{padding:.7rem .9rem;border-bottom:1px solid var(--border);font-size:14.5px;vertical-align:middle}
+.tabla tr:last-child td{border-bottom:0}
+.tabla tbody tr{cursor:pointer}
+.tabla tbody tr:hover{background:var(--gray-light)}
+.nombre{font-weight:700}
+.forma{display:inline-flex;align-items:center;gap:.4rem;font-size:13.5px;font-weight:600}
+.tests{display:flex;gap:4px}
+.tchip{font-size:12px;font-weight:700;border-radius:6px;padding:2px 7px;background:var(--blue-bg);color:var(--gray)}
+.tchip.ok{background:var(--teal-bg);color:var(--teal)}
+.mini{height:8px;width:90px;background:var(--blue-bg);border-radius:6px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px}
+.mini i{display:block;height:100%;background:var(--teal);border-radius:6px}
+.estado{display:inline-flex;align-items:center;gap:.35rem;font-size:13px;font-weight:700}
+
+/* alertas */
+.alerta{display:flex;gap:.9rem;align-items:flex-start;background:#fff;border:1px solid var(--border);border-left:5px solid var(--c);border-radius:12px;padding:.9rem 1rem;margin-bottom:.6rem}
+.alerta .ic{font-size:20px;line-height:1.2}
+.alerta .tx{flex:1}
+.alerta .tx b{display:block;font-size:15px}
+.alerta .tx span{font-size:13.5px;color:var(--gray)}
+.btn{border:0;background:var(--navy);color:#fff;border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;font-size:14px}
+.btn.claro{background:var(--blue-bg);color:var(--navy)}
+.btn.chico{padding:6px 11px;font-size:13px}
+
+/* formularios */
+.campo{display:flex;flex-direction:column;gap:4px;margin-bottom:.8rem}
+.campo label{font-size:13px;font-weight:700}
+.campo input,.campo select,.campo textarea{border:1.5px solid var(--border);border-radius:9px;padding:9px 11px;font-size:15px;font-family:inherit;color:var(--navy);background:#fff}
+.fila2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.examen{display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.75rem 0;border-bottom:1px solid var(--border)}
+.examen:last-child{border-bottom:0}
+.examen b{display:block}
+.examen span{font-size:13.5px;color:var(--gray)}
+.nota-in{width:70px;border:1.5px solid var(--border);border-radius:8px;padding:6px 8px;font-size:15px;text-align:center;font-family:inherit}
+
+/* ficha del alumno */
+.velo{display:none;position:fixed;inset:0;background:rgba(11,31,59,.45);z-index:50}
+.ficha{position:fixed;top:0;right:0;height:100%;width:min(520px,100%);background:var(--gray-light);z-index:51;overflow-y:auto;transform:translateX(100%);transition:transform .25s ease;padding:1.3rem 1.3rem 3rem}
+.ficha.abierta{transform:none}
+.ficha .cerrar{position:absolute;top:1rem;right:1rem;border:0;background:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:var(--shadow)}
+.ficha h2{font-size:22px;padding-right:3rem}
+.ficha .card{margin-top:.9rem}
+.consejo{background:var(--teal-bg);border-radius:12px;padding:.8rem 1rem;font-size:14.5px;line-height:1.5;margin-top:.8rem}
+.toast{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:.8rem 1.2rem;border-radius:12px;font-weight:700;z-index:60;display:none;box-shadow:var(--shadow)}
+.vacio{text-align:center;color:var(--gray);padding:2rem}
+
+/* celu */
+@media (max-width: 860px){
+  .top{padding:.5rem 1rem;flex-wrap:wrap}
+  .top img{height:28px}
+  .rol{margin-left:0;width:100%}
+  .rol button{flex:1}
+  .wrap{grid-template-columns:1fr}
+  .side{position:fixed;bottom:0;left:0;right:0;flex-direction:row;border-right:0;border-top:1px solid var(--border);padding:.35rem;z-index:40;justify-content:space-around}
+  .side button{flex-direction:column;gap:2px;font-size:11.5px;padding:.45rem .3rem;flex:1;align-items:center;position:relative}
+  .side button .ic{font-size:20px}
+  .side .badge{position:absolute;top:2px;right:12%;margin:0;font-size:10.5px;padding:0 6px}
+  .main{padding:1rem 1rem 6rem}
+  .titulo h1{font-size:22px}
+  .g2,.fila2{grid-template-columns:1fr}
+  .hbar{grid-template-columns:110px 1fr 42px}
+  .tabla thead{display:none}
+  .tabla,.tabla tbody,.tabla tr,.tabla td{display:block;width:100%}
+  .tabla tr{border-bottom:1px solid var(--border);padding:.6rem .2rem}
+  .tabla td{border:0;padding:.2rem .8rem}
+  .tabla td[data-l]::before{content:attr(data-l) ': ';font-size:12px;color:var(--gray);font-weight:700}
+}
+
+/* login y estados */
+.login{max-width:400px;margin:8vh auto;background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:2rem 1.8rem}
+.login img{height:40px;display:block;margin:0 auto 1rem}
+.login h1{font-size:21px;text-align:center;margin-bottom:.3rem}
+.login p{color:var(--gray);text-align:center;font-size:14px;margin:.2rem 0 1.2rem}
+.login .btn{width:100%;margin-top:.4rem;padding:11px}
+.login .link{display:block;text-align:center;margin-top:1rem;color:var(--navy2);font-weight:700;font-size:14px;cursor:pointer;background:none;border:0;width:100%}
+.login .err{color:var(--st-critico);font-size:13.5px;margin:.5rem 0 0;min-height:1em;text-align:center}
+.cargando{text-align:center;color:var(--gray);padding:3rem 1rem}
+.yo{margin-left:auto;display:flex;align-items:center;gap:.7rem;font-size:13px;color:var(--gray);text-align:right;line-height:1.25}
+.yo b{display:block;color:var(--navy);font-size:14px}
+.codigo{font-family:'Montserrat',monospace;font-weight:800;letter-spacing:.12em;background:var(--blue-bg);border-radius:8px;padding:3px 9px;color:var(--navy);font-size:15px}
+.cod-fila{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.55rem 0;border-bottom:1px solid var(--border)}
+.cod-fila:last-child{border-bottom:0}
+.checks{display:flex;flex-wrap:wrap;gap:.3rem .9rem;margin:.3rem 0 .6rem;font-size:14px}
+@media (max-width: 860px){ .yo{margin-left:0;width:100%;justify-content:space-between;text-align:left} }
+</style>
+</head>
+<body>
+<div id="pantalla-login"></div>
+<div id="app" style="display:none">
+<header class="top">
+  <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LogoAprendux-02.png" alt="Aprendux">
+  <div class="inst"><b id="nombre-inst">…</b>Panel institucional</div>
+  <div class="yo"><div><b id="nombre-yo"></b><span id="rol-yo"></span></div>
+    <button type="button" class="btn claro chico" onclick="salir()">Salir</button></div>
+</header>
+
+<div class="wrap">
+  <nav class="side" aria-label="Secciones">
+    <button type="button" data-v="resumen" class="on" onclick="ir('resumen')"><span class="ic">📊</span>Resumen</button>
+    <button type="button" data-v="alumnos" onclick="ir('alumnos')"><span class="ic">👧</span>Alumnos</button>
+    <button type="button" data-v="alertas" onclick="ir('alertas')"><span class="ic">🔔</span>Alertas<span class="badge" id="badge-alertas"></span></button>
+    <button type="button" data-v="examenes" onclick="ir('examenes')"><span class="ic">📝</span>Exámenes y notas</button>
+    <button type="button" data-v="cursos" onclick="ir('cursos')"><span class="ic">🏫</span>Cursos y códigos</button>
+  </nav>
+  <main class="main" id="main"></main>
+</div>
+
+</div>
+
+<div class="velo" id="velo" onclick="cerrarFicha()"></div>
+<aside class="ficha" id="ficha" aria-label="Ficha del alumno"></aside>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════
+//  CONEXIÓN
+//  Los datos salen de Supabase por las funciones panel_inicio() y panel_alumnos()
+//  (supabase_v9_6_institucion.sql). Nunca se lee el cluster ni el texto de la IA:
+//  solo las formas de aprender, en porcentaje.
+// ══════════════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://ihxyqpqfhphqchrkihoe.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_jNlO3gKJ0RpFjRmMbiy0lw_g8gmPCIG';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const FORMAS = [
+  { k: 'visual',   nom: 'Visual',              corto: 'viendo',                c: 'var(--f-visual)',   consejo: 'Usá esquemas, mapas y colores en el pizarrón. Le sirve ver la información ordenada.' },
+  { k: 'oral',     nom: 'Oral',                corto: 'escuchando y hablando', c: 'var(--f-oral)',     consejo: 'Explicá en voz alta y dale espacio para que cuente lo que entendió. Le sirven los audios y los debates.' },
+  { k: 'practica', nom: 'Práctica',            corto: 'haciendo',              c: 'var(--f-practica)', consejo: 'Proponé ejercicios, ejemplos reales y actividades con las manos antes de la teoría.' },
+  { k: 'lectura',  nom: 'Lectura y escritura', corto: 'leyendo y escribiendo', c: 'var(--f-lectura)',  consejo: 'Dale textos para leer y pedile resúmenes escritos. Le ayuda tomar apuntes propios.' },
+  { k: 'ordenar',  nom: 'Organizada',          corto: 'con todo ordenado',     c: 'var(--f-ordenar)',  consejo: 'Presentá los temas en pasos, cuadros y listas. Le sirve ver la estructura antes de los detalles.' },
+  { k: 'otros',    nom: 'Con otros',           corto: 'con otros',             c: 'var(--f-otros)',    consejo: 'Armá trabajos en grupo o en parejas. Aprende mejor cuando lo charla con compañeros.' }
+];
+// perfil_grafico (niveles 1 a 3) → forma del panel
+const DE_NIVELES = { ver: 'visual', escuchar: 'oral', hacer: 'practica', leer: 'lectura', ordenar: 'ordenar', con_otros: 'otros' };
+const MATERIAS_BASE = ['Historia','Matemática','Biología','Lengua','Química','Física','Geografía','Inglés','Formación ética'];
+
+let YO = null;                 // { id, email }
+let INICIO = null;             // { rol, nombre, institucion, cursos: [{id, nombre, codigo, alumnos}] }
+let CURSOS = [];               // nombres
+let CURSO_INFO = {};           // nombre → { id, codigo, alumnos }
+let ALUMNOS = [];
+let EXAMENES = [];
+let MATERIAS = MATERIAS_BASE.slice();
+let VISTAS = new Set();
+
+const HOY = new Date(); HOY.setHours(0,0,0,0);
+function enDias(n){ const d = new Date(HOY); d.setDate(d.getDate() + n); return d.toISOString().slice(0,10); }
+function fechaCorta(f){ const d = new Date(String(f).slice(0,10) + 'T00:00:00'); return d.getDate() + '/' + (d.getMonth() + 1); }
+function diasHasta(f){ return Math.round((new Date(String(f).slice(0,10) + 'T00:00:00') - HOY) / 86400000); }
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function jsq(s){ return esc(String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'")); }
+function pct(n, d){ return d ? Math.round(n / d * 100) : 0; }
+function num(v){ const n = Number(String(v ?? '').replace(',', '.')); return v === null || v === '' || isNaN(n) ? null : n; }
+function fmtNota(n){ return String(Math.round(n * 100) / 100).replace('.', ','); }
+
+// Alertas marcadas como vistas: solo en este navegador
+function claveVistas(){ return 'aprendux-inst-vistas-' + (YO ? YO.id : ''); }
+function leerVistas(){ try { VISTAS = new Set(JSON.parse(localStorage.getItem(claveVistas()) || '[]')); } catch(e){ VISTAS = new Set(); } }
+function guardarVistas(){ try { localStorage.setItem(claveVistas(), JSON.stringify([...VISTAS])); } catch(e){} }
+
+// ══════════════════════════════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════════════════════════════
+let MODO_LOGIN = 'entrar';
+function pantallaLogin(msj){
+  document.getElementById('app').style.display = 'none';
+  const crear = MODO_LOGIN === 'crear';
+  document.getElementById('pantalla-login').innerHTML = `
+    <form class="login" onsubmit="event.preventDefault(); ${crear ? 'crearCuenta()' : 'entrar()'}">
+      <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LogoAprendux-02.png" alt="Aprendux">
+      <h1>${crear ? 'Crear tu cuenta' : 'Panel institucional'}</h1>
+      <p>${crear ? 'Para docentes y directivos. Después tu escuela te habilita.' : 'Para docentes y directivos'}</p>
+      ${crear ? `<div class="campo"><label for="l-nombre">Nombre y apellido</label><input id="l-nombre" autocomplete="name" required></div>` : ''}
+      <div class="campo"><label for="l-mail">Mail</label><input id="l-mail" type="email" autocomplete="email" required></div>
+      <div class="campo"><label for="l-pass">Contraseña</label><input id="l-pass" type="password" minlength="6" autocomplete="${crear ? 'new-password' : 'current-password'}" required></div>
+      <button class="btn" type="submit" id="l-btn">${crear ? 'Crear cuenta' : 'Entrar'}</button>
+      <p class="err" id="l-err">${esc(msj || '')}</p>
+      <button type="button" class="link" onclick="MODO_LOGIN='${crear ? 'entrar' : 'crear'}';pantallaLogin()">${crear ? 'Ya tengo cuenta' : 'No tengo cuenta: crear una'}</button>
+    </form>`;
+}
+function errorLogin(t){ document.getElementById('l-err').textContent = t; const b = document.getElementById('l-btn'); if(b) b.disabled = false; }
+async function entrar(){
+  document.getElementById('l-btn').disabled = true;
+  const { error } = await sb.auth.signInWithPassword({ email: document.getElementById('l-mail').value.trim(), password: document.getElementById('l-pass').value });
+  if(error) return errorLogin(/invalid/i.test(error.message) ? 'El mail o la contraseña no coinciden.' : /confirm/i.test(error.message) ? 'Primero confirmá tu mail: te llegó un link.' : error.message);
+  arrancar();
+}
+async function crearCuenta(){
+  document.getElementById('l-btn').disabled = true;
+  const nombre = document.getElementById('l-nombre').value.trim();
+  const { data, error } = await sb.auth.signUp({ email: document.getElementById('l-mail').value.trim(), password: document.getElementById('l-pass').value, options: { data: { nombre, panel: 'institucion' } } });
+  if(error) return errorLogin(error.message);
+  if(!data.session){ MODO_LOGIN = 'entrar'; pantallaLogin('Listo. Te mandamos un mail para confirmar la cuenta; después entrá desde acá.'); return; }
+  arrancar();
+}
+async function salir(){ await sb.auth.signOut(); YO = null; INICIO = null; MODO_LOGIN = 'entrar'; pantallaLogin(); }
+Object.assign(window, { entrar, crearCuenta, salir, pantallaLogin });
+
+// ══════════════════════════════════════════════════════════════
+//  CARGA DE DATOS
+// ══════════════════════════════════════════════════════════════
+async function arrancar(){
+  const { data: { user } } = await sb.auth.getUser();
+  if(!user){ pantallaLogin(); return; }
+  YO = { id: user.id, email: user.email };
+  document.getElementById('pantalla-login').innerHTML = '<div class="cargando">Cargando…</div>';
+  const { data: ini, error } = await sb.rpc('panel_inicio');
+  if(error){ pantallaLogin('No pudimos abrir el panel: ' + error.message); return; }
+  if(!ini || !ini.rol){
+    document.getElementById('pantalla-login').innerHTML = `<div class="login">
+      <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LogoAprendux-02.png" alt="Aprendux">
+      <h1>Tu cuenta todavía no está habilitada</h1>
+      <p>Pedile a un directivo de tu escuela que te sume al equipo con este mail:<br><b>${esc(user.email)}</b></p>
+      <p>Si sos directivo y tu escuela recién empieza, escribile al equipo de Aprendux.</p>
+      <button class="btn" onclick="arrancar()">Ya me sumaron, volver a probar</button>
+      <button class="link" onclick="salir()">Salir</button></div>`;
+    return;
+  }
+  INICIO = ini;
+  leerVistas();
+  await recargarDatos();
+  document.getElementById('pantalla-login').innerHTML = '';
+  document.getElementById('app').style.display = '';
+  document.getElementById('nombre-inst').textContent = ini.institucion.nombre;
+  document.getElementById('nombre-yo').textContent = ini.nombre || user.email;
+  document.getElementById('rol-yo').textContent = ini.rol === 'directivo' ? '🏫 Directivo' : '👩‍🏫 Docente';
+  ROL = ini.rol;
+  if(!CURSOS.length) VISTA = 'cursos';
+  CURSO = MIS_CURSOS()[0] || '';
+  marcarNav();
+  pintar();
+}
+window.arrancar = arrancar;
+
+async function recargarDatos(){
+  const { data: ini } = await sb.rpc('panel_inicio');
+  if(ini && ini.rol) INICIO = ini;
+  CURSOS = (INICIO.cursos || []).map(c => c.nombre);
+  CURSO_INFO = Object.fromEntries((INICIO.cursos || []).map(c => [c.nombre, c]));
+  const nombrePorId = Object.fromEntries((INICIO.cursos || []).map(c => [c.id, c.nombre]));
+
+  const [{ data: al, error: e1 }, { data: ex, error: e2 }] = await Promise.all([
+    sb.rpc('panel_alumnos'),
+    sb.from('examenes_curso').select('id, curso_id, materia, titulo, fecha, tipo, modalidad, temas').order('fecha')
+  ]);
+  if(e1) toast('No se pudieron cargar los alumnos');
+  if(e2) toast('No se pudieron cargar los exámenes');
+  ALUMNOS = (al || []).map(convertirAlumno);
+  EXAMENES = (ex || []).map(e => ({ ...e, curso: nombrePorId[e.curso_id] || '', tipoTxt: e.tipo === 'Entrega' ? 'TP / entrega' : e.modalidad === 'oral' ? 'Oral' : 'Escrito' }));
+  const vistas = new Set(MATERIAS_BASE);
+  ALUMNOS.forEach(a => [...a.planes, ...a.notas].forEach(x => { if(x.materia) vistas.add(x.materia); }));
+  EXAMENES.forEach(e => { if(e.materia) vistas.add(e.materia); });
+  MATERIAS = [...vistas];
+}
+
+function convertirAlumno(a){
+  let perfil = null;
+  if(a.perfil && typeof a.perfil === 'object'){
+    const niveles = Object.entries(DE_NIVELES).map(([n, k]) => [k, Number(a.perfil[n]) || 0]);
+    const tot = niveles.reduce((s, [, v]) => s + v, 0);
+    if(tot > 0){
+      perfil = Object.fromEntries(niveles.map(([k, v]) => [k, Math.round(v / tot * 100)]));
+      const mayor = Object.entries(perfil).sort((x, y) => y[1] - x[1])[0][0];
+      perfil[mayor] += 100 - Object.values(perfil).reduce((s, v) => s + v, 0);
+    }
+  }
+  const ultima = a.ultima_visita ? Math.max(0, Math.floor((Date.now() - new Date(a.ultima_visita)) / 86400000)) : null;
+  return {
+    id: a.id, nombre: a.nombre || 'Sin nombre', curso: a.curso, curso_id: a.curso_id, perfil,
+    tests: { estilos: !!a.estilos, rc1: num(a.rc1), rc2: num(a.rc2) },
+    planes: (a.planes || []).filter(p => p.total > 0).map(p => ({ materia: p.materia || p.titulo, fecha: p.fecha, total: p.total, hechos: Math.min(p.hechos, p.total) })),
+    notas: (a.notas || []).map(n => ({ materia: n.materia || '', titulo: n.titulo || 'Nota', nota: Number(n.nota), fecha: n.fecha, origen: n.origen })),
+    ultima, autoevaluaciones: a.autoevaluaciones || 0
+  };
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ESTADO
+// ══════════════════════════════════════════════════════════════
+let ROL = 'docente', VISTA = 'resumen', CURSO = '', BUSCA = '';
+function MIS_CURSOS(){ return ROL === 'directivo' || CURSOS.length > 1 ? [ROL === 'directivo' ? 'Toda la escuela' : 'Todos mis cursos', ...CURSOS] : CURSOS; }
+function esTodos(){ return CURSO === 'Toda la escuela' || CURSO === 'Todos mis cursos'; }
+
+function alumnosDelCurso(){ return esTodos() ? ALUMNOS : ALUMNOS.filter(a => a.curso === CURSO); }
+function predominante(a){
+  if(!a.perfil) return null;
+  const k = Object.entries(a.perfil).sort((x, y) => y[1] - x[1])[0];
+  return { ...FORMAS.find(f => f.k === k[0]), pct: k[1] };
+}
+function textoUltima(a, mayus){
+  const t = a.ultima === null ? 'todavía no entró' : a.ultima === 0 ? 'hoy' : 'hace ' + a.ultima + ' día' + (a.ultima > 1 ? 's' : '');
+  return mayus ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+}
+
+function alertasDe(a){
+  const l = [];
+  if(a.ultima === null) l.push({ nivel: 'aviso', ic: '🟡', txt: 'Todavía no entró a Aprendux', det: 'Se sumó al curso pero no abrió la plataforma.' });
+  else if(a.ultima >= 7) l.push({ nivel: 'critico', ic: '⛔', txt: `No entra hace ${a.ultima} días`, det: 'Puede necesitar un empujón para retomar.' });
+  a.planes.forEach(p => {
+    const d = diasHasta(p.fecha);
+    if(d >= 0 && d <= 3 && p.hechos === 0) l.push({ nivel: 'serio', ic: '⚠️', txt: `${p.materia}: examen ${d === 0 ? 'hoy' : 'en ' + d + ' días'} y no empezó el plan`, det: `0 de ${p.total} días hechos.` });
+  });
+  if(!a.tests.estilos) l.push({ nivel: 'aviso', ic: '🟡', txt: 'Le falta el test de estilos', det: 'Sin ese test no tiene su forma de aprender ni su plan a medida.' });
+  a.notas.forEach(n => { if(n.nota < 6 && diasHasta(n.fecha) >= -30) l.push({ nivel: 'serio', ic: '📉', txt: `Sacó ${fmtNota(n.nota)} en ${n.materia || n.titulo}`, det: 'Podría venirle bien un plan de repaso.', clave: 'nota-' + n.materia + n.titulo + n.fecha }); });
+  // la clave de la alerta no depende del orden: así "Visto" se mantiene al recargar
+  return l.map(x => ({ ...x, id: a.id + '-' + (x.clave || x.txt), alumno: a }));
+}
+const COLOR_NIVEL = { critico: 'var(--st-critico)', serio: 'var(--st-serio)', aviso: 'var(--st-aviso)' };
+const NOMBRE_NIVEL = { critico: 'Urgente', serio: 'Importante', aviso: 'Para revisar' };
+
+// ══════════════════════════════════════════════════════════════
+//  NAVEGACIÓN
+// ══════════════════════════════════════════════════════════════
+function marcarNav(){ document.querySelectorAll('.side button').forEach(b => b.classList.toggle('on', b.dataset.v === VISTA)); }
+function ir(v){ VISTA = v; marcarNav(); pintar(); window.scrollTo(0, 0); }
+function elegirCurso(c){ CURSO = c; pintar(); }
+Object.assign(window, { ir, elegirCurso });
+
+function chipsCursos(){
+  const l = MIS_CURSOS();
+  if(l.length <= 1) return l.length ? `<div class="cursos"><button type="button" class="on">${esc(l[0])}</button></div>` : '';
+  return `<div class="cursos" role="tablist" aria-label="Curso">${l.map(c =>
+    `<button type="button" class="${c === CURSO ? 'on' : ''}" onclick="elegirCurso('${jsq(c)}')">${esc(c)}</button>`).join('')}</div>`;
+}
+function sinCursos(){
+  return `<div class="card vacio">${ROL === 'directivo'
+    ? 'Todavía no hay cursos. Creá el primero en <a href="#" onclick="ir(\'cursos\');return false">Cursos y códigos</a>.'
+    : 'Todavía no tenés cursos asignados. Pedile a un directivo de tu escuela que te asigne los tuyos.'}</div>`;
+}
+function sinAlumnos(){
+  const c = CURSO_INFO[CURSO];
+  return `<div class="card vacio">Todavía no se sumó ningún alumno${c ? ` a ${esc(CURSO)}` : ''}.<br>
+    ${c ? `Pasales este código para que lo escriban en su perfil de aprendux.ar: <span class="codigo">${esc(c.codigo)}</span>` : 'Los códigos de cada curso están en <a href="#" onclick="ir(\'cursos\');return false">Cursos y códigos</a>.'}</div>`;
+}
+function pintar(){
+  const todas = alumnosDelCurso().flatMap(alertasDe).filter(x => !VISTAS.has(x.id));
+  const b = document.getElementById('badge-alertas');
+  b.textContent = todas.length || ''; b.style.display = todas.length ? '' : 'none';
+  const m = document.getElementById('main');
+  if(VISTA !== 'cursos' && !CURSOS.length){ m.innerHTML = sinCursos(); return; }
+  m.innerHTML = { resumen: vistaResumen, alumnos: vistaAlumnos, alertas: vistaAlertas, examenes: vistaExamenes, cursos: vistaCursos }[VISTA]();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  RESUMEN
+// ══════════════════════════════════════════════════════════════
+function vistaResumen(){
+  const al = alumnosDelCurso(), n = al.length;
+  const cab = `<div class="titulo"><div><h1>📊 ${esTodos() ? esc(CURSO) : 'Resumen de ' + esc(CURSO)}</h1>
+      <p>¿Cómo viene el curso esta semana?</p></div></div>${chipsCursos()}`;
+  if(!n) return cab + sinAlumnos();
+  const activos = al.filter(a => a.ultima !== null && a.ultima <= 6).length;
+  const conPerfil = al.filter(a => a.perfil);
+  const completos = al.filter(a => a.tests.estilos && a.tests.rc1 !== null && a.tests.rc2 !== null).length;
+  const planes = al.reduce((s, a) => s + a.planes.filter(p => diasHasta(p.fecha) >= 0).length, 0);
+  const alertas = al.flatMap(alertasDe).filter(x => !VISTAS.has(x.id)).length;
+
+  const cuenta = Object.fromEntries(FORMAS.map(f => [f.k, 0]));
+  conPerfil.forEach(a => cuenta[predominante(a).k]++);
+  const top = FORMAS.map(f => ({ ...f, n: cuenta[f.k], p: pct(cuenta[f.k], conPerfil.length) })).sort((a, b) => b.n - a.n)[0];
+  const prom = FORMAS.map(f => ({ ...f, p: conPerfil.length ? Math.round(conPerfil.reduce((s, a) => s + a.perfil[f.k], 0) / conPerfil.length) : 0 }));
+
+  const rc1 = al.filter(a => a.tests.rc1 !== null), rc2 = al.filter(a => a.tests.rc2 !== null);
+  const promRc = (l, k) => l.length ? (l.reduce((s, a) => s + a.tests[k], 0) / l.length).toFixed(1).replace('.', ',') : '—';
+
+  return cab + `
+    <div class="kpis">
+      <div class="kpi"><small>Alumnos</small><b>${n}</b><span>${conPerfil.length} con su forma de aprender</span></div>
+      <div class="kpi"><small>Entraron esta semana</small><b>${pct(activos, n)}%</b><span>${activos} de ${n}</span></div>
+      <div class="kpi"><small>Hicieron los 3 tests</small><b>${pct(completos, n)}%</b><span>${completos} de ${n}</span></div>
+      <div class="kpi"><small>Planes de estudio activos</small><b>${planes}</b><span>exámenes con plan armado</span></div>
+      <div class="kpi" style="cursor:pointer" onclick="ir('alertas')"><small>Alertas</small><b style="color:${alertas ? 'var(--st-critico)' : 'var(--teal)'}">${alertas}</b><span>${alertas ? 'Ver alertas →' : 'Todo en orden'}</span></div>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>🧠 Cómo aprende el curso</h3>
+        <p class="sub">Forma principal de aprender de cada alumno · ${conPerfil.length} alumnos con el test hecho</p>
+        ${conPerfil.length ? `
+        <div class="apilada" role="img" aria-label="Distribución de formas de aprender">
+          ${FORMAS.filter(f => cuenta[f.k]).map(f => `<div style="width:${pct(cuenta[f.k], conPerfil.length)}%;background:${f.c}" data-tip="${f.nom}: ${pct(cuenta[f.k], conPerfil.length)}% (${cuenta[f.k]} alumnos)"></div>`).join('')}
+        </div>
+        <div class="leyenda">${FORMAS.map(f => `<span><i class="dot" style="background:${f.c}"></i>${f.nom} <b>${pct(cuenta[f.k], conPerfil.length)}%</b></span>`).join('')}</div>
+        ${top && top.n ? `<div class="frase">El <b>${top.p}%</b> de ${esTodos() ? (ROL === 'directivo' ? 'la escuela' : 'tus cursos') : esc(CURSO)} aprende mejor de manera <b>${top.nom.toLowerCase()}</b>. ${esc(top.consejo)}</div>` : ''}`
+        : '<p class="sub">Cuando los alumnos hagan el test de estilos, acá vas a ver cómo aprende el curso.</p>'}
+      </div>
+      <div class="card">
+        <h3>📐 Promedio de cada forma</h3>
+        <p class="sub">Cuánto se apoya el curso, en promedio, en cada forma de aprender</p>
+        ${prom.map(f => `<div class="hbar"><span style="display:flex;align-items:center;gap:.4rem"><i class="dot" style="background:${f.c}"></i>${f.nom}</span>
+          <div class="pista" data-tip="${f.nom}: ${f.p}%"><div class="val" style="width:${f.p}%;background:${f.c}"></div></div><b>${f.p}%</b></div>`).join('')}
+      </div>
+      <div class="card">
+        <h3>📝 Tests</h3>
+        <p class="sub">Qué parte del curso ya hizo cada test</p>
+        ${[['Estilos de aprendizaje', al.filter(a => a.tests.estilos).length], ['Razonamiento crítico 1', rc1.length], ['Razonamiento crítico 2', rc2.length]].map(([t, c]) =>
+          `<div class="hbar"><span>${t}</span><div class="pista" data-tip="${c} de ${n} alumnos"><div class="val" style="width:${pct(c, n)}%;background:var(--navy2)"></div></div><b>${pct(c, n)}%</b></div>`).join('')}
+      </div>
+      <div class="card">
+        <h3>🎯 Razonamiento crítico</h3>
+        <p class="sub">Promedio del curso (sobre 10)</p>
+        <div class="kpis" style="margin:0">
+          <div class="kpi" style="background:var(--gray-light)"><small>RC1</small><b>${promRc(rc1, 'rc1')}</b><span>${rc1.length} alumno${rc1.length === 1 ? '' : 's'}</span></div>
+          <div class="kpi" style="background:var(--gray-light)"><small>RC2</small><b>${promRc(rc2, 'rc2')}</b><span>${rc2.length} alumno${rc2.length === 1 ? '' : 's'}</span></div>
+        </div>
+      </div>
+    </div>
+    ${esTodos() && CURSOS.length > 1 ? tablaCursos() : ''}`;
+}
+
+function tablaCursos(){
+  return `<div class="card" style="margin-top:1rem;padding:0;overflow:hidden">
+    <div style="padding:1.1rem 1.3rem .4rem"><h3>🏫 Por curso</h3><p class="sub">Tocá un curso para ver su detalle</p></div>
+    <table class="tabla" style="border:0;border-radius:0">
+      <thead><tr><th>Curso</th><th>Alumnos</th><th>Entraron esta semana</th><th>Tests completos</th><th>Forma principal</th><th>Alertas</th></tr></thead>
+      <tbody>${CURSOS.map(c => {
+        const al = ALUMNOS.filter(a => a.curso === c);
+        const cp = al.filter(a => a.perfil);
+        const cuenta = {}; cp.forEach(a => { const k = predominante(a).k; cuenta[k] = (cuenta[k] || 0) + 1; });
+        const topK = Object.entries(cuenta).sort((x, y) => y[1] - x[1])[0];
+        const f = topK && FORMAS.find(x => x.k === topK[0]);
+        const al3 = al.filter(a => a.tests.estilos && a.tests.rc1 !== null && a.tests.rc2 !== null).length;
+        const nAl = al.flatMap(alertasDe).filter(x => !VISTAS.has(x.id)).length;
+        return `<tr onclick="elegirCurso('${jsq(c)}')">
+          <td data-l="Curso" class="nombre">${esc(c)}</td><td data-l="Alumnos">${al.length}</td>
+          <td data-l="Entraron esta semana">${pct(al.filter(a => a.ultima !== null && a.ultima <= 6).length, al.length)}%</td>
+          <td data-l="Tests completos"><span class="mini"><i style="width:${pct(al3, al.length)}%"></i></span>${pct(al3, al.length)}%</td>
+          <td data-l="Forma principal">${f ? `<span class="forma"><i class="dot" style="background:${f.c}"></i>${f.nom} · ${pct(topK[1], cp.length)}%</span>` : '—'}</td>
+          <td data-l="Alertas">${nAl ? `<span class="estado" style="color:var(--st-critico)">🔔 ${nAl}</span>` : '<span class="estado" style="color:var(--teal)">✓ 0</span>'}</td></tr>`;
+      }).join('')}</tbody></table></div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ALUMNOS
+// ══════════════════════════════════════════════════════════════
+function filtrarAlumnos(){ return alumnosDelCurso().filter(a => a.nombre.toLowerCase().includes(BUSCA.toLowerCase())); }
+function vistaAlumnos(){
+  return `
+    <div class="titulo"><div><h1>👧 Alumnos</h1><p>Tocá un alumno para ver cómo aprende y cómo viene.</p></div>
+      <input class="buscar" placeholder="🔍 Buscar por nombre" value="${esc(BUSCA)}" oninput="BUSCA=this.value;refrescarTabla()" id="buscar"></div>
+    ${chipsCursos()}
+    <div id="tabla-alumnos">${alumnosDelCurso().length ? tablaAlumnos(filtrarAlumnos()) : sinAlumnos()}</div>`;
+}
+function refrescarTabla(){ document.getElementById('tabla-alumnos').innerHTML = tablaAlumnos(filtrarAlumnos()); }
+window.refrescarTabla = refrescarTabla;
+function tablaAlumnos(al){
+  if(!al.length) return '<div class="card vacio">No hay alumnos con ese nombre.</div>';
+  return `<table class="tabla"><thead><tr><th>Alumno</th>${esTodos() ? '<th>Curso</th>' : ''}<th>Aprende mejor</th><th>Tests</th><th>Plan de estudio</th><th>Última vez</th><th></th></tr></thead>
+    <tbody>${al.map(a => {
+      const f = predominante(a);
+      const p = a.planes.filter(x => diasHasta(x.fecha) >= 0);
+      const hechos = p.reduce((s, x) => s + x.hechos, 0), total = p.reduce((s, x) => s + x.total, 0);
+      const nAl = alertasDe(a).filter(x => !VISTAS.has(x.id)).length;
+      return `<tr onclick="abrirFicha('${a.id}')">
+        <td class="nombre" data-l="Alumno">${esc(a.nombre)}</td>
+        ${esTodos() ? `<td data-l="Curso">${esc(a.curso)}</td>` : ''}
+        <td data-l="Aprende mejor">${f ? `<span class="forma"><i class="dot" style="background:${f.c}"></i>${f.nom} · ${f.pct}%</span>` : '<span style="color:var(--gray)">Falta el test</span>'}</td>
+        <td data-l="Tests"><span class="tests">
+          <span class="tchip ${a.tests.estilos ? 'ok' : ''}" title="Estilos">${a.tests.estilos ? '✓' : '·'} Estilos</span>
+          <span class="tchip ${a.tests.rc1 !== null ? 'ok' : ''}" title="RC1">${a.tests.rc1 !== null ? fmtNota(a.tests.rc1) + '/10' : '·'} RC1</span>
+          <span class="tchip ${a.tests.rc2 !== null ? 'ok' : ''}" title="RC2">${a.tests.rc2 !== null ? fmtNota(a.tests.rc2) + '/10' : '·'} RC2</span></span></td>
+        <td data-l="Plan de estudio">${total ? `<span class="mini"><i style="width:${pct(hechos, total)}%"></i></span>${hechos}/${total} días` : '<span style="color:var(--gray)">Sin plan</span>'}</td>
+        <td data-l="Última vez">${textoUltima(a, true)}</td>
+        <td>${nAl ? `<span class="estado" style="color:var(--st-critico)" title="${nAl} alertas">🔔 ${nAl}</span>` : ''}</td></tr>`;
+    }).join('')}</tbody></table>`;
+}
+
+// Ficha del alumno
+function abrirFicha(id){
+  const a = ALUMNOS.find(x => x.id === id);
+  if(!a) return;
+  const f = predominante(a);
+  const segunda = a.perfil ? Object.entries(a.perfil).sort((x, y) => y[1] - x[1])[1] : null;
+  const f2 = segunda && FORMAS.find(x => x.k === segunda[0]);
+  const al = alertasDe(a).filter(x => !VISTAS.has(x.id));
+  document.getElementById('ficha').innerHTML = `
+    <button class="cerrar" onclick="cerrarFicha()" aria-label="Cerrar">✕</button>
+    <h2>${esc(a.nombre)}</h2>
+    <p style="color:var(--gray);margin:.2rem 0 0">${esc(a.curso)} · última vez: ${textoUltima(a)}${a.autoevaluaciones ? ` · ${a.autoevaluaciones} autoevaluación${a.autoevaluaciones > 1 ? 'es' : ''}` : ''}</p>
+    ${al.length ? `<div style="margin-top:.9rem">${al.map(x => `<div class="alerta" style="--c:${COLOR_NIVEL[x.nivel]};margin-bottom:.4rem"><span class="ic">${x.ic}</span><div class="tx"><b>${esc(x.txt)}</b><span>${esc(x.det)}</span></div></div>`).join('')}</div>` : ''}
+    <div class="card">
+      <h3>🧠 Cómo aprende</h3>
+      ${f ? `<p class="sub">Aprende mejor <b>${f.corto}</b> (${f.pct}%)${f2 ? `, y después ${f2.corto} (${segunda[1]}%)` : ''}.</p>
+        ${FORMAS.map(x => `<div class="hbar"><span style="display:flex;align-items:center;gap:.4rem"><i class="dot" style="background:${x.c}"></i>${x.nom}</span>
+          <div class="pista" data-tip="${x.nom}: ${a.perfil[x.k]}%"><div class="val" style="width:${a.perfil[x.k]}%;background:${x.c}"></div></div><b>${a.perfil[x.k]}%</b></div>`).join('')}
+        <div class="consejo">💡 <b>Para el aula:</b> ${esc(f.consejo)}</div>`
+      : `<p class="sub">${a.tests.estilos ? 'Hizo el test de estilos; su perfil se está procesando.' : 'Todavía no hizo el test de estilos de aprendizaje.'}</p>`}
+    </div>
+    <div class="card">
+      <h3>📝 Tests</h3>
+      <div class="examen"><div><b>Estilos de aprendizaje</b></div><span>${a.tests.estilos ? '✓ Hecho' : 'Pendiente'}</span></div>
+      <div class="examen"><div><b>Razonamiento crítico 1</b></div><span>${a.tests.rc1 !== null ? fmtNota(a.tests.rc1) + '/10' : 'Pendiente'}</span></div>
+      <div class="examen"><div><b>Razonamiento crítico 2</b></div><span>${a.tests.rc2 !== null ? fmtNota(a.tests.rc2) + '/10' : 'Pendiente'}</span></div>
+    </div>
+    <div class="card">
+      <h3>📖 Planes de estudio</h3>
+      ${a.planes.length ? a.planes.map(p => { const d = diasHasta(p.fecha); return `<div class="examen"><div><b>${esc(p.materia)}</b>
+        <span>${d < 0 ? 'Ya fue (' + fechaCorta(p.fecha) + ')' : d === 0 ? 'Es hoy' : 'Faltan ' + d + ' días'}</span></div>
+        <span><span class="mini"><i style="width:${pct(p.hechos, p.total)}%"></i></span>${p.hechos}/${p.total}</span></div>`; }).join('')
+      : '<p class="sub" style="margin:0">Todavía no armó planes de estudio.</p>'}
+    </div>
+    <div class="card">
+      <h3>🗒️ Notas</h3>
+      ${a.notas.length ? a.notas.map(n => `<div class="examen"><div><b>${esc(n.materia)}${n.materia && n.titulo ? ' · ' : ''}${esc(n.titulo)}</b><span>${fechaCorta(n.fecha)}${n.origen === 'alumno' ? ' · la cargó el alumno' : ''}</span></div><b style="font-size:18px">${fmtNota(n.nota)}</b></div>`).join('') : '<p class="sub">Sin notas cargadas.</p>'}
+      <div class="fila2" style="margin-top:.8rem">
+        <div class="campo"><label for="fn-mat">Materia</label><select id="fn-mat">${MATERIAS.map(m => `<option>${esc(m)}</option>`).join('')}</select></div>
+        <div class="campo"><label for="fn-nota">Nota</label><input id="fn-nota" type="number" min="1" max="10" step="0.5" placeholder="1 a 10"></div>
+      </div>
+      <button class="btn" onclick="cargarNotaAlumno('${a.id}')">Cargar nota</button>
+    </div>`;
+  document.getElementById('velo').style.display = 'block';
+  requestAnimationFrame(() => document.getElementById('ficha').classList.add('abierta'));
+}
+function cerrarFicha(){
+  document.getElementById('ficha').classList.remove('abierta');
+  document.getElementById('velo').style.display = 'none';
+}
+async function cargarNotaAlumno(id){
+  const a = ALUMNOS.find(x => x.id === id);
+  const v = parseFloat(document.getElementById('fn-nota').value);
+  if(!(v >= 1 && v <= 10)){ toast('Poné una nota del 1 al 10'); return; }
+  const materia = document.getElementById('fn-mat').value;
+  const { error } = await sb.from('notas').insert({ alumno_id: a.id, curso_id: a.curso_id, materia, titulo: 'Nota', nota: v, fecha: enDias(0), cargada_por: YO.id });
+  if(error){ toast('No se pudo guardar la nota'); console.warn(error); return; }
+  await recargarDatos();
+  toast('Nota cargada ✓'); abrirFicha(id); pintar();
+}
+Object.assign(window, { abrirFicha, cerrarFicha, cargarNotaAlumno });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrarFicha(); });
+
+// ══════════════════════════════════════════════════════════════
+//  ALERTAS
+// ══════════════════════════════════════════════════════════════
+function vistaAlertas(){
+  const orden = { critico: 0, serio: 1, aviso: 2 };
+  const l = alumnosDelCurso().flatMap(alertasDe).filter(x => !VISTAS.has(x.id)).sort((a, b) => orden[a.nivel] - orden[b.nivel]);
+  return `
+    <div class="titulo"><div><h1>🔔 Alertas</h1><p>Lo que conviene mirar primero.</p></div></div>
+    ${chipsCursos()}
+    ${l.length ? ['critico', 'serio', 'aviso'].map(niv => {
+      const g = l.filter(x => x.nivel === niv);
+      if(!g.length) return '';
+      return `<h3 style="font-size:15px;margin:1rem 0 .5rem;color:${COLOR_NIVEL[niv]}">${NOMBRE_NIVEL[niv]} · ${g.length}</h3>` + g.map(x => `
+        <div class="alerta" style="--c:${COLOR_NIVEL[x.nivel]}"><span class="ic">${x.ic}</span>
+          <div class="tx"><b>${esc(x.alumno.nombre)}${esTodos() ? ' · ' + esc(x.alumno.curso) : ''}: ${esc(x.txt)}</b><span>${esc(x.det)}</span></div>
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end">
+            <button class="btn claro chico" onclick="abrirFicha('${x.alumno.id}')">Ver alumno</button>
+            <button class="btn chico" onclick="marcarVista('${jsq(x.id)}')">✓ Visto</button></div></div>`).join('');
+    }).join('') : `<div class="card vacio">🎉 No hay alertas${alumnosDelCurso().length ? ' en este curso' : ''}.</div>`}`;
+}
+function marcarVista(id){ VISTAS.add(id); guardarVistas(); pintar(); toast('Marcada como vista'); }
+window.marcarVista = marcarVista;
+
+// ══════════════════════════════════════════════════════════════
+//  EXÁMENES Y NOTAS
+// ══════════════════════════════════════════════════════════════
+function vistaExamenes(){
+  const cursoForm = esTodos() ? CURSOS[0] : CURSO;
+  const ex = EXAMENES.filter(e => esTodos() || e.curso === CURSO).filter(e => diasHasta(e.fecha) >= -30);
+  return `
+    <div class="titulo"><div><h1>📝 Exámenes y notas</h1><p>Anotá un examen para todo el curso y cargá las notas.</p></div></div>
+    ${chipsCursos()}
+    <div class="grid g2">
+      <div class="card">
+        <h3>➕ Anotar un examen</h3>
+        <p class="sub">Le aparece en el calendario a cada alumno del curso, con su plan de estudio.</p>
+        <div class="fila2">
+          <div class="campo"><label for="fx-curso">Curso</label><select id="fx-curso">${CURSOS.map(c => `<option ${c === cursoForm ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div>
+          <div class="campo"><label for="fx-mat">Materia</label><select id="fx-mat">${MATERIAS.map(m => `<option>${esc(m)}</option>`).join('')}</select></div>
+        </div>
+        <div class="campo"><label for="fx-tit">Título</label><input id="fx-tit" maxlength="120" placeholder="Ej: Prueba de la Revolución de Mayo"></div>
+        <div class="fila2">
+          <div class="campo"><label for="fx-fecha">Fecha</label><input id="fx-fecha" type="date" min="${enDias(0)}" value="${enDias(7)}"></div>
+          <div class="campo"><label for="fx-tipo">¿Escrito u oral?</label><select id="fx-tipo"><option>Escrito</option><option>Oral</option><option>TP / entrega</option></select></div>
+        </div>
+        <div class="campo"><label for="fx-temas">Temas que entran</label><textarea id="fx-temas" rows="2" maxlength="1000" placeholder="Ej: causas, Primera Junta, Cabildo abierto"></textarea></div>
+        <button class="btn" id="fx-btn" onclick="anotarExamen()">Anotar para el curso</button>
+      </div>
+      <div class="card">
+        <h3>📅 Exámenes del curso</h3>
+        <p class="sub">Tocá "Cargar notas" cuando ya lo tomaste.</p>
+        ${ex.length ? ex.map(e => { const d = diasHasta(e.fecha); return `<div class="examen"><div><b>${esc(e.materia || '')}${e.materia ? ' · ' : ''}${esc(e.titulo)}</b>
+          <span>${esc(e.curso)} · ${e.tipoTxt} · ${d < 0 ? 'fue el ' + fechaCorta(e.fecha) : d === 0 ? 'es hoy' : 'en ' + d + ' días (' + fechaCorta(e.fecha) + ')'}</span></div>
+          <button class="btn claro chico" onclick="abrirNotas('${e.id}')">Cargar notas</button></div>`; }).join('')
+        : '<p class="sub">No hay exámenes anotados.</p>'}
+      </div>
+    </div>
+    <div id="carga-notas"></div>`;
+}
+async function anotarExamen(){
+  const titulo = document.getElementById('fx-tit').value.trim();
+  const fecha = document.getElementById('fx-fecha').value;
+  if(!titulo || !fecha){ toast('Completá el título y la fecha'); return; }
+  const curso = document.getElementById('fx-curso').value;
+  const tipoSel = document.getElementById('fx-tipo').value;
+  const btn = document.getElementById('fx-btn'); btn.disabled = true;
+  const { error } = await sb.from('examenes_curso').insert({
+    curso_id: CURSO_INFO[curso].id, materia: document.getElementById('fx-mat').value, titulo, fecha,
+    tipo: tipoSel === 'TP / entrega' ? 'Entrega' : 'Examen',
+    modalidad: tipoSel === 'Oral' ? 'oral' : tipoSel === 'Escrito' ? 'escrito' : null,
+    temas: document.getElementById('fx-temas').value.trim() || null, creado_por: YO.id
+  });
+  btn.disabled = false;
+  if(error){ toast('No se pudo anotar el examen'); console.warn(error); return; }
+  await recargarDatos();
+  toast(`Anotado ✓ · les llega a los ${ALUMNOS.filter(a => a.curso === curso).length} alumnos de ${curso}`);
+  pintar();
+}
+async function abrirNotas(id){
+  const e = EXAMENES.find(x => x.id === id);
+  const al = ALUMNOS.filter(a => a.curso === e.curso);
+  const { data: previas } = await sb.from('notas').select('alumno_id, nota').eq('examen_id', id);
+  const nota = Object.fromEntries((previas || []).map(p => [p.alumno_id, p.nota]));
+  document.getElementById('carga-notas').innerHTML = `
+    <div class="card" style="margin-top:1rem">
+      <h3>🗒️ Notas · ${esc(e.materia || '')} · ${esc(e.titulo)} (${esc(e.curso)})</h3>
+      <p class="sub">Escribí la nota de cada uno. Las que dejes vacías no se cargan. A cada alumno le aparece en su calendario.</p>
+      ${al.length ? `<table class="tabla" style="margin-bottom:1rem"><thead><tr><th>Alumno</th><th>Nota</th></tr></thead>
+        <tbody>${al.map(a => `<tr style="cursor:default"><td class="nombre" data-l="Alumno">${esc(a.nombre)}</td>
+          <td data-l="Nota"><input class="nota-in" type="number" min="1" max="10" step="0.5" data-a="${a.id}" value="${nota[a.id] ?? ''}"></td></tr>`).join('')}</tbody></table>
+      <button class="btn" id="notas-btn" onclick="guardarNotas('${e.id}')">Guardar notas</button>` : '<p class="sub">Este curso todavía no tiene alumnos.</p>'}
+    </div>`;
+  document.getElementById('carga-notas').scrollIntoView({ behavior: 'smooth' });
+}
+async function guardarNotas(id){
+  const e = EXAMENES.find(x => x.id === id);
+  const filas = [];
+  document.querySelectorAll('.nota-in').forEach(inp => {
+    const v = parseFloat(inp.value);
+    if(v >= 1 && v <= 10) filas.push({ alumno_id: inp.dataset.a, curso_id: e.curso_id, examen_id: e.id, materia: e.materia, titulo: e.titulo, nota: v, fecha: e.fecha, cargada_por: YO.id });
+  });
+  if(!filas.length){ toast('No cargaste ninguna nota'); return; }
+  document.getElementById('notas-btn').disabled = true;
+  const { error } = await sb.from('notas').upsert(filas, { onConflict: 'examen_id,alumno_id' });
+  document.getElementById('notas-btn').disabled = false;
+  if(error){ toast('No se pudieron guardar las notas'); console.warn(error); return; }
+  await recargarDatos();
+  toast(filas.length === 1 ? '1 nota guardada ✓' : `${filas.length} notas guardadas ✓`);
+  pintar();
+}
+Object.assign(window, { anotarExamen, abrirNotas, guardarNotas });
+
+// ══════════════════════════════════════════════════════════════
+//  CURSOS Y CÓDIGOS (el directivo además crea cursos y suma docentes)
+// ══════════════════════════════════════════════════════════════
+function vistaCursos(){
+  const dire = ROL === 'directivo';
+  const lista = (INICIO.cursos || []).map(c => `<div class="cod-fila"><div><b>${esc(c.nombre)}</b><br><span class="sub" style="margin:0">${c.alumnos} alumno${c.alumnos === 1 ? '' : 's'}</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="codigo">${esc(c.codigo)}</span>
+      <button class="btn claro chico" onclick="copiarCodigo('${jsq(c.codigo)}')">Copiar</button></div></div>`).join('');
+  return `
+    <div class="titulo"><div><h1>🏫 Cursos y códigos</h1><p>Cada alumno escribe el código de su curso en su perfil de aprendux.ar y aparece acá.</p></div></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>🔑 ${dire ? 'Cursos de la escuela' : 'Tus cursos'}</h3>
+        <p class="sub">Pasales el código a los alumnos de cada curso.</p>
+        ${lista || `<p class="sub">${dire ? 'Todavía no hay cursos.' : 'Todavía no tenés cursos asignados. Pedíselos a un directivo.'}</p>`}
+      </div>
+      ${dire ? `
+      <div class="card">
+        <h3>➕ Crear un curso</h3>
+        <p class="sub">Se genera su código automáticamente.</p>
+        <div class="campo"><label for="nc-nombre">Nombre del curso</label><input id="nc-nombre" maxlength="40" placeholder="Ej: 3° A"></div>
+        <button class="btn" id="nc-btn" onclick="crearCurso()">Crear curso</button>
+      </div>
+      <div class="card">
+        <h3>👩‍🏫 Sumar a alguien del equipo</h3>
+        <p class="sub">Primero tiene que crear su cuenta en este panel. Después la sumás con su mail.</p>
+        <div class="campo"><label for="eq-mail">Mail</label><input id="eq-mail" type="email" placeholder="docente@escuela.edu.ar"></div>
+        <div class="campo"><label for="eq-nombre">Nombre (opcional)</label><input id="eq-nombre" maxlength="80"></div>
+        <div class="campo"><label for="eq-rol">Rol</label><select id="eq-rol"><option value="docente">Docente</option><option value="directivo">Directivo</option></select></div>
+        ${CURSOS.length ? `<label style="font-weight:700;font-size:14px">Cursos a cargo</label>
+        <div class="checks">${(INICIO.cursos || []).map(c => `<label><input type="checkbox" class="eq-curso" value="${c.id}"> ${esc(c.nombre)}</label>`).join('')}</div>` : ''}
+        <button class="btn" id="eq-btn" onclick="sumarEquipo()">Sumar al equipo</button>
+      </div>` : ''}
+    </div>`;
+}
+async function copiarCodigo(c){ try { await navigator.clipboard.writeText(c); toast('Código copiado ✓'); } catch(e){ toast('Código: ' + c); } }
+async function crearCurso(){
+  const nombre = document.getElementById('nc-nombre').value.trim();
+  if(!nombre){ toast('Escribí el nombre del curso'); return; }
+  document.getElementById('nc-btn').disabled = true;
+  const { error } = await sb.from('cursos').insert({ institucion_id: INICIO.institucion.id, nombre });
+  document.getElementById('nc-btn').disabled = false;
+  if(error){ toast('No se pudo crear el curso'); console.warn(error); return; }
+  await recargarDatos();
+  if(!CURSO || !MIS_CURSOS().includes(CURSO)) CURSO = MIS_CURSOS()[0] || '';
+  toast('Curso creado ✓'); pintar();
+}
+async function sumarEquipo(){
+  const mail = document.getElementById('eq-mail').value.trim();
+  if(!mail){ toast('Escribí el mail'); return; }
+  const cursos = [...document.querySelectorAll('.eq-curso:checked')].map(x => x.value);
+  document.getElementById('eq-btn').disabled = true;
+  const { error } = await sb.rpc('agregar_al_equipo', { p_email: mail, p_rol: document.getElementById('eq-rol').value, p_cursos: cursos, p_nombre: document.getElementById('eq-nombre').value.trim() || null });
+  document.getElementById('eq-btn').disabled = false;
+  if(error){ toast(/todav[ií]a no cre[oó]/.test(error.message) ? 'Esa persona todavía no creó su cuenta en el panel' : 'No se pudo sumar'); console.warn(error); return; }
+  toast('Listo ✓ Ya puede entrar al panel'); pintar();
+}
+Object.assign(window, { copiarCodigo, crearCurso, sumarEquipo });
+
+function toast(t){
+  const el = document.getElementById('toast');
+  el.textContent = t; el.style.display = 'block';
+  clearTimeout(toast.t); toast.t = setTimeout(() => { el.style.display = 'none'; }, 2600);
+}
+
+arrancar();
+</script>
+</body>
+</html>
