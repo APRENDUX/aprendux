@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aprendux — Tu propio camino de aprendizaje</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -456,7 +456,6 @@ summary::-webkit-details-marker{display:none}
 @media (max-width: 860px){
   .dash-title-box h1{font-size:23px}
   .dash-title-box p{font-size:15.5px}
-  .medida{font-size:14.5px !important}
   .siguiente{padding:1.3rem}
   .siguiente h2{font-size:20px}
   .siguiente-btn{width:100%;text-align:center}
@@ -926,7 +925,25 @@ a.poster-herr:hover{border-color:var(--navy)}
 .dias-chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:12px}
 .dia-chip{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--border);background:#fff;color:var(--navy);font-weight:800;font-size:14px;cursor:pointer;font-family:'Montserrat',sans-serif}
 .dia-chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
-.auto-q{font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:var(--navy);margin:1.1rem 0 .5rem}
+.auto-q{font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:var(--navy);margin:0 0 .4rem}
+.fila-nota-acciones{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.fila-nota-carga{display:flex;gap:.35rem}
+.fila-nota-carga input{width:76px;padding:7px 9px;text-align:center}
+.fila-nota-carga input.nota-mal{border-color:#c0392b}
+.fila-nota-valor{font-size:15px;color:var(--navy);padding:0 .3rem}
+.fila-nota-valor strong{font-family:'Montserrat',sans-serif;font-size:20px;color:var(--teal)}
+.auto-sec{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--gray);margin:1.3rem 4px .5rem}
+.auto-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:10px}
+.auto-card.falta{outline:1.5px solid #c0392b}
+.auto-req{color:#c0392b;margin-left:3px}
+.auto-hint{font-size:13px;color:var(--gray);margin:0 0 .5rem}
+.auto-opts{display:flex;flex-direction:column}
+.auto-opt{display:flex;gap:12px;align-items:flex-start;text-align:left;background:none;border:0;padding:7px 2px;font:inherit;font-size:15px;color:var(--navy);cursor:pointer}
+.auto-mark{flex-shrink:0;width:17px;height:17px;margin-top:3px;border:2px solid var(--border);border-radius:50%;background:#fff}
+.auto-opt.multi .auto-mark{border-radius:4px}
+.auto-opt.on .auto-mark{border-color:var(--navy);background:var(--navy);box-shadow:inset 0 0 0 3px #fff}
+.auto-opt.multi.on .auto-mark{box-shadow:none;background:var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-7' fill='none' stroke='white' stroke-width='2.2'/%3E%3C/svg%3E") center/12px no-repeat}
+.auto-clear{background:none;border:0;color:var(--navy);font:inherit;font-size:13px;cursor:pointer;padding:6px 0 0;text-decoration:underline}
 .act-ayuda-btns{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 .8rem}
 .act-ayuda{background:var(--blue-bg);border-radius:12px;padding:.9rem 1.1rem;margin:0 0 1rem;font-size:15px;line-height:1.6;color:var(--navy)}
 .act-ayuda strong{display:block;font-family:'Montserrat',sans-serif;margin-bottom:.3rem}
@@ -1011,6 +1028,235 @@ a.poster-herr:hover{border-color:var(--navy)}
 .ses-ejemplo{background:#fff;border-radius:12px;padding:.6rem .85rem;margin-top:.5rem}
 .ses-ejemplo summary{cursor:pointer;font-weight:800;font-size:13.5px;color:var(--navy);list-style:none}
 .ses-ejemplo[open] summary{margin-bottom:.6rem}
+
+/* v9.6 · feedback de interfaz: sobrio, rápido y claro */
+.fila-nota{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.fila-nota:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#c4d4e6}
+.fila-nota.recien{animation:aux-resalta 1.6s ease}
+.fila-nota-acciones .btn-mini{transition:transform .15s ease,background-color .2s ease,color .2s ease,box-shadow .2s ease}
+.fila-nota-acciones .btn-mini:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(30,58,95,.18)}
+.fila-nota-acciones .btn-mini:active{transform:translateY(0) scale(.97);box-shadow:none}
+.fila-nota-acciones .btn-mini-claro:hover{background:var(--navy);color:#fff}
+.fila-nota-carga input{transition:border-color .2s ease,box-shadow .2s ease;font-weight:700;font-size:16px}
+.fila-nota-carga input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.12)}
+.fila-nota-carga input.nota-mal{animation:aux-shake .3s ease}
+.fila-nota-valor strong{display:inline-block}
+.fila-nota.recien .fila-nota-valor strong{animation:aux-entra .35s ease}
+.fila-nota-ok{font-size:13px;font-weight:600;color:var(--teal);animation:aux-aviso 2.2s ease forwards}
+.auto-card{transition:border-color .2s ease,box-shadow .2s ease}
+.auto-card:hover{box-shadow:var(--shadow)}
+.auto-card.lista{border-color:#b9d3cd}
+.auto-card.lista .auto-q::after{content:"✓";margin-left:.4rem;color:var(--teal);font-weight:700}
+.auto-card.falta{animation:aux-shake .3s ease}
+.auto-opt{border-radius:8px;padding:8px 8px;transition:background-color .15s ease}
+.auto-opt:hover{background:var(--blue-bg)}
+.auto-opt:hover .auto-mark{border-color:var(--navy)}
+.auto-mark{transition:border-color .15s ease,background-color .15s ease,box-shadow .15s ease}
+.auto-opt.on{font-weight:600}
+.auto-progreso{position:sticky;top:-1.4rem;z-index:2;background:#fff;margin:0 -1.5rem;padding:.7rem 1.5rem .6rem;border-bottom:1px solid var(--border)}
+.auto-progreso-txt{font-size:12.5px;font-weight:600;color:var(--gray);margin-bottom:.35rem}
+.auto-progreso-barra{height:4px;background:var(--blue-bg);border-radius:99px;overflow:hidden}
+.auto-progreso-barra span{display:block;height:100%;width:0;background:var(--navy);border-radius:99px;transition:width .35s ease}
+#auto-guardar{transition:transform .15s ease,box-shadow .2s ease,opacity .2s ease}
+#auto-guardar:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,58,95,.22)}
+#auto-guardar:active{transform:scale(.97);box-shadow:none}
+@keyframes aux-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes aux-resalta{0%{border-color:var(--teal);box-shadow:0 0 0 3px rgba(31,122,94,.15)}100%{box-shadow:0 0 0 0 rgba(31,122,94,0)}}
+@keyframes aux-entra{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes aux-aviso{0%{opacity:0}12%,75%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){
+  .fila-nota,.fila-nota *,.auto-card,.auto-card *,#auto-guardar,.auto-progreso-barra span{animation:none!important;transition:none!important}
+}
+
+/* v9.6 · recordatorios con más presencia + hovers en todo el sitio (sobrio) */
+.dash-recordatorios{border-radius:12px;padding:12px 10px;margin:8px 8px 12px}
+.dash-recordatorios .rec-txt em{display:none}
+.dash-recordatorios .rec-item{gap:8px}
+.dash-rec-title{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:1.2px;color:rgba(255,255,255,.7);margin-bottom:10px}
+.rec-cuenta{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--orange);color:var(--navy);font-size:11px;font-weight:800;letter-spacing:0}
+.rec-vacio{font-size:12.5px;color:rgba(255,255,255,.75)}
+.rec-item{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;font-family:inherit;cursor:pointer;border:0;border-left:3px solid var(--rc);border-radius:8px;background:rgba(255,255,255,.07);color:#fff;padding:9px 10px 9px 9px;margin-bottom:6px;transition:background-color .18s ease,transform .18s ease}
+.rec-item:hover{background:rgba(255,255,255,.15);transform:translateX(2px)}
+.rec-item:active{transform:scale(.98)}
+.rec-item:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.rec-ic{font-size:15px;line-height:1.3;flex:none}
+.rec-txt{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.rec-txt strong{font-size:12.5px;line-height:1.35}
+.rec-txt small{font-size:11.5px;color:rgba(255,255,255,.7);line-height:1.4}
+.rec-txt em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--rc);margin-top:3px}
+.rec-flecha{align-self:center;opacity:0;transform:translateX(-4px);transition:opacity .18s ease,transform .18s ease;font-weight:700}
+.rec-item:hover .rec-flecha{opacity:1;transform:translateX(0)}
+.tono-rojo{--rc:#ff8a7a}.tono-violeta{--rc:#c8a8ff}.tono-naranja{--rc:#ffc46b}.tono-azul{--rc:#9cc8f2}
+/* versión clara (en la hoja que abre la campana) */
+.rec-lista-hoja{margin-top:1rem}
+.rec-lista-hoja .rec-item{background:var(--gray-light);color:var(--navy);border:1px solid var(--border);border-left:4px solid var(--rc2);padding:12px 12px 12px 11px;margin-bottom:8px}
+.rec-lista-hoja .rec-item:hover{background:#fff;box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.rec-lista-hoja .rec-txt strong{font-size:15px}
+.rec-lista-hoja .rec-txt small{font-size:13.5px;color:var(--gray)}
+.rec-lista-hoja .rec-txt em{font-size:13px;color:var(--navy)}
+.rec-lista-hoja .rec-flecha{opacity:.35;transform:none}
+.rec-lista-hoja .rec-item:hover .rec-flecha{opacity:1;transform:translateX(3px)}
+.tono-rojo{--rc2:#d9534f}.tono-violeta{--rc2:#8a63d2}.tono-naranja{--rc2:var(--orange)}.tono-azul{--rc2:var(--navy)}
+/* campana */
+.rec-campana{position:relative;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--navy);cursor:pointer;transition:background-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.rec-campana:hover{background:var(--blue-bg);box-shadow:var(--shadow);transform:translateY(-1px)}
+.rec-campana:active{transform:scale(.95)}
+.rec-campana.con-avisos svg{animation:rec-suena 1s ease 1.2s 2}
+.rec-badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#d9534f;color:#fff;font-size:10.5px;font-weight:800;align-items:center;justify-content:center;border:2px solid #fff}
+@keyframes rec-suena{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+/* hovers generales */
+.btn-primary,.btn-nav,.btn-continuar,.btn-modificar,.btn-cargar,.btn-cargar-mas,.btn-ver-mas,.dash-topbar-btn,.siguiente-btn,.btn-mini,.aviso-btn{transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,filter .2s ease}
+.btn-primary:hover,.btn-nav:hover,.btn-continuar:hover,.btn-modificar:hover,.btn-cargar:hover,.btn-cargar-mas:hover,.btn-ver-mas:hover,.dash-topbar-btn:hover,.btn-mini:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,58,95,.2)}
+.siguiente-btn:hover,.aviso-btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.btn-primary:active,.btn-nav:active,.btn-continuar:active,.btn-modificar:active,.btn-cargar:active,.btn-cargar-mas:active,.btn-ver-mas:active,.dash-topbar-btn:active,.btn-mini:active,.siguiente-btn:active,.aviso-btn:active{transform:scale(.97);box-shadow:none}
+.btn-outline{transition:background-color .2s ease,color .2s ease}
+.btn-outline:hover{background:var(--navy);color:#fff}
+.dash-nav-item{transition:background-color .18s ease,transform .18s ease}
+.dash-nav-item:not(.active):hover{transform:translateX(3px)}
+.dash-topbar-nav a{transition:color .15s ease;background-image:linear-gradient(currentColor,currentColor);background-size:0 1.5px;background-position:0 100%;background-repeat:no-repeat;transition:background-size .25s ease}
+.dash-topbar-nav a:hover{background-size:100% 1.5px}
+.aviso-top{transition:transform .2s ease,box-shadow .2s ease}
+.aviso-top:hover{transform:translateY(-2px)}
+.aviso-x{transition:background-color .15s ease,transform .15s ease}
+.aviso-x:hover{transform:rotate(90deg)}
+.hoja-x{transition:background-color .15s ease,transform .2s ease}
+.hoja-x:hover{background:#e3e8ee;transform:rotate(90deg)}
+.prox-fila,.nota-card,.ag-item,.stat,.rend-stat-box,.cuando-card,.activity-box,.ben-doc-card,.tec-list-item{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.prox-fila:hover,.nota-card:hover,.ag-item:hover,.stat:hover,.rend-stat-box:hover,.cuando-card:hover,.activity-box:hover,.ben-doc-card:hover,.tec-list-item:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#c4d4e6}
+.cal-celda{transition:background-color .15s ease}
+.cal-celda:hover{background:#f6f9fc}
+.cal-chip{transition:filter .15s ease,transform .15s ease}
+.cal-chip:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.chip-obj,.nivel-chip,.cal-hoy-btn,.cal-view{transition:background-color .15s ease,border-color .15s ease,transform .15s ease}
+.chip-obj:hover,.nivel-chip:not(.on):hover,.cal-hoy-btn:hover,.cal-view:hover{border-color:var(--navy);transform:translateY(-1px)}
+.cal-flecha{transition:background-color .15s ease}
+.cal-flecha:hover{background:var(--blue-bg)}
+.ag-check{transition:transform .15s ease,background-color .15s ease}
+.ag-check:hover{transform:scale(1.08)}
+.reg-input{transition:border-color .2s ease,box-shadow .2s ease}
+.reg-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.1)}
+@media (prefers-reduced-motion: reduce){
+  .rec-item,.rec-flecha,.rec-campana,.rec-campana svg,.aviso-top,.prox-fila,.nota-card,.ag-item,.stat,.dash-nav-item,.btn-primary,.btn-mini{animation:none!important;transition:none!important;transform:none!important}
+}
+
+/* v9.6 · cursor: círculo azul que sigue al mouse y deja un rastro corto (solo con mouse) */
+#cursor-aro,#cursor-rastro{position:fixed;pointer-events:none;z-index:2147483647}
+#cursor-rastro{inset:0;width:100vw;height:100vh}
+#cursor-aro{top:0;left:0;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;border:2px solid rgba(43,108,176,.8);background:rgba(43,108,176,.08);box-shadow:0 0 0 1px rgba(255,255,255,.55);opacity:0;transition:width .2s ease,height .2s ease,margin .2s ease,background-color .2s ease,border-color .2s ease,opacity .2s ease;will-change:transform}
+#cursor-aro.visible{opacity:1}
+#cursor-aro.sobre{width:44px;height:44px;margin:-22px 0 0 -22px;background:rgba(43,108,176,.14);border-color:rgba(43,108,176,.5)}
+#cursor-aro.click{width:22px;height:22px;margin:-11px 0 0 -11px;background:rgba(43,108,176,.25)}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce){#cursor-aro,#cursor-rastro{display:none!important}}
+/* ══ v9.7 · tipografía: una escala por rol ══
+   Montserrat: títulos, etiquetas y números. Open Sans: todo lo que se lee.
+   etiqueta 12 · meta 14 · texto chico 15 · texto 16 · título de tarjeta 17
+   · título de bloque 18 · título de ventana 22 · título de página 28 · display (landing, fluido) */
+:root{
+  --gray:#5b6878;   /* antes #6b7a8d: 4,4:1 sobre blanco y 3,9:1 sobre --blue-bg. Ahora 5,6:1 y 5,0:1 */
+  --fs-etiqueta:12px; --fs-meta:14px; --fs-chico:15px; --fs-texto:16px;
+  --fs-card:17px; --fs-bloque:18px; --fs-hoja:22px;
+  --track-etiqueta:.08em;
+}
+body{font-size:var(--fs-texto);line-height:1.6}
+button,input,select,textarea{font-family:inherit}
+h1,h2,h3,h4,.ben-title,.hoja-tit,.bloque-titulo,.siguiente h2,.cer-intro-tit,.poster-lead,.info-lead{text-wrap:balance}
+p,li,.hoja-p,.camino-desc,.stat-nota{text-wrap:pretty}
+
+/* Etiquetas (mayúscula chica): un solo estilo en todo el sitio */
+.ben-label,.siguiente-eyebrow,.poster-eyebrow,.info-eyebrow,.stat-label,.hoja-tag,.plan-card-tag,
+.auto-sec,.poster-sec-tit,.dash-rec-title,.camino-estado,.plan-card-dia,.opcion-dias span{
+  font-size:var(--fs-etiqueta);letter-spacing:var(--track-etiqueta);font-weight:800;line-height:1.4}
+.opcion-dias span{letter-spacing:0}
+.ben-label{color:var(--amber)}   /* naranja sobre blanco daba 2:1 */
+
+/* Landing: el texto de lectura pasa de 12–14px a 15–16px */
+.hero-eyebrow,.objetivo-eyebrow,.tec-eyebrow{font-size:17px}
+.hero-title{letter-spacing:-.015em;line-height:1.08}
+.objetivo-title,.tec-title,.ben-title,.ben-docentes-right h2,.asistencia-content h2,.objetivo-content h2,.tec-recursos h2{letter-spacing:-.01em}
+.hero-sub,.objetivo-sub,.asistencia-content p,.objetivo-content p,.tec-recursos p,.ben-docentes-right p,.ben-desc{font-size:var(--fs-texto);line-height:1.65}
+.objetivo-content h3{font-size:19px}
+.objetivo-sub{max-width:52ch}
+.ben-desc{max-width:30ch}
+.info-box p{font-size:17px;line-height:1.7;max-width:56ch}
+.equipo-box p{font-size:var(--fs-texto);max-width:60ch;margin:0 auto}
+.check-list li,.tec-list-item,.ben-doc-card p{font-size:var(--fs-chico)}
+.ben-card h3{font-size:16px}
+.ben-card p{font-size:var(--fs-meta)}
+.step-chip-label{font-size:14px}
+.nav-links a{font-size:15px}
+.btn-nav,.btn-outline{font-size:14px}
+.btn-primary{font-size:15px}
+.asistencia-popup,.objetivo-popup{font-size:13.5px}
+.footer-links a{font-size:14px}
+.footer-copy{font-size:12px}
+
+/* Registro y login */
+.reg-hero p{font-size:var(--fs-chico)}
+.reg-field label,.radio-opt{font-size:var(--fs-chico)}
+.reg-input{font-size:16px}
+.radio-group{gap:.5rem 1.5rem}   /* con letra más grande, las opciones que bajan de renglón quedaban muy separadas */
+
+/* Panel: títulos con un tamaño por rol */
+.bloque-titulo{font-size:var(--fs-bloque)}
+.hoja-tit,#pass-nueva-caja h2{font-size:var(--fs-hoja);font-weight:800;line-height:1.25}
+.titulo-card,.plan-card-tit,.camino-nombre{font-family:'Montserrat',sans-serif;font-size:var(--fs-card);font-weight:700;color:var(--navy);line-height:1.3}
+.perfil-section-h{font-size:16px;text-decoration:none}
+.perfil-row{font-size:var(--fs-chico)}
+.perfil-row strong{min-width:140px}
+
+/* Panel: texto de lectura 16, secundario 15, datos 14 */
+.hoja-p,.plan-card-det,.act-ayuda,.poster-item,.info-card p,.plan-lista,.cer-intro-lista,
+.auto-opt,.camino-final,.obj-linea,.cal-vacio-grande,.siguiente.compacta p{font-size:var(--fs-texto)}
+.ses-como ol,.plan-porque-txt,.opcion-plan ul,.prox-fila,.cerebrito-msj-c,.camino-resumen,
+.cerebrito-como li,.plan-dia,.hoja-fecha,.cal-vacio,.config-link{font-size:var(--fs-chico)}
+.camino-desc,.stat-nota,.ag-txt small,.plan-card-sub,.plan-card-prox,.plan-cuenta,.auto-hint,
+.opcion-msj,.test-hecho-txt span,.pbar-txt,.plan-dia-det,.plan-dia-meta,.ej-nota,.cerebrito-pts,
+.cerebrito-nivel,.cer-areas small,.cerebrito-como summary,.plan-card-ver,.link-sub{font-size:var(--fs-meta)}
+.siguiente p{line-height:1.6}   /* texto claro sobre azul: un poco más de aire */
+
+/* Barra lateral (texto claro sobre azul): de 11,5–12,5 a 12,5–13,5 */
+.rec-txt strong{font-size:13.5px;line-height:1.35}
+.rec-txt small,.rec-txt em{font-size:12.5px}
+.rec-vacio{font-size:13.5px}
+
+/* Calendario: denso a propósito, pero nada por debajo de 12 */
+.cal-chip,.cal-mas{font-size:12px}
+
+/* Números que cambian o se alinean */
+.prox-dias,.cal-num,.plan-chip b,.rec-cuenta,.rec-badge,.nota-valor,.fila-nota-valor strong,
+.opcion-num,.cal-sem-cab strong,.ag-fecha strong,.camino-num,.poster-num,.ej-num{font-variant-numeric:tabular-nums}
+
+@media (max-width: 860px){
+  .hero-eyebrow,.objetivo-eyebrow,.tec-eyebrow{font-size:16px}
+  .info-box p{font-size:16px}
+  .bloque-titulo{font-size:17px}
+  .hoja-tit,#pass-nueva-caja h2{font-size:20px}
+  .titulo-card,.plan-card-tit,.camino-nombre{font-size:16px}
+  .stat-label{font-size:11px}
+  .stat-nota{font-size:13px}
+  .dash-nav-item{font-size:11px !important}
+}
+/* ══ v9.8 · la hoja entra y sale ══
+   Entra un poco más lenta de lo que sale: el alumno mira cuando se abre, no cuando se cierra.
+   Compu: aparece en el centro (escala .96 → 1). Celu: sube desde abajo, como en cualquier app. */
+:root{
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-hoja:cubic-bezier(.32,.72,0,1);
+}
+.hoja-fondo{background:rgba(11,31,59,0);transition:background-color 180ms ease}   /* sólo se desvanece el oscurecido, no la hoja */
+.hoja-fondo.abierta{background:rgba(11,31,59,.5);transition-duration:200ms}
+.hoja-fondo:not(.abierta){pointer-events:none}   /* mientras se va, no tapa clics */
+.hoja{opacity:0;transform:scale(.96);transition:transform 180ms var(--ease-out),opacity 150ms ease}
+.hoja-fondo.abierta .hoja{opacity:1;transform:none;transition:transform 240ms var(--ease-out),opacity 180ms ease}
+@media (max-width: 860px){
+  .hoja{opacity:1;transform:translateY(100%);transition:transform 200ms var(--ease-hoja)}
+  .hoja-fondo.abierta .hoja{transform:none;transition:transform 320ms var(--ease-hoja)}
+}
+@media (prefers-reduced-motion: reduce){
+  .hoja,.hoja-fondo.abierta .hoja{transform:none;transition:opacity 150ms ease}
+  .hoja{opacity:0}
+  .hoja-fondo.abierta .hoja{opacity:1}
+}
 </style>
 </head>
 <body>
@@ -1045,7 +1291,7 @@ a.poster-herr:hover{border-color:var(--navy)}
 
 <div style="padding:2rem 2.5rem 0">
   <div class="info-box">
-    <p style="font-size:17px"><strong>Tests cortos</strong> → <strong>tu perfil</strong> → <strong>estrategias y actividades</strong> para vos.<br><span class="subrayado">Y un seguimiento que acompaña cómo avanzás.</span></p>
+    <p><strong>Tests cortos</strong> → <strong>tu perfil</strong> → <strong>estrategias y actividades</strong> para vos.<br><span class="subrayado">Y un seguimiento que acompaña cómo avanzás.</span></p>
   </div>
 </div>
 
@@ -1103,8 +1349,8 @@ a.poster-herr:hover{border-color:var(--navy)}
   <div class="beneficios-inner" style="position:relative;z-index:1">
     <div class="ben-top">
       <div>
+        <div class="ben-label">Para los alumnos</div>
         <div class="ben-title">Beneficios</div>
-        <div class="ben-label">PARA LOS ALUMNOS</div>
         <p class="ben-desc">Cada estudiante tiene <strong>su propio perfil</strong> de aprendizaje.</p>
       </div>
       <div class="ben-grid">
@@ -1142,9 +1388,9 @@ a.poster-herr:hover{border-color:var(--navy)}
       <div class="ben-doc-card"><p><strong>Menos tiempo de análisis:</strong> la evolución de cada estudiante, automática.</p></div>
     </div>
     <div class="ben-docentes-right">
-      <h2 style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;color:var(--navy);margin-bottom:.5rem">Beneficios</h2>
-      <div class="ben-label">PARA LOS DOCENTES Y DIRECTIVOS</div>
-      <p style="font-size:13px;color:var(--gray);line-height:1.7"><strong style="color:var(--navy)">Seguimiento en tiempo real</strong> del progreso de tus estudiantes.</p>
+      <div class="ben-label">Para los docentes y directivos</div>
+      <h2>Beneficios</h2>
+      <p><strong style="color:var(--navy)">Seguimiento en tiempo real</strong> del progreso de tus estudiantes.</p>
     </div>
   </div>
 </div>
@@ -1237,7 +1483,7 @@ a.poster-herr:hover{border-color:var(--navy)}
 
 <div class="info-box-wrap-tec" style="padding:2rem 2.5rem 0">
   <div class="info-box">
-    <p style="font-size:16px">Con <strong>tests cortos y sin nota</strong> e <strong>inteligencia artificial</strong>, entendemos <span class="subrayado">cómo aprende cada estudiante</span> y le proponemos <strong>qué hacer con eso</strong>.</p>
+    <p>Con <strong>tests cortos y sin nota</strong> e <strong>inteligencia artificial</strong>, entendemos <span class="subrayado">cómo aprende cada estudiante</span> y le proponemos <strong>qué hacer con eso</strong>.</p>
   </div>
 </div>
 
@@ -1245,7 +1491,6 @@ a.poster-herr:hover{border-color:var(--navy)}
   <div class="tec-recursos-inner">
     <div>
       <h2>Qué vas a tener</h2>
-      <p><strong>Lo que vas a tener:</strong></p>
       <div class="tec-list">
         <div class="tec-list-item"><span class="tec-list-item-icon">📅</span> <span><strong>Calendario</strong> · exámenes y entregas</span></div>
         <div class="tec-list-item"><span class="tec-list-item-icon">💡</span> <span><strong>Tips y actividades</strong> para practicar</span></div>
@@ -1395,8 +1640,8 @@ a.poster-herr:hover{border-color:var(--navy)}
         <span class="nav-txt">Mi progreso</span><span class="nav-corto">Progreso</span><span class="nav-dot"></span>
       </div>
       <div class="dash-recordatorios">
-        <div class="dash-rec-title">RECORDATORIOS</div>
-        <div id="rec-lista" class="dash-rec-task" style="padding-left:0">Todavía no tenés recordatorios.</div>
+        <div class="dash-rec-title">Recordatorios</div>
+        <div id="rec-lista"><span class="rec-vacio">Estás al día ✓</span></div>
       </div>
     </div>
   </div>
@@ -1407,6 +1652,10 @@ a.poster-herr:hover{border-color:var(--navy)}
         <img src="https://raw.githubusercontent.com/APRENDUX/aprendux/main/LogoAprendux-02.png" alt="Aprendux" style="height:32px;width:auto">
       </div>
       <div class="dash-topbar-nav">
+        <button type="button" id="rec-campana" class="rec-campana" onclick="abrirRecordatorios()" aria-label="Recordatorios">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="rec-badge" style="display:none">0</span>
+        </button>
         <a onclick="showTab('perfil',null,'MI PERFIL')">Mi perfil</a>
         <a onclick="cerrarSesion()">Cerrar sesión</a>
       </div>
@@ -1456,7 +1705,7 @@ a.poster-herr:hover{border-color:var(--navy)}
       <!-- MODAL: agregar evento al calendario -->
       <div id="cal-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(30,58,95,0.45);z-index:2000;align-items:center;justify-content:center">
         <div style="background:#fff;border-radius:var(--radius-lg);padding:1.75rem;width:min(92vw,440px);max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-md)">
-          <h3 id="cal-modal-titulo" style="font-family:'Montserrat',sans-serif;font-size:19px;font-weight:800;color:var(--navy);margin-bottom:1rem">Anotar en el calendario</h3>
+          <h3 id="cal-modal-titulo" class="hoja-tit" style="margin:0 0 1rem">Anotar en el calendario</h3>
 
           <div style="margin-bottom:12px">
             <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:4px">Título</label>
@@ -1558,6 +1807,7 @@ a.poster-herr:hover{border-color:var(--navy)}
               <div class="perfil-section-h">Información Académica</div>
               <div class="perfil-row"><strong>Institución:</strong> <span data-perfil-institucion>—</span></div>
               <div class="perfil-row"><strong>Grado/Nivel:</strong> <span data-perfil-grado>—</span></div>
+              <div class="perfil-row" id="perfil-curso-fila" style="display:none"><strong>Curso:</strong> <span id="perfil-curso">—</span></div>
               <div class="perfil-actions"><button class="btn-modificar">Modificar</button></div>
             </div>
             <div class="perfil-section-box">
@@ -1715,7 +1965,7 @@ function siguientePaso(){
   // v9: si ya pasó un examen o TP y no cargó la nota, eso va primero
   const pendienteNota = e.estilos ? examenSinNota() : null;
   if(pendienteNota) return { paso: 0, eyebrow: 'Después de tu examen', titulo: `¿Cómo te fue en ${pendienteNota.titulo}?`,
-    texto: '<strong>Contanos en 3 toques</strong> cómo te sentiste.',
+    texto: '<strong>Cargá tu nota</strong> y contanos cómo estudiaste.',
     boton: 'Contar cómo me fue →', accion: `abrirAutoeval('${idSeguro(pendienteNota.id)}')` };
 
   if(!e.estilos) return { paso: 1, titulo: 'Hacé tu test de estilos',
@@ -2174,57 +2424,273 @@ function elegirModoDisp(m){
 }
 Object.assign(window, { toggleDiaDisp, elegirMinDisp, elegirModoDisp, elegirOtroDisp, horasOtroDisp, elegirFranjaDisp, abrirHorarioPropio, horarioPropio });
 
-// ── v9.2 · Autoevaluación después del examen, adentro de Aprendux (sin Google Form) ──
-const SENTIR = [['bien', '😊', 'Tranqui'], ['regular', '😐', 'Más o menos'], ['mal', '😟', 'Nervioso/a']];
-const SUFICIENTE = [['si', '💪', 'Sí'], ['masomenos', '🤏', 'Más o menos'], ['no', '😅', 'No']];
+// ── v9.5 · Autoevaluación post-examen, adentro de Aprendux ──
+// Guarda una fila en self_assessments. Supabase le avisa a n8n, que arma la devolución
+// y la escribe en la columna "devolucion" de esa misma fila. Acá la esperamos y la mostramos.
+// También se sigue guardando un resumen en eventos_calendario.autoeval para que el resto
+// del sitio (cerrebrito, historial para el plan, recordatorios) funcione igual que antes.
+const AUTO_LLEGADA = ['Muy preparado/a y con confianza', 'Bastante preparado/a', 'Más o menos preparado/a', 'Poco preparado/a', 'Nada preparado/a'];
+const AUTO_INICIO = ['Estudié con varios días o semanas de anticipación', 'Estudié unos pocos días', 'Estudié recién el día anterior o el mismo día', 'Casi no pude estudiar'];
+const AUTO_AYUDO = ['Hacer resúmenes', 'Mapas conceptuales o esquemas', 'Practicar con ejercicios o preguntas', 'Explicarle el tema a otra persona', 'Leer y releer los apuntes', 'Videos o recursos digitales', 'Estudiar con compañeros', 'Organizar los temas en un plan', 'Pedir ayuda a un docente o compañero'];
+const AUTO_TIP_USO = ['Sí, me sirvió mucho', 'Sí, me sirvió en parte', 'Lo probé y no me sirvió', 'No lo probé'];
+const AUTO_RINDIENDO = ['Tranquilo/a y concentrado/a', 'Seguro/a de lo que respondía', 'Con nervios, pero pude manejarlos', 'Con mucha ansiedad', 'Se me bloqueó la mente en algún momento', 'Sentí que me faltó tiempo'];
+const AUTO_RESULTADO = ['Mejor de lo que esperaba', 'Como esperaba', 'Peor de lo que esperaba', 'Todavía no sé'];
+const AUTO_CAMBIAR = ['Empezaría antes', 'Organizaría mejor mi tiempo', 'Probaría otras formas de estudiar', 'Haría más ejercicios o prácticas', 'Pediría ayuda antes', 'Intentaría concentrarme más', 'Aprovecharía más las herramientas de Aprendux', 'Seguiría estudiando igual', 'No sé todavía'];
+const AUTO_CAMBIAR_SOLO = ['Seguiría estudiando igual', 'No sé todavía'];   // si elige una de estas, va sola
+const AUTO_NO_SIRVIO = 'Lo probé y no me sirvió';
+const AUTO_MAX_TIPS = 2;                                                     // cuántos tips del plan se preguntan
+const AUTO_LISTAS = { llegada: AUTO_LLEGADA, inicio: AUTO_INICIO, ayudo: AUTO_AYUDO, rindiendo: AUTO_RINDIENDO, resultado: AUTO_RESULTADO, cambiar: AUTO_CAMBIAR };
+const AUTO_MAX = { ayudo: 2, cambiar: 2 };                                   // preguntas de elegir hasta 2
 let AUTOEVAL_TMP = {};
+
+function autoLista(campo){ return campo.startsWith('tip') ? AUTO_TIP_USO : AUTO_LISTAS[campo]; }
+function tipsParaAutoeval(){
+  return comoLista(PLAN_ACTUAL && PLAN_ACTUAL.tips)
+    .map(t => typeof t === 'string' ? t : ((t && (t.titulo || t.texto)) || ''))
+    .filter(Boolean).slice(0, AUTO_MAX_TIPS);
+}
+
 function abrirAutoeval(id){
   const ev = buscarEvento(id);
   if(!ev) return;
-  AUTOEVAL_TMP = { ...comoObjeto(ev.autoeval), nota: ev.nota || '' };
+  const prev = comoObjeto(ev.autoeval);
+  const r = comoObjeto(prev.respuestas);
+  AUTOEVAL_TMP = { ...r, ayudo: comoLista(r.ayudo).slice(), cambiar: comoLista(r.cambiar).slice() };
+  // Si ya había evaluado los mismos tips, los dejamos marcados
+  const viejos = comoLista(prev.tips_evaluados);
+  tipsParaAutoeval().forEach((t, i) => {
+    const v = viejos.find(x => x && x.titulo === t);
+    if(v){ AUTOEVAL_TMP['tip' + i] = v.uso || ''; AUTOEVAL_TMP['tip' + i + '_cambio'] = v.cambio || ''; }
+  });
   pintarAutoeval(id);
 }
+
 function pintarAutoeval(id){
   const ev = buscarEvento(id);
   if(!ev) return;
-  const chips = (campo, lista) => `<div class="nivel-chips">${lista.map(([v, ic, t]) =>
-    `<button type="button" class="nivel-chip${AUTOEVAL_TMP[campo] === v ? ' on' : ''}" onclick="elegirAutoeval('${idSeguro(ev.id)}','${campo}','${v}')">${ic} ${t}</button>`).join('')}</div>`;
+  const sid = idSeguro(ev.id);
+  let n = 0;
+  const preg = (txt, hint, opcional) => `<p class="auto-q">${++n}. ${txt}${opcional ? '' : '<span class="auto-req">*</span>'}</p>${hint ? `<p class="auto-hint" id="auto-hint-${hint[0]}">${hint[1]}</p>` : ''}`;
+  const sec = t => `<div class="auto-sec">${t}</div>`;
+  const card = (campo, inner) => `<div class="auto-card" data-campo="${campo}">${inner}</div>`;
+  const chips = campo => {
+    const sel = AUTOEVAL_TMP[campo];
+    const multi = !!AUTO_MAX[campo];
+    return `<div class="auto-opts">${autoLista(campo).map((t, i) => {
+      const on = multi ? comoLista(sel).includes(t) : sel === t;
+      return `<button type="button" class="auto-opt${multi ? ' multi' : ''}${on ? ' on' : ''}" onclick="elegirAutoeval(this,'${campo}',${i})"><span class="auto-mark"></span><span>${escaparHTML(t)}</span></button>`;
+    }).join('')}</div>${multi ? '' : `<button type="button" class="auto-clear" onclick="borrarAutoeval(this,'${campo}')">Borrar selección</button>`}`;
+  };
+  const tips = tipsParaAutoeval();
+  const bloqueTips = () => tips.length ? sec('Lo que Aprendux te recomendó') + tips.map((t, i) => card('tip' + i, `
+    ${preg(`Te recomendamos «${escaparHTML(t)}». ¿Lo usaste?`)}${chips('tip' + i)}
+    <div id="auto-tip${i}-cambio" style="display:${AUTOEVAL_TMP['tip' + i] === AUTO_NO_SIRVIO ? 'block' : 'none'};margin:.3rem 0 0 29px">
+      <input class="reg-input" maxlength="400" placeholder="¿Qué le cambiarías para que te sirva?" value="${escaparHTML(AUTOEVAL_TMP['tip' + i + '_cambio'] || '')}" oninput="AUTOEVAL_TMP['tip${i}_cambio']=this.value">
+    </div>`)).join('') : '';
+
   hoja(`
     <div class="hoja-tag" style="--c:${colorMateria(ev.materia)}">¿Cómo te fue?${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''}</div>
     <h2 class="hoja-tit">${escaparHTML(ev.titulo)}</h2>
-    <p class="hoja-p">Contanos en 3 toques. Sirve para que tu próximo plan te quede mejor 🙂</p>
-    <p class="auto-q">1. ¿Cómo te sentiste en el examen?</p>${chips('sentir', SENTIR)}
-    <p class="auto-q">2. ¿Sentiste que estudiaste lo suficiente?</p>${chips('suficiente', SUFICIENTE)}
-    <p class="auto-q">3. ¿Qué te sirvió más para estudiar? <span style="font-weight:400;color:var(--gray)">(opcional)</span></p>
-    <input class="reg-input" maxlength="120" placeholder="Ej: hacer el mapa, explicarlo en voz alta" value="${escaparHTML(AUTOEVAL_TMP.ayudo || '')}" oninput="AUTOEVAL_TMP.ayudo=this.value">
-    <p class="auto-q">4. ¿Te sacaste nota? <span style="font-weight:400;color:var(--gray)">(opcional, si ya la sabés)</span></p>
-    <input class="reg-input" style="max-width:120px" inputmode="decimal" placeholder="Ej: 8" value="${escaparHTML(AUTOEVAL_TMP.nota || '')}" oninput="AUTOEVAL_TMP.nota=this.value">
-    <p id="auto-error" style="color:#c0392b;font-size:14px;margin:.6rem 0 0;display:none">Respondé las preguntas 1 y 2 😉</p>
-    <div class="hoja-botones"><button type="button" class="btn-primary" onclick="guardarAutoeval('${idSeguro(ev.id)}')">Guardar</button></div>`);
+    <p class="hoja-p">No hay respuestas correctas ni nota. Es para que pienses cómo estudiaste y para ajustar lo que te recomendamos 🙂</p>
+    <p style="color:#c0392b;font-size:12px;margin:.4rem 0 .8rem">* Obligatoria</p>
+    <div class="auto-progreso"><div class="auto-progreso-txt" id="auto-prog-txt"></div><div class="auto-progreso-barra"><span id="auto-prog-barra"></span></div></div>
+    ${sec('Antes del examen')}
+    ${card('llegada', preg('¿Cómo llegaste al examen?') + chips('llegada'))}
+    ${card('inicio', preg('¿Cuánto te preparaste?') + chips('inicio'))}
+    ${sec('Cómo estudiaste')}
+    ${card('ayudo', preg('¿Qué te ayudó más a prepararte?', ['ayudo', 'Elegí hasta 2.']) + chips('ayudo'))}
+    ${bloqueTips()}
+    ${sec('Durante el examen')}
+    ${card('rindiendo', preg('¿Cómo te sentiste mientras rendías?') + chips('rindiendo'))}
+    ${card('resultado', preg('¿Cómo sentís que te fue?', ['resultado', 'Sin nota: solo tu sensación.']) + chips('resultado'))}
+    ${sec('Para la próxima')}
+    ${card('cambiar', preg('¿Qué cambiarías de tu forma de estudiar?', ['cambiar', 'Elegí hasta 2.']) + chips('cambiar'))}
+    ${card('comentario', preg('¿Algo más que quieras contarnos?', null, true) + `<textarea class="reg-input" rows="2" maxlength="600" placeholder="Algo que probaste y no te sirvió, o algo que te gustaría que Aprendux te ofrezca." oninput="AUTOEVAL_TMP.comentario=this.value">${escaparHTML(AUTOEVAL_TMP.comentario || '')}</textarea>`)}
+    <p id="auto-error" style="color:#c0392b;font-size:14px;margin:.6rem 0 0;display:none"></p>
+    <div class="hoja-botones"><button type="button" id="auto-guardar" class="btn-primary" onclick="guardarAutoeval('${sid}')">Enviar</button></div>`);
+  progresoAutoeval();
 }
-function elegirAutoeval(id, campo, v){ AUTOEVAL_TMP[campo] = v; pintarAutoeval(id); }
+
+function borrarAutoeval(btn, campo){
+  AUTOEVAL_TMP[campo] = '';
+  const cardEl = btn.closest('.auto-card');
+  if(cardEl) cardEl.querySelectorAll('.auto-opt').forEach(b => b.classList.remove('on'));
+  const c = document.getElementById('auto-' + campo + '-cambio');
+  if(c) c.style.display = 'none';
+  progresoAutoeval();
+}
+
+function camposAutoeval(){ return ['llegada', 'inicio', 'ayudo', ...tipsParaAutoeval().map((_, i) => 'tip' + i), 'rindiendo', 'resultado', 'cambiar']; }
+function progresoAutoeval(){
+  const campos = camposAutoeval();
+  let hechas = 0;
+  campos.forEach(c => {
+    const v = AUTOEVAL_TMP[c];
+    const ok = Array.isArray(v) ? v.length > 0 : !!v;
+    if(ok) hechas++;
+    const el = document.querySelector(`.auto-card[data-campo="${c}"]`);
+    if(el){ el.classList.toggle('lista', ok); if(ok) el.classList.remove('falta'); }
+  });
+  const total = campos.length, pct = Math.round(hechas / total * 100);
+  const t = document.getElementById('auto-prog-txt'), b = document.getElementById('auto-prog-barra');
+  if(t) t.textContent = hechas === total ? 'Todo respondido' : `${hechas} de ${total} respondidas`;
+  if(b) b.style.width = pct + '%';
+}
+
+function elegirAutoeval(btn, campo, i){
+  const lista = autoLista(campo);
+  const v = lista[i];
+  const max = AUTO_MAX[campo];
+  if(max){
+    let sel = comoLista(AUTOEVAL_TMP[campo]).slice();
+    if(sel.includes(v)) sel = sel.filter(x => x !== v);
+    else if(campo === 'cambiar' && AUTO_CAMBIAR_SOLO.includes(v)) sel = [v];
+    else {
+      if(campo === 'cambiar') sel = sel.filter(x => !AUTO_CAMBIAR_SOLO.includes(x));
+      if(sel.length >= max){
+        const h = document.getElementById('auto-hint-' + campo);
+        if(h){ h.style.color = '#c0392b'; setTimeout(() => { h.style.color = ''; }, 1500); }
+        return;
+      }
+      sel.push(v);
+    }
+    AUTOEVAL_TMP[campo] = sel;
+  } else {
+    AUTOEVAL_TMP[campo] = AUTOEVAL_TMP[campo] === v ? '' : v;   // tocar de nuevo = borrar
+  }
+  const cardEl = btn.closest('.auto-card'); if(cardEl) cardEl.classList.remove('falta');
+  btn.parentElement.querySelectorAll('.auto-opt').forEach((b, j) => {
+    b.classList.toggle('on', max ? AUTOEVAL_TMP[campo].includes(lista[j]) : AUTOEVAL_TMP[campo] === lista[j]);
+  });
+  if(campo.startsWith('tip')){
+    const c = document.getElementById('auto-' + campo + '-cambio');
+    if(c) c.style.display = AUTOEVAL_TMP[campo] === AUTO_NO_SIRVIO ? 'block' : 'none';
+  }
+  progresoAutoeval();
+}
+
 async function guardarAutoeval(id){
   const ev = buscarEvento(id);
   if(!ev) return;
-  if(!AUTOEVAL_TMP.sentir || !AUTOEVAL_TMP.suficiente){ document.getElementById('auto-error').style.display = 'block'; return; }
-  const campos = { autoeval: { sentir: AUTOEVAL_TMP.sentir, suficiente: AUTOEVAL_TMP.suficiente, ayudo: (AUTOEVAL_TMP.ayudo || '').trim(), fecha: hoyISO() } };
-  const nota = String(AUTOEVAL_TMP.nota || '').trim();
-  if(nota) campos.nota = nota;
-  await calEditarEvento(ev, campos);
+  const T = AUTOEVAL_TMP;
+  const tips = tipsParaAutoeval();
+  const faltan = [T.llegada, T.inicio, comoLista(T.ayudo).length, ...tips.map((_, i) => T['tip' + i]), T.rindiendo, T.resultado, comoLista(T.cambiar).length].filter(x => !x).length;
+  const err = document.getElementById('auto-error');
+  const camposReq = ['llegada', 'inicio', 'ayudo', ...tips.map((_, i) => 'tip' + i), 'rindiendo', 'resultado', 'cambiar'];
+  camposReq.forEach(c => {
+    const el = document.querySelector(`.auto-card[data-campo="${c}"]`);
+    const ok = Array.isArray(T[c]) ? T[c].length : !!T[c];
+    if(el) el.classList.toggle('falta', !ok);
+  });
+  if(faltan){
+    err.textContent = faltan === 1 ? 'Te falta 1 respuesta 😉' : `Te faltan ${faltan} respuestas 😉`;
+    err.style.display = 'block';
+    return;
+  }
+  const boton = document.getElementById('auto-guardar');
+  if(boton){ boton.disabled = true; boton.textContent = 'Guardando…'; }
+
+  const respuestas = {
+    evento_id: String(ev.id),
+    materia: ev.materia || '',
+    llegada: T.llegada,
+    inicio: T.inicio,
+    ayudo: T.ayudo,
+    rindiendo: T.rindiendo,
+    resultado: T.resultado,
+    cambiar: T.cambiar,
+    comentario: String(T.comentario || '').trim()
+  };
+  const tips_evaluados = tips.map((t, i) => ({
+    titulo: t,
+    uso: T['tip' + i],
+    cambio: T['tip' + i] === AUTO_NO_SIRVIO ? String(T['tip' + i + '_cambio'] || '').trim() : ''
+  }));
+
+  // 1) La fila que dispara a n8n
+  let saId = null;
+  try {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const { data, error } = await supabaseClient.from('self_assessments').insert({
+      user_id: user.id,
+      examen: ev.materia ? `${ev.materia}: ${ev.titulo}` : ev.titulo,
+      respuestas,
+      tips_evaluados
+    }).select('id').single();
+    if(error) console.warn('No se pudo guardar en self_assessments (¿se corrió supabase_v9_5.sql?)', error);
+    else saId = data.id;
+  } catch(e){ console.warn('self_assessments', e); }
+
+  // 2) El resumen de siempre en el evento, para que el resto del sitio siga andando
+  const iR = AUTO_RINDIENDO.indexOf(T.rindiendo), iL = AUTO_LLEGADA.indexOf(T.llegada);
+  const sentir = iR <= 1 ? 'bien' : (iR === 3 || iR === 4) ? 'mal' : 'regular';
+  const suficiente = iL <= 1 ? 'si' : iL === 2 ? 'masomenos' : 'no';
+  await calEditarEvento(ev, { autoeval: { sentir, suficiente, ayudo: T.ayudo.join(', '), fecha: hoyISO(), respuestas, tips_evaluados, sa_id: saId } });
   repintarTodo();
-  const msj = AUTOEVAL_TMP.suficiente === 'no'
-    ? 'La próxima, anotá el examen apenas te lo den: con más días, tu plan te deja estudiar más tranqui 📅'
-    : AUTOEVAL_TMP.sentir === 'mal'
-      ? 'Los nervios son normales. Probá repasar el día anterior explicándolo en voz alta: ayuda a llegar más seguro 💪'
-      : '¡Bien ahí! Seguí así: anotá el próximo y te armamos el plan 🚀';
+
   hoja(`<div style="text-align:center;padding:.5rem 0">
       <div style="width:84px;margin:0 auto .6rem">${svgCerebrito(nivelCerebrito(puntosCerebrito()).i, 'feliz')}</div>
       <h2 class="hoja-tit" style="text-align:center">¡Gracias por contarnos!</h2>
-      <p class="hoja-p" style="text-align:center">${msj}</p>
-      <p class="hoja-p" style="text-align:center;font-size:13.5px"><strong>Tu cerebrito ganó energía ⚡</strong></p>
-      <div class="hoja-botones" style="justify-content:center"><button type="button" class="btn-primary" onclick="cerrarHoja()">¡Dale!</button></div></div>`);
+      <p class="hoja-p" style="text-align:center;font-size:13.5px"><strong>Tu cerebrito ganó energía ⚡</strong></p></div>
+    <div id="auto-devolucion">${saId ? htmlArmandoDevolucion() : ''}</div>
+    <div class="hoja-botones" style="justify-content:center"><button type="button" class="btn-primary" onclick="cerrarHoja()">¡Dale!</button></div>`);
+  if(saId) esperarDevolucion(saId);
 }
-Object.assign(window, { abrirAutoeval, elegirAutoeval, guardarAutoeval });
+
+function htmlArmandoDevolucion(){
+  return `<div style="text-align:center;margin-top:1rem">
+    <p class="hoja-p" style="text-align:center">Estamos armando tu devolución…</p>
+    <div class="armando-barra"><span></span></div></div>`;
+}
+function htmlDevolucion(dev){
+  const d = comoObjeto(dev);
+  const lista = (titulo, items) => comoLista(items).length
+    ? `<p class="auto-q">${titulo}</p><ul class="tips-bullets" style="margin-bottom:.5rem">${comoLista(items).map(x => `<li style="font-size:14px">${escaparHTML(x)}</li>`).join('')}</ul>` : '';
+  return `<div style="margin-top:1rem;text-align:left">
+    ${d.resumen ? `<p class="hoja-p" style="color:var(--navy)">${escaparHTML(d.resumen)}</p>` : ''}
+    ${lista('Lo que te funcionó', d.lo_que_funciono)}
+    ${lista('Para probar la próxima', d.para_probar)}</div>`;
+}
+async function leerDevolucion(saId, evId){
+  let q = supabaseClient.from('self_assessments').select('id, devolucion, procesada');
+  q = saId ? q.eq('id', saId) : q.eq('respuestas->>evento_id', String(evId)).order('created_at', { ascending: false }).limit(1);
+  const { data, error } = await q.maybeSingle();
+  if(error){ console.warn('leerDevolucion', error); return null; }
+  return data;
+}
+// n8n tarda unos segundos: preguntamos cada 4 s, hasta 80 s
+async function esperarDevolucion(saId, intento = 0){
+  const caja = document.getElementById('auto-devolucion');
+  if(!caja) return;                                   // cerró la hoja: la ve después desde el examen
+  const fila = await leerDevolucion(saId);
+  if(fila && fila.devolucion){ caja.innerHTML = htmlDevolucion(fila.devolucion); return; }
+  if(intento >= 20){
+    caja.innerHTML = `<p class="hoja-p" style="text-align:center">Tu devolución va a estar lista en un rato. La encontrás tocando el examen en el calendario.</p>`;
+    return;
+  }
+  setTimeout(() => esperarDevolucion(saId, intento + 1), 4000);
+}
+async function verDevolucionAutoeval(id){
+  const ev = buscarEvento(id);
+  if(!ev) return;
+  const sid = idSeguro(ev.id);
+  hoja(`
+    <div class="hoja-tag" style="--c:${colorMateria(ev.materia)}">Tu devolución${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''}</div>
+    <h2 class="hoja-tit">${escaparHTML(ev.titulo)}</h2>
+    <div id="auto-devolucion">${htmlArmandoDevolucion()}</div>
+    <div class="hoja-botones">
+      <button type="button" class="btn-mini btn-mini-claro" onclick="abrirAutoeval('${sid}')">✏️ Cambiar respuestas</button>
+      <button type="button" class="btn-primary" onclick="cerrarHoja()">Listo</button>
+    </div>`);
+  const saId = comoObjeto(ev.autoeval).sa_id;
+  const fila = await leerDevolucion(saId, ev.id);
+  const caja = document.getElementById('auto-devolucion');
+  if(!caja) return;
+  if(fila && fila.devolucion) caja.innerHTML = htmlDevolucion(fila.devolucion);
+  else if(fila) esperarDevolucion(fila.id);
+  else caja.innerHTML = `<p class="hoja-p">Esta autoevaluación es de antes: no tiene devolución. Si la volvés a hacer, te armamos una.</p>`;
+}
+Object.assign(window, { abrirAutoeval, elegirAutoeval, borrarAutoeval, guardarAutoeval, verDevolucionAutoeval });
 function autoevalHechas(){ return (CAL_EVENTOS || []).filter(ev => comoObjeto(ev.autoeval).sentir).length; }
 
 // ── v9.2 · En cada actividad: "¿Por qué esta para mí?" y "Ver un ejemplo hecho" (los arma la IA) ──
@@ -2440,7 +2906,7 @@ function avisosImportantes(){
     if(atr && d >= 2) l.push({ k: 'atr' + id + atr, cls: 'naranja', ic: '🐢', t: `Te atrasaste con ${ev.titulo}`,
       d: `${atr === 1 ? 'Te quedó 1 día' : `Te quedaron ${atr} días`} sin hacer. Con un ratito hoy te ponés al día.`, a: `abrirPlanExamen('${id}')`, l: 'Ponerme al día', p: 3 });
   });
-  examenesSinNota().slice(0, 1).forEach(ev => l.push({ k: 'auto' + idSeguro(ev.id), cls: 'violeta', ic: '📝', t: `¿Cómo te fue en ${ev.titulo}?`, d: 'Contanos en 3 toques.', a: `abrirAutoeval('${idSeguro(ev.id)}')`, l: 'Contar', p: 4 }));
+  examenesSinNota().slice(0, 1).forEach(ev => l.push({ k: 'auto' + idSeguro(ev.id), cls: 'violeta', ic: '📝', t: `¿Cómo te fue en ${ev.titulo}?`, d: comoObjeto(ev.autoeval).sentir ? 'Cargá tu nota.' : 'Contanos cómo estudiaste.', a: comoObjeto(ev.autoeval).sentir ? `abrirDetalleEvento('${idSeguro(ev.id)}')` : `abrirAutoeval('${idSeguro(ev.id)}')`, l: comoObjeto(ev.autoeval).sentir ? 'Cargar nota' : 'Contar', p: 4 }));
   const e = ESTADO_ACTUAL;
   if(e){
     const pend = !e.estilos ? 1 : testsHabilitados(e).filter(t => !e[t.id]).length;
@@ -2806,7 +3272,7 @@ function pintarObjetivos(){
   }
   caja.innerHTML = `
     <div class="camino" style="padding:1.1rem 1.3rem">
-    <h3 class="bloque-titulo" style="font-size:16px">🎯 ¿Qué querés mejorar esta semana? <span style="font-weight:400;font-size:14px;color:var(--gray)">(hasta 2)</span></h3>
+    <h3 class="bloque-titulo">🎯 ¿Qué querés mejorar esta semana? <span style="font-weight:400;font-size:14px;color:var(--gray)">(hasta 2)</span></h3>
     <div style="display:flex;flex-wrap:wrap;gap:.5rem">
       ${OBJETIVOS.map((o, i) => {
         const on = elegidos.includes(o);
@@ -2863,7 +3329,7 @@ function esEvaluacion(ev){ return !!ev && (ev.tipo === 'Examen' || ev.tipo === '
 function nombreTipo(t){ return t === 'Entrega' ? 'TP / entrega' : String(t || 'evento').toLowerCase(); }
 function textoFaltan(d){ return d === 0 ? 'es hoy' : (d === 1 ? 'es mañana' : `faltan ${d} días`); }
 function examenesSinNota(){
-  return (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && !comoObjeto(ev.autoeval).sentir && diasHasta(ev.fecha) < 0 && diasHasta(ev.fecha) >= -21);
+  return (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && (!ev.nota || !comoObjeto(ev.autoeval).sentir) && diasHasta(ev.fecha) < 0 && diasHasta(ev.fecha) >= -21);
 }
 function examenSinNota(){
   return examenesSinNota().sort((a, b) => diasHasta(b.fecha) - diasHasta(a.fecha))[0] || null;
@@ -2878,8 +3344,12 @@ async function guardarNota(id, pref){
   const ev = buscarEvento(id);
   if(!ev) return;
   const input = document.getElementById('nota-' + pref + '-' + id);
-  const nota = (input ? input.value : '').trim();
-  if(!nota){ if(input) input.focus(); return; }
+  const nota = (input ? input.value : '').trim().replace(',', '.');
+  const num = Number(nota);
+  if(!nota || isNaN(num) || num < 1 || num > 10){
+    if(input){ input.classList.remove('nota-mal'); void input.offsetWidth; input.classList.add('nota-mal'); input.placeholder = '1 a 10'; input.value = ''; input.focus(); }
+    return;
+  }
   let ok = false;
   if(USER_ID_ACTUAL && !String(id).startsWith('ev_')){
     const { error } = await supabaseClient.from('eventos_calendario').update({ nota }).eq('id', id);
@@ -2888,7 +3358,9 @@ async function guardarNota(id, pref){
   }
   if(!ok) guardarExtraEvento(ev, { nota });
   ev.nota = nota;
+  NOTA_RECIEN = String(ev.id);
   repintarTodo();
+  setTimeout(() => { if(NOTA_RECIEN === String(ev.id)) NOTA_RECIEN = null; }, 2500);
 }
 window.guardarNota = guardarNota;
 
@@ -2903,14 +3375,27 @@ function repintarTodo(){
 }
 
 // Fila "¿Cómo te fue?": autoevaluación + nota. pref evita ids repetidos entre pantallas.
+let NOTA_RECIEN = null;
 function filaNota(ev, pref){
   const id = idSeguro(ev.id);
+  const hecha = !!comoObjeto(ev.autoeval).sentir;
+  const nota = ev.nota
+    ? `<span class="fila-nota-valor" title="${ev.examen_curso_id ? 'La cargó tu docente' : 'Tu nota'}">Nota: <strong>${escaparHTML(ev.nota)}</strong></span>`
+    : `<span class="fila-nota-carga">
+        <input id="nota-${pref}-${id}" class="reg-input" type="text" inputmode="decimal" maxlength="5" placeholder="Nota" aria-label="Tu nota"
+          onkeydown="if(event.key==='Enter')guardarNota('${id}','${pref}')">
+        <button type="button" class="btn-mini" onclick="guardarNota('${id}','${pref}')">Guardar</button>
+      </span>`;
+  const auto = hecha
+    ? `<button type="button" class="btn-mini btn-mini-claro" onclick="verDevolucionAutoeval('${id}')">Ver tu devolución</button>`
+    : `<button type="button" class="btn-mini btn-mini-claro" onclick="abrirAutoeval('${id}')">Autoevaluarme →</button>`;
+  const recien = NOTA_RECIEN === String(ev.id);
   return `
-    <div class="prox-fila">
+    <div class="prox-fila fila-nota${recien ? ' recien' : ''}">
       <span style="font-size:22px">📝</span>
       <span style="flex:1 1 180px;min-width:0"><strong>${escaparHTML(ev.titulo)}</strong><br>
         <span style="font-size:13px;color:var(--gray)">${escaparHTML(nombreTipo(ev.tipo))}${ev.materia ? ' · ' + escaparHTML(ev.materia) : ''} · ya pasó</span></span>
-      <button type="button" class="btn-mini" onclick="abrirAutoeval('${id}')">¿Cómo te fue? →</button>
+      <span class="fila-nota-acciones">${nota}${recien ? '<span class="fila-nota-ok">Guardada ✓</span>' : ''}${auto}</span>
     </div>`;
 }
 
@@ -2941,7 +3426,7 @@ function pintarNotasProgreso(){
   const pasadas = (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && diasHasta(ev.fecha) < 0)
     .sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
   const conNota = pasadas.filter(ev => ev.nota);
-  const sinNota = pasadas.filter(ev => !ev.nota);
+  const sinNota = pasadas.filter(ev => !ev.nota || !comoObjeto(ev.autoeval).sentir);
   const fechaCorta = f => new Date(String(f).slice(0, 10) + 'T00:00:00').toLocaleDateString('es-AR', { day: 'numeric', month: 'short' });
   caja.innerHTML = `
     <h3 class="bloque-titulo" style="margin-top:2rem">Mis notas</h3>
@@ -2966,40 +3451,59 @@ function pintarRecordatorios(estado){
   const items = [];
   if(ESTADO_ACTUAL || estado.estilos !== undefined){
     if(!estado.estilos){
-      items.push({ t: 'Tenés un test pendiente', d: 'Estilos de aprendizaje', a: "irA('tests')", l: 'Ir al test' });
+      items.push({ ic: '📝', tono: 'azul', t: 'Tenés un test pendiente', d: 'Estilos de aprendizaje', a: "irA('tests')", l: 'Ir al test' });
     } else {
       const pend = testsHabilitados(estado).filter(t => !estado[t.id]);
-      if(pend.length) items.push({
+      if(pend.length) items.push({ ic: '📝', tono: 'azul',
         t: pend.length === 1 ? 'Tenés un test nuevo' : `Tenés ${pend.length} tests nuevos`,
         d: pend.map(t => t.titulo).join(' · '), a: "irA('tests')", l: pend.length === 1 ? 'Ir al test' : 'Ir a los tests'
       });
     }
   }
   (CAL_EVENTOS || []).filter(ev => esEvaluacion(ev) && diasHasta(ev.fecha) >= 1 && progresoPlan(ev).atrasadas.length).slice(0, 2).forEach(ev => items.push({
-    t: `🐢 Te atrasaste con ${ev.titulo}`, d: 'Con un ratito hoy te ponés al día', a: `abrirPlanExamen('${idSeguro(ev.id)}')`, l: 'Ponerme al día'
+    ic: '⏰', tono: 'rojo', t: `Te atrasaste con ${ev.titulo}`, d: 'Con un ratito hoy te ponés al día', a: `abrirPlanExamen('${idSeguro(ev.id)}')`, l: 'Ponerme al día'
   }));
-  examenesSinNota().slice(0, 2).forEach(ev => items.push({
-    t: `¿Cómo te fue en ${ev.titulo}?`, d: 'Contanos en 3 toques', a: `abrirAutoeval('${idSeguro(ev.id)}')`, l: 'Contar'
+  examenesSinNota().slice(0, 2).forEach(ev => items.push({ ic: '✍️', tono: 'violeta',
+    t: `¿Cómo te fue en ${ev.titulo}?`, d: comoObjeto(ev.autoeval).sentir ? 'Cargá tu nota' : 'Contanos cómo estudiaste', a: comoObjeto(ev.autoeval).sentir ? `abrirDetalleEvento('${idSeguro(ev.id)}')` : `abrirAutoeval('${idSeguro(ev.id)}')`, l: comoObjeto(ev.autoeval).sentir ? 'Cargar nota' : 'Contar'
   }));
   proximosEventos(3).filter(ev => diasHasta(ev.fecha) <= 7).forEach(ev => items.push({
-    t: ev.titulo, d: `${nombreTipo(ev.tipo)} · ${textoFaltan(diasHasta(ev.fecha))}`,
+    ic: '📅', tono: diasHasta(ev.fecha) <= 2 ? 'naranja' : 'azul', t: ev.titulo, d: `${nombreTipo(ev.tipo)} · ${textoFaltan(diasHasta(ev.fecha))}`,
     a: esEvaluacion(ev) ? `abrirPlanExamen('${String(ev.id).replace(/[^a-zA-Z0-9_-]/g, '')}')` : "irA('calendario')",
     l: esEvaluacion(ev) ? 'Ver mi plan' : 'Ver calendario'
   }));
 
-  if(!items.length){
-    caja.style.color = '';
-    caja.innerHTML = 'Todavía no tenés recordatorios.';
+  RECORDATORIOS = items.slice(0, 5);
+  const n = RECORDATORIOS.length;
+  const tit = document.querySelector('.dash-rec-title');
+  if(tit) tit.innerHTML = `Recordatorios${n ? ` <span class="rec-cuenta">${n}</span>` : ''}`;
+  const camp = document.getElementById('rec-campana');
+  if(camp){
+    const b = camp.querySelector('.rec-badge');
+    if(b){ b.textContent = n; b.style.display = n ? 'flex' : 'none'; }
+    camp.classList.toggle('con-avisos', n > 0);
+    camp.setAttribute('aria-label', n ? `Recordatorios: ${n}` : 'Sin recordatorios');
+  }
+  if(!n){
+    caja.innerHTML = '<span class="rec-vacio">Estás al día ✓</span>';
     return;
   }
-  caja.style.color = '#fff';
-  caja.innerHTML = items.slice(0, 4).map(it => `
-    <div style="margin-bottom:.75rem">
-      <span style="display:block;font-weight:700;font-size:12px;line-height:1.35">${escaparHTML(it.t)}</span>
-      <span style="display:block;font-size:11px;color:rgba(255,255,255,.72);line-height:1.5">${escaparHTML(it.d)}</span>
-      <a href="#" onclick="${it.a};return false;" style="font-size:11px;color:#fff;text-decoration:underline;cursor:pointer">${escaparHTML(it.l)}</a>
-    </div>`).join('');
+  caja.innerHTML = htmlRecordatorios(RECORDATORIOS);
 }
+let RECORDATORIOS = [];
+function htmlRecordatorios(lista){
+  return lista.map(it => `
+    <button type="button" class="rec-item tono-${it.tono || 'azul'}" onclick="cerrarHoja(); ${it.a}">
+      <span class="rec-ic" aria-hidden="true">${it.ic || '•'}</span>
+      <span class="rec-txt"><strong>${escaparHTML(it.t)}</strong><small>${escaparHTML(it.d)}</small><em>${escaparHTML(it.l)}</em></span>
+      <span class="rec-flecha" aria-hidden="true">→</span>
+    </button>`).join('');
+}
+function abrirRecordatorios(){
+  hoja(`<div class="hoja-tag">Recordatorios</div>
+    <h2 class="hoja-tit">${RECORDATORIOS.length ? 'Lo que tenés pendiente' : 'Estás al día'}</h2>
+    ${RECORDATORIOS.length ? `<div class="rec-lista-hoja">${htmlRecordatorios(RECORDATORIOS)}</div>` : '<p class="hoja-p">No tenés nada pendiente por ahora.</p>'}`);
+}
+window.abrirRecordatorios = abrirRecordatorios;
 
 
 // ══════════════════════════════════════════════════════════════
@@ -4064,6 +4568,7 @@ Object.assign(window, { calVista, calMover, calHoy, tocarDia });
 })();
 
 // ── Hoja de detalle (se abre al tocar algo) ──
+var HOJA_CIERRE = null;   // var (no let): así existe aunque otra parte del script falle antes
 function hoja(html){
   let o = document.getElementById('cal-hoja');
   if(!o){
@@ -4073,15 +4578,25 @@ function hoja(html){
     o.addEventListener('click', e => { if(e.target === o) cerrarHoja(); });
     document.body.appendChild(o);
   }
+  clearTimeout(HOJA_CIERRE);
   o.innerHTML = `<div class="hoja" role="dialog" aria-modal="true">
       <button type="button" class="hoja-x" onclick="cerrarHoja()" aria-label="Cerrar">✕</button>${html}</div>`;
-  o.style.display = 'flex';
+  // v9.8 · Si ya está abierta, sólo cambia el contenido (sin volver a animar).
+  // Si está cerrada o cerrándose, entra animada.
+  if(!o.classList.contains('abierta')){
+    o.style.display = 'flex';
+    void o.offsetWidth;            // el navegador registra el estado inicial antes de animar
+    o.classList.add('abierta');
+  }
   document.body.style.overflow = 'hidden';
 }
 function cerrarHoja(){
   const o = document.getElementById('cal-hoja');
-  if(o) o.style.display = 'none';
   document.body.style.overflow = '';
+  if(!o || !o.classList.contains('abierta')) return;
+  o.classList.remove('abierta');
+  clearTimeout(HOJA_CIERRE);
+  HOJA_CIERRE = setTimeout(() => { o.style.display = 'none'; }, 220);   // lo que dura la salida
 }
 window.cerrarHoja = cerrarHoja;
 document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrarHoja(); });
@@ -4107,9 +4622,9 @@ function abrirDetalleEvento(id){
     ${ev.contenidos ? `<p class="hoja-p"><strong>Temas:</strong> ${escaparHTML(ev.contenidos)}</p>` : ''}
     ${ev.foto_ruta ? `<div class="hoja-foto" style="display:none"><img id="hoja-img" alt="Foto de los temas"></div>` : ''}
     ${esEvaluacion(ev) && d < 0 ? (ev.nota
-      ? `<p class="hoja-p"><strong>Tu nota:</strong> <span class="hoja-nota">${escaparHTML(ev.nota)}</span></p>`
+      ? (comoObjeto(ev.autoeval).sentir ? `<p class="hoja-p"><strong>Tu nota:</strong> <span class="hoja-nota">${escaparHTML(ev.nota)}</span></p>` : `<div style="margin-top:1rem">${filaNota(ev, 'hoja')}</div>`)
       : `<div style="margin-top:1rem">${filaNota(ev, 'hoja')}</div>`) : ''}
-    ${esEvaluacion(ev) && d < 0 && comoObjeto(ev.autoeval).sentir ? `<p class="hoja-p">✓ Ya contaste cómo te fue. <a href="#" onclick="abrirAutoeval('${idSeguro(ev.id)}');return false;" style="color:var(--navy);font-weight:700">Cambiar</a></p>` : ''}
+    ${esEvaluacion(ev) && d < 0 && comoObjeto(ev.autoeval).sentir ? `<p class="hoja-p">✓ Ya contaste cómo te fue. <a href="#" onclick="verDevolucionAutoeval('${idSeguro(ev.id)}');return false;" style="color:var(--navy);font-weight:700">Ver tu devolución</a> · <a href="#" onclick="abrirAutoeval('${idSeguro(ev.id)}');return false;" style="color:var(--navy);font-weight:700">Cambiar</a></p>` : ''}
     <div class="hoja-botones">
       <button type="button" class="btn-mini btn-mini-claro" onclick="abrirEditarEvento('${idSeguro(ev.id)}')">✏️ Editar</button>
       <button type="button" class="btn-mini btn-mini-claro" onclick="borrarEventoDesdePlan('${idSeguro(ev.id)}')">🗑 Borrar</button>
@@ -4147,7 +4662,7 @@ function tiraDelPlan(ev, ses){
   const elegido = ses.find(s => s.fecha === sel);
   const D = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
   return `
-    <div class="plan-cab"><h3 class="bloque-titulo" style="font-size:16px;margin:0">📖 Tu plan</h3>
+    <div class="plan-cab"><h3 class="bloque-titulo" style="margin:0">📖 Tu plan</h3>
       ${diasHasta(ev.fecha) < 0 ? `<span class="plan-cuenta"><b>${hechos}</b> de ${ses.length} hechos</span>` : ''}</div>
     ${barraPlan(ev)}
     <div class="plan-tira" role="tablist" aria-label="Días del plan">
@@ -4232,7 +4747,7 @@ async function toggleSesion(exId, fecha, volverAlPlan){
   await calEditarEvento(ev, { plan_hechos: hechos });
   renderCalendario(); pintarCamino(); pintarProgreso();
   const abierta = document.getElementById('cal-hoja');
-  if(abierta && abierta.style.display === 'flex'){
+  if(abierta && abierta.classList.contains('abierta')){
     if(volverAlPlan) abrirPlanExamen(exId, marcando ? '¡Bien! Tu cerebrito ganó energía ⚡' : '');
     else abrirDetalleSesion(exId, fecha);
   }
@@ -4404,7 +4919,7 @@ function pintarHoyDelPlan(){
   if(!ses.length){ caja.innerHTML = ''; return; }
   caja.innerHTML = `<div class="camino hoy-plan">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem">
-        <h3 class="bloque-titulo" style="font-size:16px;margin:0">📖 Hoy te toca</h3>
+        <h3 class="bloque-titulo" style="margin:0">📖 Hoy te toca</h3>
         <a href="#" class="link-sub" onclick="irAMisPlanes();return false;">Mis planes</a>
       </div>
       ${ses.map(s => `<div class="ag-item sesion${s.hecho ? ' hecho' : ''}" style="--c:${colorMateria(s.materia)}">
@@ -4780,6 +5295,56 @@ supabaseClient.auth.onAuthStateChange((evento) => {
 })();
 
 // ── Personalización del dashboard con los datos del alumno logueado (leídos de Supabase) ──
+// ── v9.6 · Curso del alumno (código que le pasa su docente) y última visita ──
+// Usa las funciones mi_curso() y unirse_a_curso() de supabase_v9_6_institucion.sql.
+// Si todavía no se corrió ese SQL, la fila "Curso" simplemente no aparece.
+async function pintarCursoAlumno(){
+  const fila = document.getElementById('perfil-curso-fila');
+  const caja = document.getElementById('perfil-curso');
+  if(!fila || !caja) return;
+  const { data, error } = await supabaseClient.rpc('mi_curso');
+  if(error){ fila.style.display = 'none'; return; }
+  fila.style.display = '';
+  if(data && data.curso){
+    caja.innerHTML = `${escaparHTML(data.curso)}${data.institucion ? ' · ' + escaparHTML(data.institucion) : ''}
+      <a href="#" onclick="formCodigoCurso();return false;" style="color:var(--navy);font-weight:700;margin-left:.4rem;font-size:13px">Cambiar</a>`;
+  } else {
+    formCodigoCurso(true);
+  }
+}
+function formCodigoCurso(primeraVez){
+  const caja = document.getElementById('perfil-curso');
+  if(!caja) return;
+  caja.innerHTML = `<span style="display:inline-flex;gap:.4rem;align-items:center;flex-wrap:wrap;vertical-align:middle">
+      <input id="codigo-curso" class="reg-input" maxlength="10" placeholder="Ej: K7P2QX" style="max-width:170px;text-transform:uppercase;margin:0" onkeydown="if(event.key==='Enter')unirmeACurso()">
+      <button type="button" class="btn-mini" onclick="unirmeACurso()">Unirme</button>
+    </span>
+    <span id="codigo-curso-msj" style="display:block;font-size:13px;color:var(--gray);margin-top:.3rem">${primeraVez ? 'Te lo pasa tu docente.' : ''}</span>`;
+}
+async function unirmeACurso(){
+  const input = document.getElementById('codigo-curso');
+  const msj = document.getElementById('codigo-curso-msj');
+  const codigo = (input && input.value || '').trim();
+  if(!codigo){ msj.textContent = 'Escribí el código.'; return; }
+  msj.textContent = 'Buscando…';
+  const { data, error } = await supabaseClient.rpc('unirse_a_curso', { p_codigo: codigo });
+  if(error){ msj.style.color = '#c0392b'; msj.textContent = /no existe/i.test(error.message) ? 'Ese código no existe. Revisalo con tu docente.' : 'No pudimos sumarte. Probá de nuevo.'; return; }
+  msj.style.color = '';
+  await pintarCursoAlumno();
+  const fila = document.getElementById('perfil-curso');
+  if(fila) fila.insertAdjacentHTML('beforeend', `<span style="display:block;font-size:13px;color:var(--teal, #1f7a5e);margin-top:.3rem">¡Listo! Ya estás en ${escaparHTML(data.curso)}. Los exámenes que anote tu docente te van a aparecer en el calendario 📅</span>`);
+  // Los exámenes que ya anotó el docente aparecen en su calendario
+  try { await refrescarCalendario(); } catch(e){}
+}
+// Una vez por día: avisa que el alumno entró (lo ve su docente en el panel)
+async function marcarVisita(userId){
+  const hoy = new Date().toISOString().slice(0, 10);
+  try { if(localStorage.getItem('aprendux-visita-' + userId) === hoy) return; } catch(e){}
+  const { error } = await supabaseClient.from('profiles').update({ ultima_visita: new Date().toISOString() }).eq('id', userId);
+  if(!error){ try { localStorage.setItem('aprendux-visita-' + userId, hoy); } catch(e){} }
+}
+Object.assign(window, { formCodigoCurso, unirmeACurso });
+
 async function cargarPerfilEnDashboard(){
   const { data: { user } } = await supabaseClient.auth.getUser();
   if(!user) return;
@@ -4807,6 +5372,8 @@ async function cargarPerfilEnDashboard(){
     document.querySelectorAll('[data-perfil-edad]').forEach(el => el.textContent = perfil.edad ? `${perfil.edad} años` : '—');
     document.querySelectorAll('[data-perfil-institucion]').forEach(el => el.textContent = perfil.institucion || '—');
     document.querySelectorAll('[data-perfil-grado]').forEach(el => el.textContent = perfil.grado_nivel || '—');
+    pintarCursoAlumno();
+    marcarVisita(user.id);
   } else {
     // El perfil no llegó a guardarse. Antes esto dejaba TODO el panel vacío y sin
     // explicación. Ahora seguimos: los tests y los tips no dependen del perfil.
@@ -5082,7 +5649,7 @@ function tarjetaDePaso(paso, userId){
         <span style="font-size:28px;line-height:1">${paso.emoji || '📘'}</span>
         <span style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:${colorEtiqueta};background:${fondoEtiqueta};padding:3px 8px;border-radius:4px">${etiqueta}</span>
       </div>
-      <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin:0 0 .4rem;line-height:1.3">${escaparHTML(paso.titulo)}</h3>
+      <h3 class="titulo-card" style="margin:0 0 .4rem">${escaparHTML(paso.titulo)}</h3>
       <p class="medida" style="font-size:14.5px;color:var(--gray);margin:0 0 .75rem;line-height:1.6;flex:1">${escaparHTML(paso.descripcion)}</p>
       <p style="font-size:14px;color:var(--gray);margin:0 0 1.1rem">⏱ <strong style="color:var(--navy)">${paso.minutos} min</strong> · no hay que estudiar</p>
       ${pie}
@@ -5110,7 +5677,7 @@ function pintarTests(estado, userId, porTest){
       ¿Ya lo hiciste y no aparece? Esperá unos minutos y
       <a href="#" onclick="refrescarPaneles();return false;" style="color:var(--navy);font-weight:700">actualizá</a>.
     </p>
-    ${filasHechas ? `<div><h3 class="bloque-titulo" style="font-size:16px">✓ Ya hiciste</h3><div class="tests-hechos">${filasHechas}</div></div>` : ''}`;
+    ${filasHechas ? `<div><h3 class="bloque-titulo">✓ Ya hiciste</h3><div class="tests-hechos">${filasHechas}</div></div>` : ''}`;
 }
 
 // ── La devolución del último test, debajo de las tarjetas ──
@@ -5170,7 +5737,7 @@ function pintarDevolucion(devolucion, tituloDelTest){
   return `
     <section>
       <p style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin:0 0 .35rem">Tu devolución</p>
-      <h2 style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin:0 0 .5rem;line-height:1.25;padding-right:2.5rem">${escaparHTML(tituloDelTest)}</h2>
+      <h2 class="hoja-tit" style="margin:0 2.5rem .5rem 0">${escaparHTML(tituloDelTest)}</h2>
       <p class="medida" style="font-size:15px;color:var(--gray);margin:0 0 1.25rem;line-height:1.6">
         <strong style="color:var(--navy)">Tocá cada pregunta</strong> para ver el porqué.
       </p>
@@ -5232,7 +5799,7 @@ function tarjetaTip(t, i){
   return `
     <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.4rem;text-align:left">
       <div style="font-size:22px;line-height:1;margin-bottom:.6rem">${EMOJIS_TIP[i % EMOJIS_TIP.length]}</div>
-      <h4 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin:0 0 .5rem;line-height:1.3">${escaparHTML(t.titulo)}</h4>
+      <h4 class="titulo-card" style="margin:0 0 .5rem">${escaparHTML(t.titulo)}</h4>
       <p class="medida" style="font-size:14.5px;line-height:1.6;color:var(--gray);margin:0">${escaparHTML(t.detalle)}</p>
       ${t.herramienta && t.herramienta !== 'Ninguna'
         ? `<p style="font-size:12px;color:var(--navy);margin:.75rem 0 0;font-weight:600">🔧 ${escaparHTML(t.herramienta)}</p>` : ''}
@@ -5364,7 +5931,7 @@ function seleccionarActividad(i){
     const activo = Number(b.dataset.actTab) === i;
     b.style.borderColor = activo ? 'var(--navy)' : 'var(--border)';
     b.style.background  = activo ? '#eef2f8' : '#fff';
-    b.style.color       = activo ? 'var(--navy)' : '#9aa5b1';
+    b.style.color       = activo ? 'var(--navy)' : 'var(--gray)';
     b.style.borderWidth = activo ? '2px' : '1.5px';
   });
 
@@ -5565,7 +6132,7 @@ function bloqueActividades(actividades){
       <div class="act-tabs" style="display:flex;gap:.75rem;margin-bottom:1.1rem;flex-wrap:wrap">
         ${actividades.map((a, i) => `
           <button type="button" data-act-tab="${i}" onclick="seleccionarActividad(${i})"
-            style="flex:1 1 150px;min-width:130px;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.9rem .8rem;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);color:#9aa5b1;cursor:pointer;transition:all .15s;text-align:center">
+            style="flex:1 1 150px;min-width:130px;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.9rem .8rem;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);color:var(--gray);cursor:pointer;transition:background-color .15s,border-color .15s,color .15s;text-align:center">
             ${ICONOS_ACTIVIDAD[i % ICONOS_ACTIVIDAD.length]}
             <span style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;line-height:1.3">${escaparHTML(a.titulo || ('Actividad ' + (i + 1)))}</span>
           </button>`).join('')}
@@ -5592,6 +6159,55 @@ supabaseClient.auth.getSession().then(({ data: { session } }) => {
   // v9.1: si ya estaba logueado, entra directo a su panel (no hace falta volver a iniciar sesión)
   if(session){ showPage('page-dashboard'); cargarPerfilEnDashboard(); refrescarCalendario(); }
 });
+</script>
+
+<script>
+// v9.6 · Cursor con rastro. Solo en compus con mouse; se apaga con "reducir movimiento".
+(function(){
+  if(!window.matchMedia || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const aro = document.createElement('div'); aro.id = 'cursor-aro';
+  const cv = document.createElement('canvas'); cv.id = 'cursor-rastro';
+  document.body.appendChild(cv); document.body.appendChild(aro);
+  const ctx = cv.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  function medir(){ cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  medir(); addEventListener('resize', medir);
+  const DURA = 380;                      // ms que dura el rastro
+  let mx = -100, my = -100, ax = -100, ay = -100, puntos = [], corriendo = false;
+  const CLICKABLE = 'a,button,input,textarea,select,label,[onclick],[role="button"],.cal-celda,.dash-nav-item';
+  addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    if(ax < -50){ ax = mx; ay = my; }
+    puntos.push({ x: mx, y: my, t: performance.now() });
+    aro.classList.add('visible');
+    aro.classList.toggle('sobre', !!(e.target.closest && e.target.closest(CLICKABLE)));
+    if(!corriendo){ corriendo = true; requestAnimationFrame(cuadro); }
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => aro.classList.remove('visible'));
+  addEventListener('mousedown', () => aro.classList.add('click'));
+  addEventListener('mouseup', () => aro.classList.remove('click'));
+  function cuadro(now){
+    ax += (mx - ax) * 0.22; ay += (my - ay) * 0.22;
+    aro.style.transform = `translate(${ax}px, ${ay}px)`;
+    puntos = puntos.filter(p => now - p.t < DURA);
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    for(let i = 1; i < puntos.length; i++){
+      const a = puntos[i - 1], b = puntos[i];
+      const vida = 1 - (now - b.t) / DURA;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = `rgba(255,255,255,${(0.25 * vida).toFixed(3)})`;   // borde claro: se ve también sobre fondos oscuros
+      ctx.lineWidth = 4 + 6 * vida;
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      ctx.strokeStyle = `rgba(43,108,176,${(0.4 * vida).toFixed(3)})`;
+      ctx.lineWidth = 2 + 5 * vida;
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    }
+    const quieto = Math.abs(mx - ax) < 0.3 && Math.abs(my - ay) < 0.3 && !puntos.length;
+    if(quieto){ corriendo = false; return; }
+    requestAnimationFrame(cuadro);
+  }
+})();
 </script>
 </body>
 </html>
